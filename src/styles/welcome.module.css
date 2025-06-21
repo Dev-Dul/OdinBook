@@ -1,0 +1,79 @@
+.container{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    perspective: 1000px;
+}
+
+h1{
+    font-size: 2.5rem;
+    animation: welcome 1.5s ease-in both;
+}
+
+@keyframes welcome {
+    from{
+        opacity: 0;
+        transform: translateY(100px);
+    }to{
+        opacity: 1;
+        transform: translate(0);
+    }
+}
+
+form{
+    width: 350px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border: 1px solid;
+    border-radius: 20px;
+    animation: flip 2s ease-in 2s both;
+}
+
+@keyframes flip{
+    from{
+        opacity: 0;
+        transform: rotateY(180deg);
+    }to{
+        opacity: 1;
+        transform: rotateY(0deg);
+    }
+}
+
+form h2{
+    font-size: 1.3rem;
+    margin-top: 3rem;
+}
+
+.inputBox{
+    height: 4rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.inputBox label{
+    align-self: flex-start;
+    margin-left: 2rem;
+}
+
+.inputBox input{
+    height: 70%;
+    width: 80%;
+    border: 1px solid;
+    text-indent: 10px;
+    border-radius: 10px;
+}
+
+form button{
+    margin: 5px 0;
+    padding: 0.5rem 4rem;
+}
