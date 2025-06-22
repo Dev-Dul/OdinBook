@@ -6,9 +6,10 @@ import Welcome from './components/welcome.jsx'
 import Signup from './components/Signup.jsx'
 import Home from './components/Home.jsx'
 import Sidebar from './components/Sidebar.jsx'
+import Groups from './components/Groups.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Sidebar />
+    <Groups />
   </StrictMode>,
 )
