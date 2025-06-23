@@ -6,6 +6,7 @@
 
 .chats{
     height: auto;
+    max-height: 70vh;
     width: 100%;
     display: flex;
     align-items: flex-end;
@@ -13,6 +14,8 @@
     flex-direction: column;
     padding: 0 3.5rem;
     box-sizing: border-box;
+    overflow-y: scroll;
+    scrollbar-width: thin;
 }
 
 .chat{
@@ -22,6 +25,8 @@
     border: 1px solid;
     position: relative;
     border-radius: 0px 15px 15px 15px;
+    margin-bottom: 2.5rem;
+    text-align: justify;
 }
 
 .stamp{
