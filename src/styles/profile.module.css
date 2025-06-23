@@ -1,0 +1,143 @@
+.container{
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.header{
+    height: 15vh;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    display: flex;
+    text-align: left;
+    padding: 0 1rem;
+}
+
+
+.imgs{
+    height: 30vh;
+    width: 100%;
+    position: relative;
+    border: 1px solid red;
+    box-sizing: border-box;
+    padding: 0 2rem;
+}
+
+.bg{
+    height: 100%;
+    width: 100%;
+    border: 1px solid;
+    border-radius: 20px;
+}
+
+
+.front{
+    height: 200px;
+    width: 200px;
+    left: 100px;
+    bottom: -100px;
+    position: absolute;
+    border: 1px solid;
+    border-radius: 50%;
+}
+
+.bio{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 0 2rem;
+    border: 1px solid red;
+}
+
+
+.bio h2{
+    margin: 1rem 0;
+}
+
+.bio p{
+    margin: 5px 0;
+}
+
+button{
+    padding: 0.5rem 4rem;
+}
+
+/* overlay styles */
+.overlay{
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.7s ease;
+}
+
+
+form{
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-bottom: 2rem;
+    position: relative;
+}
+
+
+.inputBox{
+    height: 4rem;
+    width: 80%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.inputBox input{
+    height: 80%;
+    width: 100%;
+    border: 1px solid;
+    border-radius: 15px;
+    text-indent: 10px;
+}
+
+input::file-selector-button{
+    padding: 0.3rem 1rem;
+    margin-top: 0.2rem;
+}
+
+input[type="file"]{
+    width: 102%;
+}
+
+.inputBox textarea{
+    height: 5rem;
+    width: 102%;
+    border: 1px solid;
+    border-radius: 15px;
+    text-indent: 10px;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+}
+
+.close{
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    border: 2px solid;
+    border-radius: 50%;
+    cursor: pointer;
+}

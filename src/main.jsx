@@ -7,9 +7,10 @@ import Signup from './components/Signup.jsx'
 import Home from './components/Home.jsx'
 import Sidebar from './components/Sidebar.jsx'
 import Groups from './components/Groups.jsx'
+import Profile from './components/Profile.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Groups />
+    <Profile />
   </StrictMode>,
 )

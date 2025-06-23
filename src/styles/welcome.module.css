@@ -32,6 +32,9 @@ form{
     flex-direction: column;
     border: 1px solid;
     border-radius: 20px;
+}
+
+.container form{
     animation: flip 2s ease-in 2s both;
 }
 
