@@ -8,9 +8,10 @@ import Home from './components/Home.jsx'
 import Sidebar from './components/Sidebar.jsx'
 import Groups from './components/Groups.jsx'
 import Profile from './components/Profile.jsx'
+import Friends from './components/Friends.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Profile />
+    <Friends />
   </StrictMode>,
 )

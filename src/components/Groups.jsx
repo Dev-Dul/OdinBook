@@ -3,7 +3,7 @@ import styles from "../styles/groups.module.css";
 function Groups(){
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
+            <div className="header">
                 <h1>Nests</h1>
             </div>
             <div className="texts">
