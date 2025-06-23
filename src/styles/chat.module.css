@@ -18,6 +18,10 @@
     scrollbar-width: thin;
 }
 
+.chats.two{
+    align-items: flex-start;
+}
+
 .chat{
     height: auto;
     width: auto;
@@ -28,6 +32,7 @@
     margin-bottom: 2.5rem;
     text-align: justify;
 }
+
 
 .stamp{
     position: absolute;

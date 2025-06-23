@@ -10,9 +10,10 @@ import Groups from './components/Groups.jsx'
 import Profile from './components/Profile.jsx'
 import Friends from './components/Friends.jsx'
 import Chat from './components/Chat.jsx'
+import Group from './components/Group.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Chat />
+    <Group />
   </StrictMode>,
 )
