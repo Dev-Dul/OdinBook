@@ -5,9 +5,13 @@
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    padding: 1.5rem 0;
-    border: 1px solid;
+    border-right: 1px solid;
     box-sizing: border-box;
+    transition: all 0.7s ease;
+}
+
+.collapsed{
+    width: 5vw;
 }
 
 .icon{
@@ -15,7 +19,9 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     border: 1px solid;
     padding: 1rem 0;
+    cursor: pointer;
+    transition: all 0.7s ease;
 }

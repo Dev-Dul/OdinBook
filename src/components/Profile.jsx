@@ -34,8 +34,8 @@ function Profile(){
             </form>
           </div>
         )}
-        <div className={styles.header}>
-          <h2>Profile</h2>
+        <div className="header">
+          <h1>Profile</h1>
         </div>
         <div className={styles.imgs}>
           <div className={styles.bg}></div>
@@ -46,14 +46,17 @@ function Profile(){
           <p>Email</p>
           <p>Date Joined</p>
           <p style={{ textAlign: "justify" }}>
-            Bio: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Possimus, iure itaque ullam ad tenetur exercitationem laudantium
             illum molestiae, maxime officia, cupiditate dolorum nesciunt eum?
             Velit delectus consequuntur, beatae modi ut est deserunt laudantium,
             amet, error aut facilis! Omnis nemo nobis, doloremque eos iusto
             possimus quisquam in, asperiores, quas assumenda vitae?
           </p>
-          <button onClick={handleEdit}>Edit Profile</button>
+          <div className={styles.action}>
+            <button>Log Out</button>
+            <button onClick={handleEdit}>Edit Profile</button>
+          </div>
         </div>
       </div>
     );

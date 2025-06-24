@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/welcome.module.css";
 
 
 function Welcome(){
+    const navigate = useNavigate();
     return (
         <div className={styles.container}>
             <h1>Welcome, to TreeHouse.</h1>
@@ -15,7 +17,7 @@ function Welcome(){
                     <label htmlFor="password">Password</label>
                     <input type="password" id="password" />
                 </div>
-                <button>Log In</button>
+                <button onClick={() => navigate("/signup")}>Log In</button>
                 <p>Don't have an account? Sign Up</p>
             </form>
         </div>

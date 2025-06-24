@@ -8,7 +8,7 @@
     perspective: 1000px;
 }
 
-h1{
+.container h1{
     font-size: 2.5rem;
     animation: welcome 1.5s ease-in both;
 }

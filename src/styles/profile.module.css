@@ -4,24 +4,13 @@
     overflow-x: hidden;
 }
 
-.header{
-    height: 15vh;
-    width: 100%;
-    position: sticky;
-    top: 0;
-    display: flex;
-    text-align: left;
-    padding: 0 1rem;
-}
-
-
 .imgs{
     height: 30vh;
     width: 100%;
     position: relative;
-    border: 1px solid red;
     box-sizing: border-box;
     padding: 0 2rem;
+    margin-top: 2rem;
 }
 
 .bg{
@@ -51,7 +40,6 @@
     flex-direction: column;
     box-sizing: border-box;
     padding: 0 2rem;
-    border: 1px solid red;
 }
 
 
@@ -61,6 +49,13 @@
 
 .bio p{
     margin: 5px 0;
+}
+
+.action{
+    width: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 button{

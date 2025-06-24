@@ -1,6 +1,7 @@
 .container{
     min-height: 100vh;
-    width: 80%;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .messages{
@@ -13,10 +14,11 @@
     width: 100%;
     display: flex;
     justify-content: space-around;
-    align-items: flex-start;
+    align-items: flex-end;
     flex-direction: column;
     border: 1px solid;
-    padding: 0 10px;
+    padding: 0 2rem;
+    box-sizing: border-box;
 }
 
 .preview h2{

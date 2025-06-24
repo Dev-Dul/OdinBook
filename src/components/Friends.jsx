@@ -4,7 +4,7 @@ function Friends(){
     return (
       <div className={styles.container}>
         <div className="header">
-          <h2>Find Friends</h2>
+          <h1>Find Friends</h1>
         </div>
         <div className={styles.friends}>
           <div className={styles.friend}>
