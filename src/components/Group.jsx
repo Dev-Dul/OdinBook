@@ -1,12 +1,21 @@
 import styles from "../styles/chat.module.css";
-import { joinGroup, useFetchGroup } from "../../utils/fetch";
 import { useContext } from "react";
 import { AuthContext } from "../App";
 import { toast } from "sonner";
+import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { SendIcon } from "lucide-react";
+import { joinGroup, useFetchGroup, sendGroupMessage } from "../../utils/fetch";
 
-function Group({ id }){
+function Group(){
    const { user } = useContext(AuthContext);
+   const { id } = useParams();
    const { group, error, loading, fetchGroup } = useFetchGroup(id);
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm();
 
    if(loading) return <Loader />
    if(error) return <Error />
@@ -26,6 +35,21 @@ function Group({ id }){
       })
    }
 
+   async function onSend(formData){
+     const sendPromise = await sendGroupMessage(formData.msg, user.id, id)
+      toast.promise(sendPromise, {
+          loading: "Sending message...",
+          success: (response) => {
+              if(response){
+                  return response.message;
+              }
+          },
+          error: (error) => {
+              return error.message;
+          }
+      })
+   }
+
    const check = user.groups.find(group => group.id === id);
     return (
       <div className={styles.container}>
@@ -41,9 +65,12 @@ function Group({ id }){
             </div>
           ))}
           {check ? (
-            <form action="">
-              <textarea name="message" id="message"></textarea>
-              <button type="submit">Send</button>
+            <form action="" onSubmit={handleSubmit(onSend)}>
+              <textarea name="message" id="message" {...register("msg", {
+                required: "Message can't be empty",
+              })}></textarea>
+              <button type="submit"><SendIcon /></button>
+              {errors.msg && toast.error(error.msg.message)}
             </form>
           ) : (
             <div>

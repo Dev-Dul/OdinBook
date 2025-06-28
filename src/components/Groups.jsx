@@ -18,7 +18,7 @@ function Groups(){
                 <p className="sub">Click on anyone to join.</p>
                 <div className={styles.nests}>
                     {groups.map((group) => (
-                        <Link to={`/groups/${group.name}`}>
+                        <Link to={`/groups/${group.name}/${group.id}`}>
                             <div>
                                 <h2>{group.name}</h2>
                             </div>
