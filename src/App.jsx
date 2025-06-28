@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import Sidebar from './components/Sidebar';
 import { Outlet, useLocation } from 'react-router-dom';
+import { Toaster } from 'sonner';
 
 function App() {
   const location = useLocation();
@@ -9,6 +10,7 @@ function App() {
 
   return (
     <div className={!hideSidebar ? "grid" : ''}>
+      <Toaster richColors position='top-right' />
       {!hideSidebar && <Sidebar />}
       <Outlet />
     </div>
