@@ -153,15 +153,28 @@ export async function sendGroupMessage(text, authorId, groupId){
 }
 
 
-export async function getPrivateMessage(friendId){
+export async function useGetPrivateMessage(friendId){
+  const [messages, setMessages] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  async function getPrivateMessage(friendId){
     try{
       const res = await fetch(`http://localhost:3000/api/v1/friends/${friendId}/messages`);
       if(!res.ok) throw new Error(res.status);
       const json = await res.json();
-      return json;
+      setMessages(json.message);
     }catch(err){
-      throw err;
+      setError(err);
+    }finally{
+      setLoading(false);
     }
+
+    getPrivateMessage(friendId);
+
+    return { messages, error, loading, getPrivateMessage };
+    
+  }
 }
 
 export async function addFriend(friendId){

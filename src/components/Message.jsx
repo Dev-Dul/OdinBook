@@ -1,10 +1,10 @@
 import styles from "../styles/chat.module.css";
 
-function Bubble(){
+function Bubble({ message, date }){
     return (
       <div className={styles.chat}>
-        <p>Hello world</p>
-        <p className={styles.stamp}>23rd June, 2025 9:00 PM</p>
+        <p>{message}</p>
+        <p className={styles.stamp}>{date}</p>
       </div>
     );
 }

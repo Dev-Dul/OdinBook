@@ -11,11 +11,11 @@ function Group(){
    const { user } = useContext(AuthContext);
    const { id } = useParams();
    const { group, error, loading, fetchGroup } = useFetchGroup(id);
-    const {
+   const {
       register,
       handleSubmit,
       formState: { errors },
-    } = useForm();
+   } = useForm();
 
    if(loading) return <Loader />
    if(error) return <Error />
@@ -70,7 +70,7 @@ function Group(){
                 required: "Message can't be empty",
               })}></textarea>
               <button type="submit"><SendIcon /></button>
-              {errors.msg && toast.error(error.msg.message)}
+              {errors.msg && toast.error(errors.msg.message)}
             </form>
           ) : (
             <div>
