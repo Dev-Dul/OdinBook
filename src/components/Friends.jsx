@@ -1,13 +1,15 @@
 import styles from "../styles/friends.module.css";
 import { getAllUsers, addFriend } from "../../utils/fetch";
 import { useNavigate } from "react-router-dom";
+import Loader from "./Loader";
+import Error from "./Error";
 
 function Friends(){
     const navigate = useNavigate();
     const { users, error, loading } = getAllUsers();
 
     if(loading) return <Loader />
-    if(error) return <Error />
+    if(error) return <Error error={error} />
 
     async function friendPlus(id){
       const friendPromise = await addFriend(id);

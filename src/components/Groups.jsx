@@ -1,12 +1,14 @@
 import styles from "../styles/groups.module.css";
 import { useFetchGroups } from "../../utils/fetch";
 import { Link } from "react-router-dom";
+import Loader from "./Loader";
+import Error from "./Error";
 
 function Groups(){
     const { groups, error, loading } = useFetchGroups();
 
     if(loading) return <Loader />
-    if(error) return <Error />;
+    if(error) return <Error error={error} />;
 
     return (
         <div className={styles.container}>

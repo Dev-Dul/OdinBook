@@ -6,6 +6,8 @@ import { SendIcon } from "lucide-react";
 import { useContext } from "react";
 import { AuthContext } from "../App";
 import Bubble from "./Message";
+import Error from "./Error";
+import Loader from "./Loader";
 
 function Chat(){
     const { friendId }  = useParams();
@@ -18,7 +20,7 @@ function Chat(){
     } = useForm();
 
     if(loading) return <Loader />;
-    if(error) return <Error />;
+    if(error) return <Error error={error} />;
 
     async function onSend(formData){
         const msgPromise = await sendPrivateMessage(formData.text, user.id, friendId);

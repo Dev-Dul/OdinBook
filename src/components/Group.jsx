@@ -5,11 +5,13 @@ import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
+import Error from "./Error";
+import Loader from "./Loader";
 import { joinGroup, useFetchGroup, sendGroupMessage } from "../../utils/fetch";
 
 function Group(){
-   const { user } = useContext(AuthContext);
    const { id } = useParams();
+   const { user } = useContext(AuthContext);
    const { group, error, loading, fetchGroup } = useFetchGroup(id);
    const {
       register,
@@ -18,7 +20,7 @@ function Group(){
    } = useForm();
 
    if(loading) return <Loader />
-   if(error) return <Error />
+   if(error) return <Error error={error} />
 
    async function joinNest(){
       const joinPromise = await joinGroup(id, user.id);
@@ -41,6 +43,7 @@ function Group(){
           loading: "Sending message...",
           success: (response) => {
               if(response){
+                  fetchGroup(id);
                   return response.message;
               }
           },
