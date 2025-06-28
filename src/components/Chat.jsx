@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 import { useGetPrivateMessage, sendPrivateMessage } from "../../utils/fetch";
 import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
+import { useContext } from "react";
+import { AuthContext } from "../App";
 import Bubble from "./Message";
 
 function Chat(){
     const { friendId }  = useParams();
+    const { user } = useContext(AuthContext);
     const { messages, error, loading, getPrivateMessage } = useGetPrivateMessage(friendId);
     const {
         register,

@@ -1,36 +1,122 @@
-import { useState } from "react";
 import styles from "../styles/profile.module.css";
+import { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../App";
+import { updateProfile } from "../../utils/fetch";
 
 function Profile(){
+    const { user, handleUser } = useContext(AuthContext);
     const [openEdit, setOpenEdit] = useState(false);
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm();
 
     function handleEdit(){
         setOpenEdit(prev => !prev);
     }
 
-    return (
+    async function onUpdate(data){
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("email", data.email);
+      if(data.bio) formData.append("bio", data.bio);
+      if(data.profilePic[0]) formData.append("profilePic", data.profilePic[0]);
+      if(data.backgroundPic[0]) formData.append("backgroundPic", data.backgroundPic[0]);
+        
+      const updatePromise = await updateProfile(formData);
+        toast.promise(updatePromise, {
+            loading: "Updating your profile...",
+            success: (response) => {
+                if(response){
+                    handleUser(response.user);
+                    return response.message;
+                }
+            },
+            error: (error) => {
+                return error.message;
+            }
+        });
+    }
+
+    return(
       <div className={styles.container}>
         {openEdit && (
           <div className={styles.overlay}>
-            <form action="">
+            <form action="" onSubmit={handleSubmit(onUpdate)}>
               <div className={styles.close} onClick={handleEdit}></div>
               <h2>Edit Profile</h2>
               <div className={styles.inputBox}>
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" />
+                <label htmlFor="username" value={user.username}>Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  {...register("username", {
+                    required: "Username is required",
+                    minLength: {
+                      value: 5,
+                      message: "Username must be at least 5 characters long",
+                    },
+                  })}
+                />
+                {errors.username && <p className={styles.error}>{errors.username.message}</p>}
+              </div>
+              <div className={styles.inputBox}>
+                <label htmlFor="email" value={user.email}>Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  {...register("email", {
+                    required: "Email is required", })}
+                />
+                {errors.email && <p className={styles.error}>{errors.email.message}</p>}
               </div>
               <div className={styles.inputBox}>
                 <label htmlFor="bio">Bio</label>
-                <textarea id="bio"></textarea>
+                <textarea
+                  id="bio"
+                  {...register("bio", {
+                    validate: (value) => {
+                        value === "" ||
+                        value.length >= 100 ||
+                        "Bio must be at least 100 characters";
+                    },
+                  })}
+                >
+                  {user.bio}
+                </textarea>
               </div>
+              {errors.bio && <p className={styles.error}>{errors.bio.message}</p>}
               <div className={styles.inputBox}>
                 <label htmlFor="profile">Profile Image</label>
-                <input type="file" id="profile" accept="image/*" />
+                <input type="file" id="profile" accept="image/*" {...register("profilePic", {
+                  validate: (files) => {
+                    if(files.length === 0) return true;
+                    const file = files[0];
+                    const isSmall = file.size <= 2 * 1024 * 1024;
+                    if(!isSmall) return "File size must not exceed 2MB";
+
+                    return true;
+                  }
+                })} />
+                {errors.profilePic && <p className={styles.error}>{errors.profilePic.message}</p>}
               </div>
               <div className={styles.inputBox}>
                 <label htmlFor="bg">Background Image</label>
-                <input type="file" id="bg" accept="image/*" />
+                <input type="file" id="bg" accept="image/*" {...register("backgroundPic", {
+                  validate: (files) => {
+                    if(files.length === 0) return true;
+                    const file = files[0];
+                    const isSmall = file.size <= 2 * 1024 * 1024;
+                    if(!isSmall) return "File size must not exceed 2MB";
+
+                    return true;
+                  }
+                })}/>
+                {errors.backgroundPic && <p className={styles.error}>{errors.backgroundPic.message}</p>}
               </div>
+              <button type="submit">Update</button>
             </form>
           </div>
         )}
@@ -42,17 +128,10 @@ function Profile(){
           <div className={styles.front}></div>
         </div>
         <div className={styles.bio}>
-          <h2>Name</h2>
-          <p>Email</p>
-          <p>Date Joined</p>
-          <p style={{ textAlign: "justify" }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Possimus, iure itaque ullam ad tenetur exercitationem laudantium
-            illum molestiae, maxime officia, cupiditate dolorum nesciunt eum?
-            Velit delectus consequuntur, beatae modi ut est deserunt laudantium,
-            amet, error aut facilis! Omnis nemo nobis, doloremque eos iusto
-            possimus quisquam in, asperiores, quas assumenda vitae?
-          </p>
+          <h2>{user.name}</h2>
+          <p>Email: {user.email}</p>
+          <p>Date Joined: {user.date}</p>
+          <p style={{ textAlign: "justify" }}>{user.bio}</p>
           <div className={styles.action}>
             <button>Log Out</button>
             <button onClick={handleEdit}>Edit Profile</button>
