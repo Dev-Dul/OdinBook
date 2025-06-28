@@ -32,7 +32,7 @@ function Group(){
         error: (error) => {
           return error.message;
         }
-      })
+      });
    }
 
    async function onSend(formData){

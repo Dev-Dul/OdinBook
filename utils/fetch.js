@@ -204,6 +204,27 @@ export async function getUserFriends(userId){
     }
 }
 
+
+export async function getAllUsers(){
+  const [users, setUsers] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+    try{
+      const res = await fetch(`http://localhost:3000/api/v1/profiles/all`);
+      if(!res.ok) throw new Error(res.status);
+
+      const json = await res.json();
+      setUsers(json.users);
+    }catch(err){
+      setError(err);
+    }finally{
+      setLoading(false);
+    }
+
+    return { users, error, loading };
+}
+
 export async function updateProfile(formData){
     try{
       const res = await fetch(`http://localhost:3000/api/v1/profiles/update`, {
