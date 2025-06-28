@@ -4,12 +4,14 @@ import Profile from "./components/Profile";
 import Friends from "./components/Friends";
 import Signup from "./components/Signup";
 import Welcome from "./components/welcome";
+import Error from "./components/Error";
 import App from "./App";
 
 const routes = [
     {
         path: "/",
         element: <App />,
+        errorElement: <Error />,
         children: [
             { index: true, element: <Welcome /> },
             { path: "home", element: <Home /> },
