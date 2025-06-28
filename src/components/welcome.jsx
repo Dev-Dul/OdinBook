@@ -3,9 +3,12 @@ import styles from "../styles/welcome.module.css";
 import { useForm } from "react-hook-form";
 import { logIn } from "../../utils/fetch";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../App";
 
 
 function Welcome(){
+    const { handleUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const {
       register,
@@ -19,6 +22,7 @@ function Welcome(){
             loading: "Just a moment...",
             success: (response) => {
                 if(response){
+                    handleUser(response.user);
                     navigate("/home");
                     return response.message;
                 }
