@@ -1,6 +1,13 @@
 import styles from "../styles/groups.module.css";
+import { useFetchGroups } from "../../utils/fetch";
+import { Link } from "react-router-dom";
 
 function Groups(){
+    const { groups, error, loading } = useFetchGroups();
+
+    if(loading) return <Loader />
+    if(error) return <Error />;
+
     return (
         <div className={styles.container}>
             <div className="header">
@@ -8,12 +15,15 @@ function Groups(){
             </div>
             <div className="texts">
                 <h3>Welcome to TreeHouse's Chatrooms, Nests!</h3>
-                <p className="sub">Click on anyone to join</p>
+                <p className="sub">Click on anyone to join.</p>
                 <div className={styles.nests}>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    {groups.map((group) => (
+                        <Link to={`/groups/${group.name}`}>
+                            <div>
+                                <h2>{group.name}</h2>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
             </div>
         </div>
