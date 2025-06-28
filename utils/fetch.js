@@ -65,7 +65,7 @@ export async function useFetchGroups(){
 
 }
 
-export async function useFetchGroup(){
+export async function useFetchGroup(groupId){
     const [group, setGroup] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -82,6 +82,8 @@ export async function useFetchGroup(){
           setLoading(false);
         }
     }
+
+    fetchGroup(groupId);
 
     return { group, error, loading, fetchGroup }
 }

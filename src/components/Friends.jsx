@@ -1,4 +1,5 @@
 import styles from "../styles/friends.module.css";
+import { getUserFriends } from "../../utils/fetch";
 
 function Friends(){
     return (
