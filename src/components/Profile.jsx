@@ -2,11 +2,13 @@ import styles from "../styles/profile.module.css";
 import { useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../App";
-import { updateProfile } from "../../utils/fetch";
+import { updateProfile, logOut } from "../../utils/fetch";
+import { useNavigate } from "react-router-dom";
 
 function Profile(){
     const { user, handleUser } = useContext(AuthContext);
     const [openEdit, setOpenEdit] = useState(false);
+    const navigate = useNavigate();
     const {
       register,
       handleSubmit,
@@ -38,6 +40,22 @@ function Profile(){
                 return error.message;
             }
         });
+    }
+
+    async function onLogOut(){
+      const logOutPromise = await logOut();
+      toast.promise(logOutPromise, {
+        loading: "Logging you out...",
+        success: (response) => {
+          if(response){
+            navigate("/");
+            return response.message;
+          }
+        },
+        error: (error) => {
+          return error.message;
+        },
+      });
     }
 
     return(
@@ -133,7 +151,7 @@ function Profile(){
           <p>Date Joined: {user.date}</p>
           <p style={{ textAlign: "justify" }}>{user.bio}</p>
           <div className={styles.action}>
-            <button>Log Out</button>
+            <button onClick={logOut}>Log Out</button>
             <button onClick={handleEdit}>Edit Profile</button>
           </div>
         </div>

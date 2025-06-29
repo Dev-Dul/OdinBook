@@ -44,6 +44,17 @@ export async function logIn(username, password){
     }
 }
 
+export async function logOut(){
+  try {
+    const res = await fetch("http://localhost:3000/api/v1/logout");
+
+    const json = await res.json();
+    return json;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function useFetchGroups(){
     const [groups, setGroups] = useState(null);
     const [error, setError] = useState(null);
