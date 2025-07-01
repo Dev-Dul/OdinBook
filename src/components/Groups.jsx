@@ -1,11 +1,16 @@
 import styles from "../styles/groups.module.css";
 import { useFetchGroups } from "../../utils/fetch";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import Error from "./Error";
 
 function Groups(){
-    const { groups, error, loading } = useFetchGroups();
+    const { groups, error, loading, fetchGroups } = useFetchGroups();
+
+    useEffect(() => {
+        fetchGroups();
+    }, []);
 
     if(loading) return <Loader />
     if(error) return <Error error={error} />;
@@ -20,8 +25,8 @@ function Groups(){
                 <p className="sub">Click on anyone to join.</p>
                 <div className={styles.nests}>
                     {groups.map((group) => (
-                        <Link to={`/groups/${group.name}/${group.id}`}>
-                            <div>
+                        <Link to={`/nests/${group.name}/${group.id}`}>
+                            <div key={group.id}>
                                 <h2>{group.name}</h2>
                             </div>
                         </Link>

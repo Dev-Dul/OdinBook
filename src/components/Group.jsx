@@ -1,5 +1,5 @@
 import styles from "../styles/chat.module.css";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../App";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
@@ -10,20 +10,27 @@ import Loader from "./Loader";
 import { joinGroup, useFetchGroup, sendGroupMessage } from "../../utils/fetch";
 
 function Group(){
-   const { id } = useParams();
+   const { nestId } = useParams();
    const { user } = useContext(AuthContext);
-   const { group, error, loading, fetchGroup } = useFetchGroup(id);
+   const { group, error, loading, fetchGroup } = useFetchGroup();
    const {
       register,
       handleSubmit,
       formState: { errors },
    } = useForm();
+  //  console.log(nestId);
 
-   if(loading) return <Loader />
-   if(error) return <Error error={error} />
+   useEffect(() => {
+     fetchGroup(nestId);
+     console.log("Messages:", group.Messages);
+    }, [])
+    
+    if(loading) return <Loader />
+    if(error) return <Error error={error} />
+    console.log("group:", group);
 
    async function joinNest(){
-      const joinPromise = await joinGroup(id, user.id);
+      const joinPromise = await joinGroup(nestId, user.id);
       toast.promise(joinPromise, {
         loading: "Joining nest...",
         success: (response) => {
@@ -38,7 +45,7 @@ function Group(){
    }
 
    async function onSend(formData){
-     const sendPromise = await sendGroupMessage(formData.msg, user.id, id)
+     const sendPromise = await sendGroupMessage(formData.msg, user.id, nestId)
       toast.promise(sendPromise, {
           loading: "Sending message...",
           success: (response) => {
@@ -53,15 +60,18 @@ function Group(){
       })
    }
 
-   const check = user.groups.find(group => group.id === id);
+  //  const check = user.groups.find(group => group.user.id === user.id);
+   const check = 1 == 2;
+   console.log("user:", user);
+  //  console.log("user groups:", user.groups);
     return (
       <div className={styles.container}>
         <div className={`header ${styles.groupHeader}`}>
-          <h2>Group</h2>
+          <h2>{group.name}</h2>
           {check ? <button onClick={joinNest}> Join Nest </button> : <button>Leave Nest</button> }
         </div>
         <div className={`${styles.chats} ${styles.two}`}>
-          {group.messages.map((msg) => (
+          {group.Messages.map((msg) => (
             <div className={styles.chat}>
               <p>{msg.text}</p>
               <p className={styles.stamp}>{msg.time}</p>
@@ -76,7 +86,7 @@ function Group(){
               {errors.msg && toast.error(errors.msg.message)}
             </form>
           ) : (
-            <div>
+            <div className={styles.btm}>
               <h2>You need to be a member before you can send messages.</h2>
             </div>
           )}

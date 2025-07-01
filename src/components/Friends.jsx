@@ -1,18 +1,33 @@
 import styles from "../styles/friends.module.css";
-import { getAllUsers, addFriend } from "../../utils/fetch";
+import { useGetAllUsers, addFriend } from "../../utils/fetch";
 import { useNavigate } from "react-router-dom";
 import Loader from "./Loader";
 import Error from "./Error";
+import { useEffect, useContext } from "react";
+import { toast } from "sonner";
+import { AuthContext } from "../App";
 
 function Friends(){
     const navigate = useNavigate();
-    const { users, error, loading } = getAllUsers();
+    const { user } = useContext(AuthContext);
+    const { users, error, loading, getAllUsers } = useGetAllUsers();
 
+    useEffect(() => {
+      getAllUsers();
+      // users = users.map((usr) => usr.id !== user.id);
+    }, [])
+    
+    console.log(users);
+    console.log(user);
     if(loading) return <Loader />
     if(error) return <Error error={error} />
 
     async function friendPlus(id){
-      const friendPromise = await addFriend(id);
+      if (!user || !user.id){
+        toast.error("User not authenticated.");
+        return;
+      }
+      const friendPromise = addFriend(user.id, id);
       toast.promise(friendPromise, {
         loading: "Adding friend...",
         success: (response) => {
@@ -26,6 +41,8 @@ function Friends(){
         },
       });
     }
+
+
     
     return (
       <div className={styles.container}>
@@ -33,18 +50,19 @@ function Friends(){
           <h1>Find Friends</h1>
         </div>
         <div className={styles.friends}>
-          {users.map((user) => {
-            <div className={styles.friend}>
+          {users.map((friend) => (
+            <div className={styles.friend} key={friend.id}>
               <div className={styles.text}>
-                <h3>{user.name}</h3>
-                <p>{user.date}</p>
+                <h3>{friend.name}</h3>
+                <p>{friend.username}</p>
+                {/* <p>{friend.id}</p> */}
                 <p>Online</p>
               </div>
               <div className={styles.action}>
-                <button onClick={() => friendPlus(user.id)}>Add Friend</button>
+                <button onClick={() => {friendPlus(friend.id)}}>Add Friend</button>
               </div>
-            </div>;
-          })}
+            </div>
+          ))}
         </div>
       </div>
     );

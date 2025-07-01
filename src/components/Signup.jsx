@@ -11,10 +11,10 @@ function Signup(){
     async function onSubmit(formData){
         const signUpPromise = await signUp(formData.name, formData.email, formData.username, formData.password);
         toast.promise(signUpPromise, {
-            loading: "Creating your account",
+            loading: "Creating your account...",
             success: (response) => {
                 if(response){
-                    navigate("/login");
+                    navigate("/");
                     return response.message;
                 }
             },

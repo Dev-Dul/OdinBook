@@ -5,6 +5,7 @@ export async function signUp(name, email, username, password){
     try{
         const res = await fetch("http://localhost:3000/api/v1/signup", {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -28,6 +29,7 @@ export async function logIn(username, password){
     try{
         const res = await fetch("http://localhost:3000/api/v1/login", {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -46,7 +48,10 @@ export async function logIn(username, password){
 
 export async function logOut(){
   try {
-    const res = await fetch("http://localhost:3000/api/v1/logout");
+    const res = await fetch("http://localhost:3000/api/v1/logout", {
+      method: "GET",
+      credentials: "include",
+    });
 
     const json = await res.json();
     return json;
@@ -55,35 +60,42 @@ export async function logOut(){
   }
 }
 
-export async function useFetchGroups(){
+export function useFetchGroups(){
     const [groups, setGroups] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    try{
-      const res = await fetch("http://localhost:3000/api/v1/groups/");
-      if(!res.ok) throw new Error(res.status);
-      const json = await res.json();
-      setGroups(json.groups);
-    
-    }catch(err){
-      setError(err.message);
-    }finally{
-      setLoading(false);
+    async function fetchGroups(){
+      try {
+        const res = await fetch("http://localhost:3000/api/v1/groups/", {
+          method: "GET",
+          credentials: 'include',
+        });
+        if (!res.ok) throw new Error(res.status);
+        const json = await res.json();
+        setGroups(json.groups);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     }
 
-    return { groups, error, loading };
+    return { groups, error, loading, fetchGroups };
 
 }
 
-export async function useFetchGroup(groupId){
+export function useFetchGroup(){
     const [group, setGroup] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
     async function fetchGroup(groupId){
         try{
-          const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}`);
+          const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}`, {
+            method: "GET",
+            credentials: 'include',
+          });
           if(!res.ok) throw new Error(res.status);
           const json = await res.json();
           setGroup(json.group);
@@ -94,8 +106,6 @@ export async function useFetchGroup(groupId){
         }
     }
 
-    fetchGroup(groupId);
-
     return { group, error, loading, fetchGroup }
 }
 
@@ -103,6 +113,7 @@ export async function joinGroup(groupId, userId){
     try{
       const res = await fetch("http://localhost:3000/api/v1/groups/join", {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -125,6 +136,7 @@ export async function sendPrivateMessage(text, authorId, friendId){
     try{
       const res = await fetch(`http://localhost:3000/api/v1/friends/${friendId}/messages/new`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -146,6 +158,7 @@ export async function sendGroupMessage(text, authorId, groupId){
     try{
       const res = await fetch(`http://localhost:3000/api/v1/friends/${groupId}/messages/new`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -164,38 +177,40 @@ export async function sendGroupMessage(text, authorId, groupId){
 }
 
 
-export async function useGetPrivateMessage(friendId){
-  const [messages, setMessages] = useState(null);
+export function useGetPrivateMessage(){
+  const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   async function getPrivateMessage(friendId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/friends/${friendId}/messages`);
+      const res = await fetch(`http://localhost:3000/api/v1/friends/${friendId}/messages`, {
+        method: "GET",
+        credentials: "include",
+      });
       if(!res.ok) throw new Error(res.status);
       const json = await res.json();
-      setMessages(json.message);
+      setMessages(json.messages);
     }catch(err){
       setError(err);
     }finally{
       setLoading(false);
     }
-
-    getPrivateMessage(friendId);
-
-    return { messages, error, loading, getPrivateMessage };
-    
   }
+
+  return { messages, error, loading, getPrivateMessage };
 }
 
-export async function addFriend(friendId){
+export async function addFriend(userId, friendId){
     try{
         const res = await fetch(`http://localhost:3000/api/v1/friends/add`, {
           method: "POST",
+          credentials: 'include',
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            userId: userId,
             friendId: friendId,
           }),
         });
@@ -212,6 +227,7 @@ export async function getUserFriends(userId){
     try{
       const res = await fetch(`http://localhost:3000/api/v1/friends/`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -229,13 +245,18 @@ export async function getUserFriends(userId){
 }
 
 
-export async function getAllUsers(){
-  const [users, setUsers] = useState(null);
+export function useGetAllUsers(){
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+
+  async function getAllUsers(){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/profiles/all`);
+      const res = await fetch(`http://localhost:3000/api/v1/profiles/all`, {
+        method: "GET",
+        credentials: "include",
+      });
       if(!res.ok) throw new Error(res.status);
 
       const json = await res.json();
@@ -245,14 +266,16 @@ export async function getAllUsers(){
     }finally{
       setLoading(false);
     }
+  }
 
-    return { users, error, loading };
+    return { users, error, loading, getAllUsers };
 }
 
 export async function updateProfile(formData){
     try{
       const res = await fetch(`http://localhost:3000/api/v1/profiles/update`, {
         method: "POST",
+        credentials: "include",
         body: formData,
       });
 
@@ -264,12 +287,18 @@ export async function updateProfile(formData){
     }   
 }
 
-export async function fetchUser(userId){
+export async function hydrateUser(){
     try{
-        const res = await fetch(`http://localhost:3000/api/v1/profiles/${userId}`);
+        const res = await fetch(`http://localhost:3000/api/v1/profiles/hydrate`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        if(res.status === 401) throw new Error("Unauthorized");
         if(!res.ok) throw new Error(res.status);
+
         const json = await res.json();
-        return json;
+        return json.user;
     }catch(err){
         throw err;
     }

@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../App";
 import { updateProfile, logOut } from "../../utils/fetch";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function Profile(){
     const { user, handleUser } = useContext(AuthContext);
@@ -18,6 +19,8 @@ function Profile(){
     function handleEdit(){
         setOpenEdit(prev => !prev);
     }
+
+    console.log(user);
 
     async function onUpdate(data){
       const formData = new FormData();
@@ -147,8 +150,8 @@ function Profile(){
         </div>
         <div className={styles.bio}>
           <h2>{user.name}</h2>
+          <p>Username: {user.username}</p>
           <p>Email: {user.email}</p>
-          <p>Date Joined: {user.date}</p>
           <p style={{ textAlign: "justify" }}>{user.bio}</p>
           <div className={styles.action}>
             <button onClick={logOut}>Log Out</button>

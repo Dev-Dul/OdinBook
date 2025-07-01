@@ -19,9 +19,9 @@ function App() {
 
   return (
     <AuthContext.Provider value={{ user, handleUser }} >
+    <Toaster richColors position='top-right' />
 
       <div className={!hideSidebar ? "grid" : ''}>
-        <Toaster richColors position='top-right' />
         {!hideSidebar && <Sidebar />}
         <Outlet />
       </div>

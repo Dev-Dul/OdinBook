@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import styles from "../styles/welcome.module.css";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { logIn } from "../../utils/fetch";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../App";
+import { toast } from "sonner";
 
 
 function Welcome(){
@@ -22,6 +23,7 @@ function Welcome(){
             loading: "Just a moment...",
             success: (response) => {
                 if(response){
+                    console.log(response.user);
                     handleUser(response.user);
                     navigate("/home");
                     return response.message;

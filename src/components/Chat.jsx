@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useGetPrivateMessage, sendPrivateMessage } from "../../utils/fetch";
 import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "../App";
 import Bubble from "./Message";
 import Error from "./Error";
@@ -12,12 +12,16 @@ import Loader from "./Loader";
 function Chat(){
     const { friendId }  = useParams();
     const { user } = useContext(AuthContext);
-    const { messages, error, loading, getPrivateMessage } = useGetPrivateMessage(friendId);
+    const { messages, error, loading, getPrivateMessage } = useGetPrivateMessage();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
+
+    useEffect(() => {
+        getPrivateMessage(friendId);
+    }, []);
 
     if(loading) return <Loader />;
     if(error) return <Error error={error} />;
