@@ -55,7 +55,7 @@ export async function logOut(){
 
     const json = await res.json();
     return json;
-  } catch (err) {
+  } catch(err){
     throw err;
   }
 }
@@ -301,7 +301,7 @@ export async function updateProfile(formData){
         body: formData,
       });
 
-      if (!res.ok) throw new Error(res.status);
+      if (!res.ok) throw new Error(res);
       const json = await res.json();
       return json;
     }catch(err){
