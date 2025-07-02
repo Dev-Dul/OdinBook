@@ -123,8 +123,31 @@ export async function joinGroup(groupId, userId){
         }),
       });
 
+      if(!res.ok) throw new Error(res.status);
       const json = await res.json();
-      return json;
+      return json.message;
+
+    }catch(err){
+      throw err;
+    }
+}
+
+export async function leaveGroup(groupId, userId){
+    try{
+      const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}/leave`, {
+        method: "POST",
+        credentials: 'include',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+        }),
+      });
+
+      if(!res.ok) throw new Error(res.status);
+      const json = await res.json();
+      return json.message;
 
     }catch(err){
       throw err;
@@ -153,9 +176,9 @@ export async function sendPrivateMessage(text, senderId, recipientId){
     }
 }
 
-export async function sendGroupMessage(text, authorId, groupId){
+export async function sendGroupMessage(text, senderId, groupId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/friends/${groupId}/messages/new`, {
+      const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}/messages/new`, {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -163,7 +186,7 @@ export async function sendGroupMessage(text, authorId, groupId){
         },
         body: JSON.stringify({
           text: text,
-          authorId: authorId,
+          senderId: senderId,
           groupId: groupId,
         }),
       });

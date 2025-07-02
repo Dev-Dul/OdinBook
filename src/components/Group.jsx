@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
 import Error from "./Error";
 import Loader from "./Loader";
-import { joinGroup, useFetchGroup, sendGroupMessage } from "../../utils/fetch";
+import { joinGroup, leaveGroup, useFetchGroup, sendGroupMessage } from "../../utils/fetch";
 
 function Group(){
    const { nestId } = useParams();
@@ -18,11 +18,9 @@ function Group(){
       handleSubmit,
       formState: { errors },
    } = useForm();
-   console.log(nestId);
 
    useEffect(() => {
      fetchGroup(nestId);
-    //  console.log("Messages:", group.Messages);
     }, [])
     
     if(loading) return <Loader />
@@ -30,12 +28,29 @@ function Group(){
     console.log("group:", group);
 
    async function joinNest(){
-      const joinPromise = await joinGroup(nestId, user.id);
+      const joinPromise = joinGroup(nestId, user.id);
       toast.promise(joinPromise, {
         loading: "Joining nest...",
         success: (response) => {
           if(response){
-            return response.message;
+            fetchGroup(nestId);
+            return response;
+          }
+        },
+        error: (error) => {
+          return error.message;
+        }
+      });
+   }
+
+   async function leaveNest(){
+      const leavePromise = leaveGroup(nestId, user.id);
+      toast.promise(leavePromise, {
+        loading: "Leaving nest...",
+        success: (response) => {
+          if(response){
+            fetchGroup(nestId);
+            return response;
           }
         },
         error: (error) => {
@@ -45,12 +60,13 @@ function Group(){
    }
 
    async function onSend(formData){
-     const sendPromise = await sendGroupMessage(formData.msg, user.id, nestId)
+     const sendPromise = sendGroupMessage(formData.msg, user.id, nestId)
       toast.promise(sendPromise, {
           loading: "Sending message...",
           success: (response) => {
               if(response){
-                  fetchGroup(id);
+                  fetchGroup(nestId);
+                  console.log("messages:", group.Messages);
                   return response.message;
               }
           },
@@ -60,15 +76,12 @@ function Group(){
       })
    }
 
-  //  const check = user.groups.find(group => group.user.id === user.id);
-   const check = 1 == 2;
-   console.log("user:", user);
-  //  console.log("user groups:", user.groups);
+   const check = group.members.find(member => member.user.id === user.id);
     return (
       <div className={styles.container}>
         <div className={`header ${styles.groupHeader}`}>
           <h2>{group.name}</h2>
-          {check ? <button onClick={joinNest}> Join Nest </button> : <button>Leave Nest</button> }
+          {check ?  <button onClick={leaveNest}>Leave Nest</button> : <button onClick={joinNest}> Join Nest </button>}
         </div>
         <div className={`${styles.chats} ${styles.two}`}>
           {group.Messages.map((msg) => (

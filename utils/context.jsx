@@ -18,7 +18,6 @@ export function AuthProvider({ children }){
       try{
         setLoading(true);
         const hydrate = await hydrateUser();
-        console.log(hydrate);
         handleUser(hydrate);
       }catch(err){
         toast.error(err.message);
@@ -35,7 +34,6 @@ export function AuthProvider({ children }){
 
     useEffect(() => {
         const hasLogged = localStorage.getItem("logged") === 'true';
-        console.log("logged:", hasLogged);
         if(user === null && hasLogged){
            hydrate();
         }
