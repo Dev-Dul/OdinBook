@@ -1,6 +1,6 @@
 import styles from "../styles/home.module.css";
 import { useContext } from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../utils/context";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 

@@ -1,7 +1,7 @@
 import styles from "../styles/profile.module.css";
 import { useState } from "react";
 import { useContext } from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../utils/context";
 import { updateProfile, logOut } from "../../utils/fetch";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";

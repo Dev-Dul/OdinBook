@@ -4,7 +4,8 @@ import { useGetPrivateMessage, sendPrivateMessage } from "../../utils/fetch";
 import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../utils/context";
+import { toast } from "sonner"
 import Bubble from "./Message";
 import Error from "./Error";
 import Loader from "./Loader";
@@ -13,6 +14,11 @@ function Chat(){
     const { friendId }  = useParams();
     const { user } = useContext(AuthContext);
     const { messages, error, loading, getPrivateMessage } = useGetPrivateMessage();
+    console.log("user:", user);
+    console.log("friends:", user.friends);
+    const friend = user.friends.find(f => f.friend.id === Number(friendId));
+    console.log("friend:", friend);
+
     const {
         register,
         handleSubmit,
@@ -20,19 +26,21 @@ function Chat(){
     } = useForm();
 
     useEffect(() => {
-        getPrivateMessage(friendId);
+        getPrivateMessage(user.id);
     }, []);
 
     if(loading) return <Loader />;
     if(error) return <Error error={error} />;
 
+    console.log("messages:", messages);
+
     async function onSend(formData){
-        const msgPromise = await sendPrivateMessage(formData.text, user.id, friendId);
+        const msgPromise = sendPrivateMessage(formData.text, user.id, friendId);
         toast.promise(msgPromise, {
           loading: "Sending message...",
           success: (response) => {
             if(response){
-              getPrivateMessage(friendId);
+              getPrivateMessage(user.id);
               return response.message;
             }
           },
@@ -45,12 +53,12 @@ function Chat(){
     return (
         <div className={styles.container}>
             <div className="header">
-                <h2>Chat</h2>
+                <h2>{friend.friend.name}</h2>
             </div>
             <div className={styles.chats}>
-                {messages.map((message) => {
-                    <Bubble key={message.id} id={message.id} message={message.text} date={message.date} />
-                })}
+                {messages.map((message) => (
+                    <Bubble key={message.id} id={message.id} message={message.text} date={message.created} />
+                ))}
                 <form action="" onSubmit={handleSubmit(onSend)}>
                     <textarea name="message" id="message" {...register("text", {
                         required: "Message cannot be empty."

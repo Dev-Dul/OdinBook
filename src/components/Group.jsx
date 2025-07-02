@@ -1,6 +1,6 @@
 import styles from "../styles/chat.module.css";
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../utils/context";
 import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -18,11 +18,11 @@ function Group(){
       handleSubmit,
       formState: { errors },
    } = useForm();
-  //  console.log(nestId);
+   console.log(nestId);
 
    useEffect(() => {
      fetchGroup(nestId);
-     console.log("Messages:", group.Messages);
+    //  console.log("Messages:", group.Messages);
     }, [])
     
     if(loading) return <Loader />

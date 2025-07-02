@@ -5,7 +5,8 @@ import Loader from "./Loader";
 import Error from "./Error";
 import { useEffect, useContext } from "react";
 import { toast } from "sonner";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../utils/context";
+
 
 function Friends(){
     const navigate = useNavigate();

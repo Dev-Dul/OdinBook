@@ -92,7 +92,7 @@ export function useFetchGroup(){
 
     async function fetchGroup(groupId){
         try{
-          const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}`, {
+          const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}/`, {
             method: "GET",
             credentials: 'include',
           });
@@ -132,9 +132,9 @@ export async function joinGroup(groupId, userId){
 }
 
 
-export async function sendPrivateMessage(text, authorId, friendId){
+export async function sendPrivateMessage(text, senderId, recipientId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/friends/${friendId}/messages/new`, {
+      const res = await fetch(`http://localhost:3000/api/v1/friends/${recipientId}/messages/new`, {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -142,8 +142,7 @@ export async function sendPrivateMessage(text, authorId, friendId){
         },
         body: JSON.stringify({
           text: text,
-          authorId: authorId,
-          friendId: friendId,
+          senderId: senderId,
         }),
       });
 
@@ -182,9 +181,9 @@ export function useGetPrivateMessage(){
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  async function getPrivateMessage(friendId){
+  async function getPrivateMessage(userId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/friends/${friendId}/messages`, {
+      const res = await fetch(`http://localhost:3000/api/v1/friends/${userId}/messages`, {
         method: "GET",
         credentials: "include",
       });

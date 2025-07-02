@@ -18,10 +18,11 @@ export function AuthProvider({ children }){
       try{
         setLoading(true);
         const hydrate = await hydrateUser();
+        console.log(hydrate);
         handleUser(hydrate);
       }catch(err){
         toast.error(err.message);
-        if(err.message === "Unauthorized") {
+        if(err.message === "Unauthorized"){
           setUser(null);
           localStorage.removeItem("logged");
           toast.info("Your session has expired, you need to login again.");
@@ -34,13 +35,14 @@ export function AuthProvider({ children }){
 
     useEffect(() => {
         const hasLogged = localStorage.getItem("logged") === 'true';
+        console.log("logged:", hasLogged);
         if(user === null && hasLogged){
            hydrate();
         }
     }, [user]);
 
     return (
-        <AuthContext.Provider value={{ user, handleUser, loading, hydrate }}>
+        <AuthContext.Provider value={{ user, handleUser, userLoad, hydrate }}>
             {children}
         </AuthContext.Provider>
     )

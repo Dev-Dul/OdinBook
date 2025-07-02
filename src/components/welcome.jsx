@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { logIn } from "../../utils/fetch";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../App";
+import { AuthContext } from "../../utils/context";
 import { toast } from "sonner";
 
 
@@ -18,13 +18,14 @@ function Welcome(){
     } = useForm();
 
     async function onSubmit(formData){
-        const logInPromise = await logIn(formData.username, formData.password);
+        const logInPromise = logIn(formData.username, formData.password);
         toast.promise(logInPromise, {
             loading: "Just a moment...",
             success: (response) => {
                 if(response){
                     console.log(response.user);
                     handleUser(response.user);
+                    localStorage.setItem("logged", 'true');
                     navigate("/home");
                     return response.message;
                 }
