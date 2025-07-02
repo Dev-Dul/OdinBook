@@ -44,13 +44,21 @@
 }
 
 
-.stamp{
+.stamp, .author{
     position: absolute;
-    bottom: -30px;
-    left: 0;
+    right: 0;
     word-break: keep-all;
     white-space: nowrap;
     font-size: 0.6rem;
+}
+
+.stamp{
+    bottom: -40px;
+}
+
+.author{
+    bottom: -30px;
+    font-size: 0.75rem;
 }
 
 .chats form{

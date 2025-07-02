@@ -87,7 +87,8 @@ function Group(){
           {group.Messages.map((msg) => (
             <div className={styles.chat}>
               <p>{msg.text}</p>
-              <p className={styles.stamp}>{msg.time}</p>
+              <p className={styles.author}>{msg.sender.username}</p>
+              <p className={styles.stamp}>{msg.created}</p>
             </div>
           ))}
           {check ? (
