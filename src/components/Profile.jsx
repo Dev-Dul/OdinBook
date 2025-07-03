@@ -159,7 +159,7 @@ function Profile(){
           <p>Email: {user.email}</p>
           <p style={{ textAlign: "justify" }}>{user.bio}</p>
           <div className={styles.action}>
-            <button onClick={logOut}>Log Out</button>
+            <button onClick={onLogOut}>Log Out</button>
             <button onClick={handleEdit}>Edit Profile</button>
           </div>
         </div>

@@ -48,8 +48,8 @@ export async function logIn(username, password){
 
 export async function logOut(){
   try {
-    const res = await fetch("http://localhost:3000/api/v1/logout", {
-      method: "GET",
+    const res = await fetch("http://localhost:3000/api/v1/profiles/logout", {
+      method: "POST",
       credentials: "include",
     });
 

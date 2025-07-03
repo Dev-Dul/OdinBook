@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
+import { format } from "date-fns";
 import Error from "./Error";
 import Loader from "./Loader";
 import { joinGroup, leaveGroup, useFetchGroup, sendGroupMessage } from "../../utils/fetch";
@@ -25,7 +26,10 @@ function Group(){
     
     if(loading) return <Loader />
     if(error) return <Error error={error} />
-    console.log("group:", group);
+
+  function formatDate(date){
+    return format(new Date(date), "d, MMM yyyy, h:mm a")
+  }
 
    async function joinNest(){
       const joinPromise = joinGroup(nestId, user.id);
@@ -66,7 +70,6 @@ function Group(){
           success: (response) => {
               if(response){
                   fetchGroup(nestId);
-                  console.log("messages:", group.Messages);
                   return response.message;
               }
           },
@@ -88,7 +91,7 @@ function Group(){
             <div className={styles.chat}>
               <p>{msg.text}</p>
               <p className={styles.author}>{msg.sender.username}</p>
-              <p className={styles.stamp}>{msg.created}</p>
+              <p className={styles.stamp}>{formatDate(msg.created)}</p>
             </div>
           ))}
           {check ? (

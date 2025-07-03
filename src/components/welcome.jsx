@@ -23,7 +23,6 @@ function Welcome(){
             loading: "Just a moment...",
             success: (response) => {
                 if(response){
-                    console.log(response.user);
                     handleUser(response.user);
                     localStorage.setItem("logged", 'true');
                     navigate("/home");

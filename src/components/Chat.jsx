@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../utils/context";
+import { format } from "date-fns";
 import { toast } from "sonner"
 import Bubble from "./Message";
 import Error from "./Error";
@@ -14,10 +15,7 @@ function Chat(){
     const { friendId }  = useParams();
     const { user } = useContext(AuthContext);
     const { messages, error, loading, getPrivateMessage } = useGetPrivateMessage();
-    console.log("user:", user);
-    console.log("friends:", user.friends);
     const friend = user.friends.find(f => f.friend.id === Number(friendId));
-    console.log("friend:", friend);
 
     const {
         register,
@@ -32,7 +30,10 @@ function Chat(){
     if(loading) return <Loader />;
     if(error) return <Error error={error} />;
 
-    console.log("messages:", messages);
+    function formatDate(date){
+        return format(new Date(date), "d, MMM yyyy, h:mm a")
+    }
+
 
     async function onSend(formData){
         const msgPromise = sendPrivateMessage(formData.text, user.id, friendId);
@@ -57,7 +58,7 @@ function Chat(){
             </div>
             <div className={styles.chats}>
                 {messages.map((message) => (
-                    <Bubble key={message.id} id={message.id} message={message.text} date={message.created} />
+                    <Bubble key={message.id} id={message.id} message={message.text} date={formatDate(message.created)} />
                 ))}
                 <form action="" onSubmit={handleSubmit(onSend)}>
                     <textarea name="message" id="message" {...register("text", {

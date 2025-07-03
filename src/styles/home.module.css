@@ -21,6 +21,6 @@
     box-sizing: border-box;
 }
 
-.preview h2{
+.preview h2, .preview p{
     margin: 0;
 }
