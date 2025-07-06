@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "buddy";
+  src: url("../src/assets/Fonts/Buddy\ Story.otf");
+}
+
 #root {
   margin: 0 auto;
   text-align: center;
@@ -19,4 +24,5 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
+  font-family: "buddy";
 }

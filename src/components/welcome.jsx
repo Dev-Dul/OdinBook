@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
 import { toast } from "sonner";
+import { Images } from "../../utils/images";
 
 
 function Welcome(){
@@ -34,8 +35,14 @@ function Welcome(){
             }
         })
     }
+
+    function setBg(){
+        const index = Math.floor(Math.random() * Images.length);
+        return Images[index];
+    }
+
     return (
-        <div className={styles.container}>
+        <div className={styles.container} style={{ backgroundImage: `url(${setBg()})`}}>
             <h1>Welcome Back to TreeHouse.</h1>
             <form action="" onSubmit={handleSubmit(onSubmit)}>
                 <h2>Login to continue to your account.</h2>

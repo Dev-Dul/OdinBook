@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "postbook";
+    src: url("../assets/Fonts/Postbook.otf");
+}
+
+@font-face {
+    font-family: "buddy";
+    src: url("../assets/Fonts/SweetJoys.ttf");
+}
+
 .container{
     min-height: 100vh;
     width: 100%;
@@ -6,10 +16,28 @@
     justify-content: center;
     flex-direction: column;
     perspective: 1000px;
+    background-position: center;
+    background-size: cover;
+    backdrop-filter: blur(10px);
+    position: relative;
+    /* font-family: "buddy";  */
+}
+
+
+
+.container::before{
+    content: '';
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    z-index: -1;
+    background: transparent;
+    backdrop-filter: blur(7px);
 }
 
 .container h1{
     font-size: 2.5rem;
+    font-family: "postbook";
     animation: welcome 1.5s ease-in both;
 }
 
@@ -34,7 +62,18 @@ form{
     border-radius: 20px;
 }
 
+.container.signup form{
+    width: 450px;
+    padding-bottom: 0;
+}
+
+
 .container form{
+    padding: 0 1.5rem;
+    font-family: inherit;
+    font-family: "buddy"; 
+    background: transparent;
+    backdrop-filter: blur(30px);
     animation: flip 2s ease-in 2s both;
 }
 
@@ -63,9 +102,17 @@ form h2{
     margin-bottom: 1.5rem;
 }
 
+.container.signup .inputBox{
+    margin-bottom: 1rem;
+}
+
 .inputBox label{
     align-self: flex-start;
     margin-left: 2rem;
+}
+
+.container.signup label{
+    margin-left: 3rem;
 }
 
 .inputBox input{
