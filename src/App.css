@@ -13,6 +13,10 @@
   grid-template-columns: auto 1fr;
 }
 
+.mobile{
+  grid-template-columns: 1fr;
+}
+
 
 .header{
   height: 15vh;
@@ -20,9 +24,10 @@
   position: sticky;
   top: 0;
   padding: 0 1rem;
+  color: #ff821d;
   border: 2px solid;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-start;
   font-family: "buddy";
 }

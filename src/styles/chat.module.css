@@ -75,7 +75,7 @@
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
-    border: 1px solid red;
+    border: 1px solid #ff821d;
     border-radius: 20px;
     padding-bottom: 0;
     padding: 0 1rem;
@@ -87,6 +87,7 @@
     padding: 0.5rem;
     text-indent: 10px;
     border-radius: 20px;
+    background: #feb579;
 }
 
 .chats form button{
@@ -104,4 +105,14 @@
 
 .btm h2{
     font-size: 1.2rem;
+}
+
+@media screen and (max-width: 768px){
+    .chats form{
+        width: 85%;
+        bottom: 120px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+    }
 }
