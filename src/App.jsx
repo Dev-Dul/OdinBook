@@ -12,7 +12,6 @@ function App() {
   const location = useLocation();
   const hideSidebar = location.pathname === '/' || location.pathname === '/signup';
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-  console.log("isMobile:", isMobile);
 
 
   return (

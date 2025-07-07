@@ -51,6 +51,7 @@
 
 .bio h2{
     margin: 1rem 0;
+    border-bottom: 2px solid;
 }
 
 .bio p{
@@ -141,4 +142,23 @@ input[type="file"]{
     border: 2px solid;
     border-radius: 50%;
     cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .front{
+        left: 50px;
+    }
+
+    .bio{
+        margin-top: 3rem;
+    }
+
+    .action{
+        width: 65%;
+        margin-top: 1rem;
+    }
+
+    .action button{
+        padding: 0.5rem 1rem;
+    }
 }

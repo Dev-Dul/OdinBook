@@ -8,7 +8,6 @@ import { format } from "date-fns";
 function Home(){
     const { user } = useContext(AuthContext);
     if(!user) return <Navigate to={"/"} replace />
-    console.log("user:", user);
     
     function formatDate(date){
       const formatted = format(new Date(date), "h:mm a");

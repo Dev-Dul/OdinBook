@@ -21,7 +21,6 @@ function Profile(){
         setOpenEdit(prev => !prev);
     }
 
-    console.log(user);
 
     async function onUpdate(data){
       const formData = new FormData();
