@@ -1,12 +1,37 @@
-# React + Vite
+# Treehouse 
+This is my implementation of The Odin Project's Messaging App Project.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+*Sign Up Page:
+![Sign Up Page](./src/assets/Img/signup.png)
 
-Currently, two official plugins are available:
+*Log In Page:
+![Log In Page](./src/assets/Img/login.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## Details
+This project is a decoupled frontent + backend project that uses react on the frontend and express on the backend. This repo is for the frontend part, tools and libraries used include react-router, framer-motion, date-fns, lucide-react, react-hook-form, sonner, e.t.c. 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Stuff learned and Improved
+
+* Data fetching - This project greatly helped me improve my data fetching skills in a react environment
+
+* Session Handling - This is my first decoupled project using react that fully utilizes cookies to handle sessions. It was really an enlightening experience.
+
+* Authentication - This is also my first decoupled project using react that fully utilizes passportJS to handle authentication. I learnt alot from this.
+
+
+## Features
+
+Features of TreeHouse Include:-
+
+* Sleek and minimalistic UI - I've taken the time to craft a sleek yet minimalistic UI for TreeHouse that's easy on the eyes while also being aesthetically pleasing. The UI is 100% mobile responsive.
+
+* Sign Up / Log In - TreeHouse features beautiful and functioning sign up and log in pages.
+
+* User Profiles - TreeHouse features a simple profile page that displays relevant user data.
+
+* Chats - TreeHouse has a private chat feature that allows users to send individual private messages to each other.
+
+* Chatrooms - TreeHouse has a Chatrooms feature that allows users to join and send messages in a group.
+
+* Friends - Users can add friends so they can chat with them privately.

@@ -21,8 +21,8 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border: 1px solid;
     padding: 1rem 0;
     cursor: pointer;
+    border: 1px solid #ff821d;
     transition: all 0.7s ease;
 }
