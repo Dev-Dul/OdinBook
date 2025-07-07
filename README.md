@@ -1,19 +1,19 @@
 # Treehouse 
 This is my implementation of The Odin Project's Messaging App Project.
 
-*Sign Up Page:
+* Sign Up Page:
 ![Sign Up Page](./src/assets/Img/signup.png)
 
-*Log In Page:
+* Log In Page:
 ![Log In Page](./src/assets/Img/login.png)
 
 
 ## Details
-This project is a decoupled frontent + backend project that uses react on the frontend and express on the backend. This repo is for the frontend part, tools and libraries used include react-router, framer-motion, date-fns, lucide-react, react-hook-form, sonner, e.t.c. 
+This project is a decoupled frontend + backend project that uses react on the frontend and express on the backend. This repo is for the frontend part, tools and libraries used include react-router, framer-motion, date-fns, lucide-react, react-hook-form, sonner, e.t.c. 
 
 ## Stuff learned and Improved
 
-* Data fetching - This project greatly helped me improve my data fetching skills in a react environment
+* Data fetching - This project greatly helped me improve my data fetching skills in a react environment.
 
 * Session Handling - This is my first decoupled project using react that fully utilizes cookies to handle sessions. It was really an enlightening experience.
 

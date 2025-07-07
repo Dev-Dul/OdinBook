@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    border-right: 1px solid;
+    border-right: 1px solid #ff821d;
     box-sizing: border-box;
     transition: all 0.7s ease;
 }

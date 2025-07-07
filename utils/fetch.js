@@ -1,9 +1,9 @@
-// const apiUrl =
+const apiUrl = import.meta.env.VITE_API_URL;
 import { useState } from "react";
 
 export async function signUp(name, email, username, password){
     try{
-        const res = await fetch("http://localhost:3000/api/v1/signup", {
+        const res = await fetch(`${apiUrl}/api/v1/signup`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -27,7 +27,7 @@ export async function signUp(name, email, username, password){
 
 export async function logIn(username, password){
     try{
-        const res = await fetch("http://localhost:3000/api/v1/login", {
+        const res = await fetch(`${apiUrl}/api/v1/login`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -48,7 +48,7 @@ export async function logIn(username, password){
 
 export async function logOut(){
   try {
-    const res = await fetch("http://localhost:3000/api/v1/profiles/logout", {
+    const res = await fetch(`${apiUrl}/api/v1/profiles/logout`, {
       method: "POST",
       credentials: "include",
     });
@@ -67,7 +67,7 @@ export function useFetchGroups(){
 
     async function fetchGroups(){
       try {
-        const res = await fetch("http://localhost:3000/api/v1/groups/", {
+        const res = await fetch(`${apiUrl}/api/v1/groups/`, {
           method: "GET",
           credentials: 'include',
         });
@@ -92,7 +92,7 @@ export function useFetchGroup(){
 
     async function fetchGroup(groupId){
         try{
-          const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}/`, {
+          const res = await fetch(`${apiUrl}/api/v1/groups/${groupId}/`, {
             method: "GET",
             credentials: 'include',
           });
@@ -111,7 +111,7 @@ export function useFetchGroup(){
 
 export async function joinGroup(groupId, userId){
     try{
-      const res = await fetch("http://localhost:3000/api/v1/groups/join", {
+      const res = await fetch(`${apiUrl}/api/v1/groups/join`, {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -134,7 +134,7 @@ export async function joinGroup(groupId, userId){
 
 export async function leaveGroup(groupId, userId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}/leave`, {
+      const res = await fetch(`${apiUrl}/api/v1/groups/${groupId}/leave`, {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -157,7 +157,7 @@ export async function leaveGroup(groupId, userId){
 
 export async function sendPrivateMessage(text, senderId, recipientId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/friends/${recipientId}/messages/new`, {
+      const res = await fetch(`${apiUrl}/api/v1/friends/${recipientId}/messages/new`, {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -178,7 +178,7 @@ export async function sendPrivateMessage(text, senderId, recipientId){
 
 export async function sendGroupMessage(text, senderId, groupId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/groups/${groupId}/messages/new`, {
+      const res = await fetch(`${apiUrl}/api/v1/groups/${groupId}/messages/new`, {
         method: "POST",
         credentials: 'include',
         headers: {
@@ -206,11 +206,11 @@ export function useGetPrivateMessage(){
 
   async function getPrivateMessage(userId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/friends/${userId}/messages`, {
+      const res = await fetch(`${apiUrl}/api/v1/friends/${userId}/messages`, {
         method: "GET",
         credentials: "include",
       });
-      if(!res.ok) throw new Error(res.status);
+      if(!res.ok) throw new Error(res.message);
       const json = await res.json();
       setMessages(json.messages);
     }catch(err){
@@ -225,7 +225,7 @@ export function useGetPrivateMessage(){
 
 export async function addFriend(userId, friendId){
     try{
-        const res = await fetch(`http://localhost:3000/api/v1/friends/add`, {
+        const res = await fetch(`${apiUrl}/api/v1/friends/add`, {
           method: "POST",
           credentials: 'include',
           headers: {
@@ -237,7 +237,7 @@ export async function addFriend(userId, friendId){
           }),
         });
         
-        if(!res.ok) throw new Error(res.status);
+        if(!res.ok) throw new Error(res.message);
         const json = await res.json();
         return json;
       }catch(err){
@@ -247,7 +247,7 @@ export async function addFriend(userId, friendId){
 
 export async function getUserFriends(userId){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/friends/`, {
+      const res = await fetch(`${apiUrl}/api/v1/friends/`, {
         method: "POST",
         credentials: "include",
         headers: {
@@ -258,7 +258,7 @@ export async function getUserFriends(userId){
         }),
       });
 
-      if(!res.ok) throw new Error(res.status);
+      if(!res.ok) throw new Error(res.message);
       const json = await res.json();
       return json;
     }catch(err){
@@ -275,11 +275,11 @@ export function useGetAllUsers(){
 
   async function getAllUsers(){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/profiles/all`, {
+      const res = await fetch(`${apiUrl}/api/v1/profiles/all`, {
         method: "GET",
         credentials: "include",
       });
-      if(!res.ok) throw new Error(res.status);
+      if(!res.ok) throw new Error(res.message);
 
       const json = await res.json();
       setUsers(json.users);
@@ -295,7 +295,7 @@ export function useGetAllUsers(){
 
 export async function updateProfile(formData){
     try{
-      const res = await fetch(`http://localhost:3000/api/v1/profiles/update`, {
+      const res = await fetch(`${apiUrl}/api/v1/profiles/update`, {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -311,13 +311,13 @@ export async function updateProfile(formData){
 
 export async function hydrateUser(){
     try{
-        const res = await fetch(`http://localhost:3000/api/v1/profiles/hydrate`, {
+        const res = await fetch(`${apiUrl}/api/v1/profiles/hydrate`, {
           method: "GET",
           credentials: "include",
         });
 
         if(res.status === 401) throw new Error("Unauthorized");
-        if(!res.ok) throw new Error(res.status);
+        if(!res.ok) throw new Error(res.message);
 
         const json = await res.json();
         return json.user;
