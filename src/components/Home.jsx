@@ -4,9 +4,12 @@ import { AuthContext } from "../../utils/context";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
+import Loader from "./Loader";
 
 function Home(){
-    const { user } = useContext(AuthContext);
+    const { user, userLoad } = useContext(AuthContext);
+
+    if(userLoad) return <Loader />;
     if(!user) return <Navigate to={"/"} replace />
     
     function formatDate(date){

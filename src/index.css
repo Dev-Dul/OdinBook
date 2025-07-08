@@ -9,14 +9,12 @@
   line-height: 1.5;
   font-weight: bolder;
 
-  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #f7f7f7;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -50,6 +48,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   white-space: nowrap;
+  color: white;
   transition: border-color 0.25s;
 }
 button:hover {
@@ -62,21 +61,9 @@ button:focus-visible {
 
 input{
   color: #040404;
+  border: 1px solid white;
 }
 
 input, textarea{
   font-family: "baskerville";
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

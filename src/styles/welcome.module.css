@@ -127,3 +127,9 @@ form button{
     margin: 5px 0;
     padding: 0.5rem 4rem;
 }
+
+@media screen and (max-width: 468px){
+    form{
+        width: 85vw;
+    }
+}

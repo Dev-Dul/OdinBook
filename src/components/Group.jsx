@@ -2,7 +2,7 @@ import styles from "../styles/chat.module.css";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../utils/context";
 import { toast } from "sonner";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
 import { format } from "date-fns";
@@ -12,7 +12,7 @@ import { joinGroup, leaveGroup, useFetchGroup, sendGroupMessage } from "../../ut
 
 function Group(){
    const { nestId } = useParams();
-   const { user } = useContext(AuthContext);
+   const { user, userLoad } = useContext(AuthContext);
    const { group, error, loading, fetchGroup } = useFetchGroup();
    const {
       register,
@@ -21,11 +21,14 @@ function Group(){
    } = useForm();
 
    useEffect(() => {
-     fetchGroup(nestId);
-    }, [])
+    if(user){
+      fetchGroup(nestId);
+    }
+    }, [user])
     
-    if(loading) return <Loader />
-    if(error) return <Error error={error} />
+    if(loading || userLoad) return <Loader />;
+    if(!user) return <Navigate to={"/"} />;
+    if(error) return <Error error={error} />;
 
   function formatDate(date){
     return format(new Date(date), "d, MMM yyyy, h:mm a")

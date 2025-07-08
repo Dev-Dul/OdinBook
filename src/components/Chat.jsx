@@ -1,5 +1,5 @@
 import styles from "../styles/chat.module.css";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { useGetPrivateMessage, sendPrivateMessage } from "../../utils/fetch";
 import { useForm } from "react-hook-form";
 import { SendIcon } from "lucide-react";
@@ -13,22 +13,27 @@ import Loader from "./Loader";
 
 function Chat(){
     const { friendId }  = useParams();
-    const { user } = useContext(AuthContext);
+    const { user, userLoad } = useContext(AuthContext);
     const { messages, error, loading, getPrivateMessage } = useGetPrivateMessage();
-    const friend = user.friends.find(f => f.friend.id === Number(friendId));
-
+    
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
+    
     useEffect(() => {
-        getPrivateMessage(user.id);
-    }, []);
-
-    if(loading) return <Loader />;
+        if(user){
+            getPrivateMessage(user.id);
+        }
+    }, [user]);
+    
+    if(loading || userLoad) return <Loader />;
+    if(!user) return <Navigate to={'/'}/>
     if(error) return <Error error={error} />;
+    
+    const friend = user?.friends?.find(f => f.friend.id === Number(friendId));
 
     function formatDate(date){
         return format(new Date(date), "d, MMM yyyy, h:mm a")

@@ -1,6 +1,6 @@
 import styles from "../styles/friends.module.css";
 import { useGetAllUsers, addFriend } from "../../utils/fetch";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import Loader from "./Loader";
 import Error from "./Error";
 import { useEffect, useContext } from "react";
@@ -10,14 +10,19 @@ import { AuthContext } from "../../utils/context";
 
 function Friends(){
     const navigate = useNavigate();
-    const { user } = useContext(AuthContext);
+    const { user, userLoad } = useContext(AuthContext);
     const { users, error, loading, getAllUsers } = useGetAllUsers();
 
-    useEffect(() => {
-      getAllUsers();
-    }, [])
     
-    if(loading) return <Loader />
+    
+    useEffect(() => {
+      if(user){
+        getAllUsers();
+      }
+    }, [user])
+    
+    if(loading || userLoad) return <Loader />
+    if(!user) return <Navigate to={'/'}/>
     if(error) return <Error error={error} />
 
     async function friendPlus(id){

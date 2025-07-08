@@ -1,18 +1,23 @@
 import styles from "../styles/groups.module.css";
 import { useFetchGroups } from "../../utils/fetch";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loader from "./Loader";
 import Error from "./Error";
+import { AuthContext } from "../../utils/context";
 
 function Groups(){
+    const { user, userLoad } = useContext(AuthContext);
     const { groups, error, loading, fetchGroups } = useFetchGroups();
 
     useEffect(() => {
-        fetchGroups();
-    }, []);
+        if(user){
+            fetchGroups();
+        }
+    }, [user]);
 
-    if(loading) return <Loader />
+    if(loading || userLoad) return <Loader />;
+    if(!user) return <Navigate to={"/"} />;
     if(error) return <Error error={error} />;
 
     return (

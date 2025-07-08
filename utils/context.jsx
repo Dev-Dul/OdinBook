@@ -37,7 +37,7 @@ export function AuthProvider({ children }){
         if(user === null && hasLogged){
            hydrate();
         }
-    }, [user]);
+    }, []);
 
     return (
         <AuthContext.Provider value={{ user, handleUser, userLoad, hydrate }}>

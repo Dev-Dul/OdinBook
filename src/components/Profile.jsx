@@ -3,12 +3,13 @@ import { useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
 import { updateProfile, logOut } from "../../utils/fetch";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import Loader from "./Loader";
 
 function Profile(){
-    const { user, handleUser } = useContext(AuthContext);
+    const { user, userLoad, handleUser } = useContext(AuthContext);
     const [openEdit, setOpenEdit] = useState(false);
     const navigate = useNavigate();
     const {
@@ -16,6 +17,9 @@ function Profile(){
       handleSubmit,
       formState: { errors },
     } = useForm();
+
+    if(userLoad) return <Loader />;
+    if(!user) return <Navigate to={"/"} />;
 
     function handleEdit(){
         setOpenEdit(prev => !prev);
@@ -54,6 +58,8 @@ function Profile(){
         success: (response) => {
           if(response){
             navigate("/");
+            localStorage.removeItem("logged");
+            handleUser(null);
             return response.message;
           }
         },
