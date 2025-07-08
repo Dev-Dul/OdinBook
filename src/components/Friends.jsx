@@ -15,11 +15,8 @@ function Friends(){
 
     useEffect(() => {
       getAllUsers();
-      // users = users.map((usr) => usr.id !== user.id);
     }, [])
     
-    console.log(users);
-    console.log(user);
     if(loading) return <Loader />
     if(error) return <Error error={error} />
 
@@ -56,7 +53,6 @@ function Friends(){
               <div className={styles.text}>
                 <h3>{friend.name}</h3>
                 <p>{friend.username}</p>
-                {/* <p>{friend.id}</p> */}
                 <p>Online</p>
               </div>
               <div className={styles.action}>

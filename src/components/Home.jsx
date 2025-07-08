@@ -28,7 +28,7 @@ function Home(){
           {user.friends.length === 0 ? (
             <h2>
               You have no friend yet,{" "}
-              <Link to={"/friends"}>Add Some Friends</Link> to start chatting.
+              <Link to={"/friends"} className={styles.link}>Add Some Friends</Link> to start chatting.
             </h2>
           ) : (
             <div>
