@@ -25,6 +25,8 @@ function Friends(){
     if(!user) return <Navigate to={'/'}/>
     if(error) return <Error error={error} />
 
+    console.log(users);
+
     async function friendPlus(id){
       if (!user || !user.id){
         toast.error("User not authenticated.");

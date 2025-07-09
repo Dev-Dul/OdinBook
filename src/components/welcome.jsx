@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { logIn } from "../../utils/fetch";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/context";
 import { toast } from "sonner";
 import { Images } from "../../utils/images";
 
 
 function Welcome(){
+    const [bg, setBg] = useState(null);
     const { handleUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const {
@@ -17,6 +18,11 @@ function Welcome(){
       handleSubmit,
       formState: { errors },
     } = useForm();
+
+    useEffect(() => {
+        const index = Math.floor(Math.random() * Images.length);
+        setBg(Images[index]);
+    }, [])
 
     async function onSubmit(formData){
         const logInPromise = logIn(formData.username, formData.password);
@@ -36,13 +42,9 @@ function Welcome(){
         })
     }
 
-    function setBg(){
-        const index = Math.floor(Math.random() * Images.length);
-        return Images[index];
-    }
 
     return (
-        <div className={styles.container} style={{ backgroundImage: `url(${setBg()})`}}>
+        <div className={styles.container} style={{ backgroundImage: `url(${bg})`}}>
             <h1>Welcome Back to TreeHouse.</h1>
             <form action="" onSubmit={handleSubmit(onSubmit)}>
                 <h2>Login to continue to your account.</h2>

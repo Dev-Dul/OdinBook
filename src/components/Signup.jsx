@@ -4,9 +4,11 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { Images } from "../../utils/images";
+import { useState, useEffect } from "react";
 
 
 function Signup(){
+    const [bg, setBg] = useState(null);
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }} = useForm();
 
@@ -26,16 +28,15 @@ function Signup(){
         })
     }
 
-    function setBg(){
+    useEffect(() => {
       const index = Math.floor(Math.random() * Images.length);
-      return Images[index];
-    }
+      setBg(Images[index]);
+    }, []);
+
+
 
     return (
-      <div
-        className={`${styles.container} ${styles.signup}`}
-        style={{ backgroundImage: `url(${setBg()})` }}
-      >
+      <div className={`${styles.container} ${styles.signup}`} style={{ backgroundImage: `url(${bg})` }}>
         <h1>Welcome To Treehouse</h1>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <h2>Join Us On A Social Adventure Of A Lifetime.</h2>

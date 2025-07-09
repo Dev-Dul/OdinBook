@@ -7,6 +7,7 @@ import { useNavigate, Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import Loader from "./Loader";
+import { X } from "lucide-react";
 
 function Profile(){
     const { user, userLoad, handleUser } = useContext(AuthContext);
@@ -74,7 +75,7 @@ function Profile(){
         {openEdit && (
           <div className={styles.overlay}>
             <form action="" onSubmit={handleSubmit(onUpdate)}>
-              <div className={styles.close} onClick={handleEdit}></div>
+              <div className={styles.close} onClick={handleEdit}><X /></div>
               <h2>Edit Profile</h2>
               <div className={styles.inputBox}>
                 <label htmlFor="username">Username</label>

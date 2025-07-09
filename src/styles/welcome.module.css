@@ -129,7 +129,7 @@ form button{
 }
 
 @media screen and (max-width: 468px){
-    form{
+    form, .container.signup form{
         width: 85vw;
     }
 }
