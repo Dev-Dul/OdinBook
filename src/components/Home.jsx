@@ -39,7 +39,7 @@ function Home(){
                 <Link to={`/chats/${fr.friend.id}`}>
                   <div className={styles.preview} key={fr.friend.id}>
                     <h2>{fr.friend.name}</h2>
-                    <p>{findMessage(fr.friend.id).text}, {formatDate(findMessage(fr.friend.id).created)}</p>
+                    {findMessage(fr.friend.id) && <p>{findMessage(fr.friend.id)?.text}, {formatDate(findMessage(fr.friend.id)?.created)}</p>}
                   </div>
                 </Link>
               ))}

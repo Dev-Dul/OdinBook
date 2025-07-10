@@ -34,7 +34,7 @@ export function AuthProvider({ children }){
 
     useEffect(() => {
         const hasLogged = localStorage.getItem("logged") === 'true';
-        if(user === null && hasLogged){
+        if(!user && hasLogged){
            hydrate();
         }
     }, []);

@@ -114,6 +114,11 @@
     font-size: 1.2rem;
 }
 
+.empty{
+  font-size: 1.15rem;
+  text-wrap: balance;
+}
+
 @media screen and (max-width: 768px){
 
     .groupHeader button{

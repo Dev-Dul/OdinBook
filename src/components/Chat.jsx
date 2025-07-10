@@ -25,7 +25,7 @@ function Chat(){
     
     useEffect(() => {
         if(user){
-            getPrivateMessage(user.id);
+            getPrivateMessage(friendId);
         }
     }, [user]);
     
@@ -62,6 +62,7 @@ function Chat(){
                 <h2>{friend.friend.name}</h2>
             </div>
             <div className={styles.chats}>
+                {messages.length === 0 && <h2 className={styles.empty}>You have no messages here yet. Say Hi to start the conversation.</h2>}
                 {messages.map((message) => (
                     <Bubble key={message.id} id={message.id} message={message.text} date={formatDate(message.created)} />
                 ))}

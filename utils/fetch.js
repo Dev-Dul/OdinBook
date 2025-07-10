@@ -123,7 +123,7 @@ export async function joinGroup(groupId, userId){
         }),
       });
 
-      if(!res.ok) throw new Error(res.status);
+      if(!res.ok) throw new Error(res.message);
       const json = await res.json();
       return json.message;
 
@@ -204,12 +204,13 @@ export function useGetPrivateMessage(){
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  async function getPrivateMessage(userId){
+  async function getPrivateMessage(recipientId){
     try{
-      const res = await fetch(`${apiUrl}/api/v1/friends/${userId}/messages`, {
+      const res = await fetch(`${apiUrl}/api/v1/friends/${recipientId}/messages`, {
         method: "GET",
         credentials: "include",
       });
+      
       if(!res.ok) throw new Error(res.message);
       const json = await res.json();
       setMessages(json.messages);
