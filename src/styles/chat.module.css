@@ -29,7 +29,6 @@
     box-sizing: border-box;
     overflow-y: scroll;
     scrollbar-width: thin;
-    border: 1px solid #ff821d;
     position: relative;
 }
 

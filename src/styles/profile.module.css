@@ -17,7 +17,6 @@
 .bg{
     height: 100%;
     width: 100%;
-    border: 1px solid;
     border-radius: 20px;
 }
 
@@ -25,6 +24,7 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    border: 2px solid #ff821d;
 }
 
 .front{
@@ -33,7 +33,6 @@
     left: 100px;
     bottom: -100px;
     position: absolute;
-    border: 1px solid;
     border-radius: 50%;
 }
 
@@ -56,6 +55,8 @@
 
 .bio p{
     margin: 5px 0;
+    width: 100%;
+    text-align: right;
 }
 
 .action{
@@ -151,7 +152,7 @@ input[type="file"]{
     }
 
     .bio{
-        margin-top: 5rem;
+        margin-top: 2rem;
     }
 
     .action{
@@ -161,5 +162,21 @@ input[type="file"]{
 
     .action button{
         padding: 0.5rem 1rem;
+    }
+}
+
+@media screen and (max-width: 468px) {
+    .imgs{
+        height: 20vh;
+    }
+
+    .front{
+        height: 150px;
+        width: 150px;
+        bottom: -80px;
+    }
+
+    .action{
+        width: 80%;
     }
 }

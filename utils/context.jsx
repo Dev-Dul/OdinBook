@@ -7,7 +7,7 @@ export const AuthContext = createContext({});
 
 export function AuthProvider({ children }){
     const [user, setUser] = useState(null);
-    const [userLoad, setLoading] = useState(false);
+    const [userLoad, setLoading] = useState(true);
     const navigate = useNavigate();
 
     function handleUser(person){
@@ -16,7 +16,6 @@ export function AuthProvider({ children }){
 
     async function hydrate(){
       try{
-        setLoading(true);
         const hydrate = await hydrateUser();
         handleUser(hydrate);
       }catch(err){

@@ -25,7 +25,7 @@ function Groups(){
             <div className="header">
                 <h1>Nests</h1>
             </div>
-            <div className="texts">
+            <div className={styles.texts}>
                 <h3>Welcome to TreeHouse's Chatrooms, Nests!</h3>
                 <p className="sub">Click on anyone to join.</p>
                 <div className={styles.nests}>

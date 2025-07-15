@@ -5,6 +5,10 @@
     color: #040404;
 }
 
+.texts{
+    padding: 0rem 1rem;
+}
+
 
 .nests{
     height: auto;
@@ -13,6 +17,7 @@
     place-items: center;
     row-gap: 2rem;
     margin-top: 5rem;
+    margin-bottom: 180px;
     grid-template-columns: repeat(2, 1fr);
 }
 
