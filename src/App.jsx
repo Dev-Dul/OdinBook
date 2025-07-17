@@ -8,7 +8,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 // import Post from './components/Post';
 import PostView from './components/PostView';
-import Friends from './components/Friends';
+import SearchPage from './components/Search';
 
 function App() {
   // const location = useLocation();
@@ -36,7 +36,7 @@ function App() {
   // );
 
   return (
-    <Friends />
+    <SearchPage />
   )
 }
 
