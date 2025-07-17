@@ -1,4 +1,4 @@
-import styles from "../styles/chat.module.css";
+import styles from "../styles/postview.module.css";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../utils/context";
 import { toast } from "sonner";

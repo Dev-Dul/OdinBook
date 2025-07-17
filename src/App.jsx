@@ -6,7 +6,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
-import Post from './components/Post';
+// import Post from './components/Post';
+import PostView from './components/PostView';
 
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
   // );
 
   return (
-    <Post />
+    <PostView />
   )
 }
 

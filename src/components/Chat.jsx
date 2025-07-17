@@ -1,4 +1,4 @@
-import styles from "../styles/chat.module.css";
+import styles from "../styles/postview.module.css";
 import { Navigate, useParams } from "react-router-dom";
 import { useGetPrivateMessage, sendPrivateMessage } from "../../utils/fetch";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,7 @@ import { useContext, useEffect } from "react";
 import { AuthContext } from "../../utils/context";
 import { format } from "date-fns";
 import { toast } from "sonner"
-import Bubble from "./Message";
+import Bubble from "./Comment";
 import Error from "./Error";
 import Loader from "./Loader";
 
