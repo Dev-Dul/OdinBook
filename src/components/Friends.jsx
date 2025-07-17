@@ -3,40 +3,42 @@ import { useGetAllUsers, addFriend } from "../../utils/fetch";
 import { useNavigate, Navigate } from "react-router-dom";
 import Loader from "./Loader";
 import Error from "./Error";
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { toast } from "sonner";
 import { AuthContext } from "../../utils/context";
+import Friend from "./Friend";
 
 
 function Friends(){
-    const navigate = useNavigate();
-    const { user, userLoad } = useContext(AuthContext);
+    // const navigate = useNavigate();
+    // const { user, userLoad } = useContext(AuthContext);
+    const [tab, setTab] = useState(1);
     const { users, error, loading, getAllUsers } = useGetAllUsers();
 
     
     
-    useEffect(() => {
-      if(user){
-        getAllUsers();
-      }
-    }, [user])
+    // useEffect(() => {
+    //   if(user){
+    //     getAllUsers();
+    //   }
+    // }, [user])
     
-    if(loading || userLoad) return <Loader />
-    if(!user) return <Navigate to={'/'}/>
-    if(error) return <Error error={error} />
+    // if(loading || userLoad) return <Loader />
+    // if(!user) return <Navigate to={'/'}/>
+    // if(error) return <Error error={error} />
 
 
     async function friendPlus(id){
-      if (!user || !user.id){
-        toast.error("User not authenticated.");
-        return;
-      }
+      // if (!user || !user.id){
+      //   toast.error("User not authenticated.");
+      //   return;
+      // }
       const friendPromise = addFriend(user.id, id);
       toast.promise(friendPromise, {
         loading: "Adding friend...",
         success: (response) => {
           if(response){
-            navigate("/home");
+            // navigate("/home");
             return response.message;
           }
         },
@@ -46,26 +48,52 @@ function Friends(){
       });
     }
 
+    function handleTab(num){
+      setTab(num);
+    }
 
     
     return (
       <div className={styles.container}>
-        <div className="header">
-          <h1>Find Friends</h1>
+        <div className={styles.header}>
+          <h1>Friends</h1>
         </div>
         <div className={styles.friends}>
-          {users.map((friend) => (
-            <div className={styles.friend} key={friend.id}>
-              <div className={styles.text}>
-                <h3>{friend.name}</h3>
-                <p>{friend.username}</p>
-                <p>Online</p>
-              </div>
-              <div className={styles.action}>
-                <button onClick={() => {friendPlus(friend.id)}}>Add Friend</button>
-              </div>
-            </div>
-          ))}
+          <div className={styles.nav}>
+            <button
+              onClick={() => handleTab(1)}
+              style={{ borderBottom: tab === 1 ? "2px solid" : '' }}>
+              Friends
+            </button>
+            <button
+              onClick={() => handleTab(2)}
+              style={{ borderBottom: tab === 2 ? "2px solid" : '' }}>
+              Pending
+            </button>
+            <button
+              onClick={() => handleTab(3)}
+              style={{ borderBottom: tab === 3 ? "2px solid" : '' }}>
+              Rejected
+            </button>
+          </div>
+          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
+            <h1>Accepted</h1>
+            <Friend />
+            <Friend />
+            <Friend />
+          </div>
+          <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
+            <h1>Pending</h1>
+            <Friend />
+            <Friend />
+            <Friend />
+          </div>
+          <div className={`${styles.tab} ${tab === 3 ? styles.active : ""}`}>
+            <h1>Rejected</h1>
+            <Friend />
+            <Friend />
+            <Friend />
+          </div>
         </div>
       </div>
     );

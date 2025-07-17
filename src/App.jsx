@@ -8,7 +8,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 // import Post from './components/Post';
 import PostView from './components/PostView';
-import Signup from './components/Signup';
+import Friends from './components/Friends';
 
 function App() {
   // const location = useLocation();
@@ -36,7 +36,7 @@ function App() {
   // );
 
   return (
-    <Signup />
+    <Friends />
   )
 }
 
