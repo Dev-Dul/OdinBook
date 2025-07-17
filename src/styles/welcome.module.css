@@ -20,6 +20,7 @@
     background-size: cover;
     backdrop-filter: blur(10px);
     position: relative;
+    color: black;
     /* font-family: "buddy";  */
 }
 
@@ -58,8 +59,9 @@ form{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border: 1px solid;
     border-radius: 20px;
+    border: 1px solid black;
+    border-radius: 0px;
 }
 
 .container.signup form{
@@ -74,18 +76,9 @@ form{
     font-family: "buddy"; 
     background: transparent;
     backdrop-filter: blur(30px);
-    animation: flip 2s ease-in 2s both;
 }
 
-@keyframes flip{
-    from{
-        opacity: 0;
-        transform: rotateY(180deg);
-    }to{
-        opacity: 1;
-        transform: rotateY(0deg);
-    }
-}
+
 
 form h2{
     font-size: 1.3rem;
@@ -121,6 +114,38 @@ form h2{
     border: 1px solid;
     text-indent: 10px;
     border-radius: 10px;
+}
+
+.line{
+    width: 100%;
+    margin-top: 1rem;
+    position: relative;
+}
+
+.line hr{
+    width: 80%;
+}
+
+.line p{
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    padding: 5px;
+    background: white;
+    transform: translate(-50%, -50%);
+}
+
+.continue{
+    margin: 15px 0;
+    font-size: 0.8rem;
+}
+
+.google{
+    color: black;
+    background: white;
+    border: 1px solid;
+    border-radius: 0px;
+    padding: 0.5rem 3.5rem;
 }
 
 form button{

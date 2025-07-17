@@ -2,27 +2,21 @@ import styles from "../styles/welcome.module.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { logIn } from "../../utils/fetch";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../utils/context";
+// import { AuthContext } from "../../utils/context";
 import { toast } from "sonner";
-import { Images } from "../../utils/images";
 
 
 function Welcome(){
-    const [bg, setBg] = useState(null);
-    const { handleUser } = useContext(AuthContext);
-    const navigate = useNavigate();
+    // const { handleUser } = useContext(AuthContext);
+    // const navigate = useNavigate();
     const {
       register,
       handleSubmit,
       formState: { errors },
     } = useForm();
 
-    useEffect(() => {
-        const index = Math.floor(Math.random() * Images.length);
-        setBg(Images[index]);
-    }, [])
 
     async function onSubmit(formData){
         const logInPromise = logIn(formData.username, formData.password);
@@ -44,9 +38,9 @@ function Welcome(){
 
 
     return (
-        <div className={styles.container} style={{ backgroundImage: `url(${bg})`}}>
-            <h1>Welcome Back to TreeHouse.</h1>
-            <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <div className={styles.container}>
+            <h1>Odinbook.</h1>
+            <form action="">
                 <h2>Login to continue to your account.</h2>
                 <div className={styles.inputBox}>
                     <label htmlFor="username">Username</label>
@@ -71,7 +65,15 @@ function Welcome(){
                     {errors.password && <p>{errors.password.message}</p>}
                 </div>
                 <button type="submit">Log In</button>
-                <p>Don't have an account? <Link to={"/signup"}>Sign Up</Link></p>
+                <div className={styles.line}>
+                    <hr />
+                    <p>Or</p>
+                </div>
+                <h2 className={styles.continue}>Continue with Google</h2>
+                <div className={styles.inputBox}>
+                    <button className={styles.google}>Sign In Using Google</button>
+                </div>
+                {/* <p>Don't have an account? <Link to={"/signup"}>Sign Up</Link></p> */}
             </form>
         </div>
     )

@@ -8,6 +8,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 // import Post from './components/Post';
 import PostView from './components/PostView';
+import Welcome from './components/welcome';
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
   // );
 
   return (
-    <PostView />
+    <Welcome />
   )
 }
 
