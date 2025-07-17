@@ -3,13 +3,11 @@ import { signUp } from "../../utils/fetch";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import { Images } from "../../utils/images";
 import { useState, useEffect } from "react";
 
 
 function Signup(){
-    const [bg, setBg] = useState(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }} = useForm();
 
     async function onSubmit(formData){
@@ -28,23 +26,24 @@ function Signup(){
         })
     }
 
-    useEffect(() => {
-      const index = Math.floor(Math.random() * Images.length);
-      setBg(Images[index]);
-    }, []);
-
-
 
     return (
-      <div className={`${styles.container} ${styles.signup}`} style={{ backgroundImage: `url(${bg})` }}>
-        <h1>Welcome To Treehouse</h1>
+      <div className={`${styles.container} ${styles.signup}`}>
+        <h1>Odinbook</h1>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <h2>Join Us On A Social Adventure Of A Lifetime.</h2>
           <div className={styles.inputBox}>
-            <label htmlFor="name">Name</label>
+            <button className={styles.google}>Sign Up Using Google</button>
+          </div>
+          <div className={`${styles.line} ${styles.two}`}>
+            <hr />
+            <p>Or</p>
+          </div>
+          <div className={styles.inputBox}>
             <input
               type="text"
               id="name"
+              placeholder="Name"
               {...register("name", {
                 required: "Name is required",
                 minLength: {
@@ -56,10 +55,10 @@ function Signup(){
             {errors.name && <p>{errors.name.message}</p>}
           </div>
           <div className={styles.inputBox}>
-            <label htmlFor="username">Username</label>
             <input
               type="text"
               id="username"
+              placeholder="Username"
               {...register("username", {
                 required: "Username is required",
                 minLength: {
@@ -71,10 +70,10 @@ function Signup(){
             {errors.username && <p>{errors.username.message}</p>}
           </div>
           <div className={styles.inputBox}>
-            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
+              placeholder="Email"
               {...register("email", {
                 required: "Email is required",
               })}
@@ -82,10 +81,10 @@ function Signup(){
             {errors.email && <p>{errors.email.message}</p>}
           </div>
           <div className={styles.inputBox}>
-            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
+              placeholder="Password"
               {...register("password", {
                 required: "Password is required",
                 minLength: {
@@ -97,9 +96,7 @@ function Signup(){
             {errors.password && <p>{errors.password.message}</p>}
           </div>
           <button>Sign Up</button>
-          <p>
-            Already have an account? <Link to="/">Log In</Link>
-          </p>
+          <p>{/* Already have an account? <Link to="/">Log In</Link> */}</p>
         </form>
       </div>
     );
