@@ -1,16 +1,18 @@
 import styles from "../styles/home.module.css";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../utils/context";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import Loader from "./Loader";
+import Post from "./Post";
 
 function Home(){
-    const { user, userLoad } = useContext(AuthContext);
+  const [tab, setTab] = useState(1);
+    // const { user, userLoad } = useContext(AuthContext);
 
-    if(userLoad) return <Loader />;
-    if(!user) return <Navigate to={"/"} replace />
+    // if(userLoad) return <Loader />;
+    // if(!user) return <Navigate to={"/"} replace />
     
     function formatDate(date){
       const formatted = format(new Date(date), "h:mm a");
@@ -22,29 +24,36 @@ function Home(){
       return lastMessage;
     }
 
+    function handleTab(num){
+      setTab(num);
+    }
+
     return (
       <div className={styles.container}>
-        <div className="header">
-          <h1>TreeHouse</h1>
+        <div className={styles.header}>
+          <h1>Odinbook</h1>
         </div>
-        <div className={styles.messages}>
-          {user.friends.length === 0 ? (
-            <h2>
-              You have no friend yet,{" "}
-              <Link to={"/friends"} className={styles.link}>Add Some Friends</Link> to start chatting.
-            </h2>
-          ) : (
-            <div>
-              {user.friends.map((fr) => (
-                <Link to={`/chats/${fr.friend.id}`}>
-                  <div className={styles.preview} key={fr.friend.id}>
-                    <h2>{fr.friend.name}</h2>
-                    {findMessage(fr.friend.id) && <p>{findMessage(fr.friend.id)?.text}, {formatDate(findMessage(fr.friend.id)?.created)}</p>}
-                  </div>
-                </Link>
-              ))}
+        <div className={styles.posts}>
+          <div className={styles.nav}>
+            <button onClick={() => handleTab(1)} style={{borderBottom: tab == 1 ? "2px solid" : ''}}>For You</button>
+            <button onClick={() => handleTab(2)} style={{borderBottom: tab == 2 ? "2px solid" : ''}}>Your Circle</button>
+          </div>
+          <div className={styles.tabs}>
+            <div className={`${styles.tab} ${tab === 1 ? styles.active : ''}`}>
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
             </div>
-          )}
+            <div className={`${styles.tab} ${tab === 2 ? styles.active : ''}`}>
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+              <Post />
+            </div>
+          </div>
         </div>
       </div>
     );
