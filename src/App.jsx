@@ -7,7 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import SearchPage from './components/Search';
-import Home from './components/Home';
+import Profile from './components/Profile';
 
 function App() {
   // const location = useLocation();
@@ -35,7 +35,7 @@ function App() {
   // );
 
   return (
-    <Home />
+    <Profile />
   )
 }
 

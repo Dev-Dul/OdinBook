@@ -5,6 +5,137 @@
     color: #040404;
 }
 
+.header{
+    height: 15vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 4rem;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.deets{
+    height: 30vh;
+    width: 100%;
+    margin-top: 20vh;
+    border-bottom: 2px solid;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.top{
+    height: auto;
+    width: 70%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 4rem;
+    margin-bottom: 0;
+}
+
+.pic{
+    height: 100px;
+    width: 100px;
+    border: 1px solid;
+    border-radius: 50%;
+}
+
+.top .text{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.text h2 span{
+    font-size: 0.8rem;
+}
+
+.bottom{
+    height: auto;
+    width: 70%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 0 4rem;
+    box-sizing: border-box;
+}
+
+.bottom h2, .bottom p{
+    margin: 0;
+}
+
+.action{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.nav{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-bottom: 2rem;
+}
+
+.nav button{
+    width: 50%;
+    outline: none;
+    color: black;
+    background: #f4f4f4;
+    border-radius: 0px;
+    transition: all 0.5s ease;
+}
+
+.nav button:hover{
+    border: none;
+    border-bottom: 2px solid;
+}
+
+.tabs{
+    height: auto;
+    width: 100%;
+    position: relative;
+}
+
+.tab{
+    height: auto;
+    width: 100%;
+    opacity: 0;
+    position: absolute;
+    text-align: center;
+    transition: all 0.7s ease;
+    transform: translateX(100vw);
+}
+
+.tab h3{
+    width: 100%;
+    margin-left: 50%;
+    text-align: center;
+}
+
+.tab.active{
+    opacity: 1;
+    display: grid;
+    transform: translate(0);
+    grid-template-columns: repeat(2, 1fr);
+}
+
+
 .imgs{
     height: 30vh;
     width: 100%;
@@ -59,12 +190,7 @@
     text-align: right;
 }
 
-.action{
-    width: 40%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+
 
 button{
     padding: 0.5rem 4rem;

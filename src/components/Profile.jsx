@@ -10,20 +10,25 @@ import Loader from "./Loader";
 import { X } from "lucide-react";
 
 function Profile(){
-    const { user, userLoad, handleUser } = useContext(AuthContext);
+    // const { user, userLoad, handleUser } = useContext(AuthContext);
+    const [tab, setTab] = useState(1);
     const [openEdit, setOpenEdit] = useState(false);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const {
       register,
       handleSubmit,
       formState: { errors },
     } = useForm();
 
-    if(userLoad) return <Loader />;
-    if(!user) return <Navigate to={"/"} />;
+    // if(userLoad) return <Loader />;
+    // if(!user) return <Navigate to={"/"} />;
 
     function handleEdit(){
         setOpenEdit(prev => !prev);
+    }
+
+    function handleTab(num){
+      setTab(num);
     }
 
 
@@ -134,39 +139,40 @@ function Profile(){
                 })} />
                 {errors.profilePic && <p className={styles.error}>{errors.profilePic.message}</p>}
               </div>
-              <div className={styles.inputBox}>
-                <label htmlFor="bg">Background Image</label>
-                <input type="file" id="bg" accept="image/*" {...register("backgroundPic", {
-                  validate: (files) => {
-                    if(files.length === 0) return true;
-                    const file = files[0];
-                    const isSmall = file.size <= 2 * 1024 * 1024;
-                    if(!isSmall) return "File size must not exceed 2MB";
-
-                    return true;
-                  }
-                })}/>
-                {errors.backgroundPic && <p className={styles.error}>{errors.backgroundPic.message}</p>}
-              </div>
               <button type="submit">Update</button>
             </form>
           </div>
         )}
-        <div className="header">
+        <div className={styles.header}>
           <h1>Profile</h1>
         </div>
-        <div className={styles.imgs}>
-          <div className={styles.bg} style={{ backgroundImage: `url(${user.backgrd})`}}></div>
-          <div className={styles.front} style={{ backgroundImage: `url(${user.profile})`}}></div>
+        <div className={styles.deets}>
+          <div className={styles.top}>
+            <div className={styles.pic}></div>
+            <div className={styles.text}>
+              <h2>180 <br /> <span>Friends</span></h2>
+              <h2>180 <br /> <span>Posts</span></h2>
+            </div>
+          </div>
+          <div className={styles.bottom}>
+            <h2>Abdulrahim</h2>
+            <p>Passion, Dreams & Hope.</p>
+            <div className={styles.action}>
+              <button>Log Out</button>
+              <button>Edit Profile</button>
+            </div>
+          </div>
         </div>
-        <div className={styles.bio}>
-          <h2>{user.name}</h2>
-          <p>Username: {user.username}</p>
-          <p>Email: {user.email}</p>
-          <p>Bio: {user.bio}</p>
-          <div className={styles.action}>
-            <button onClick={onLogOut}>Log Out</button>
-            <button onClick={handleEdit}>Edit Profile</button>
+        <div className={styles.tabs}>
+          <div className={styles.nav}>
+            <button onClick={() => handleTab(1)} style={{borderBottom: tab === 1 ? "2px solid" : ''}}>Posts</button>
+            <button onClick={() => handleTab(2)} style={{borderBottom: tab === 2 ? "2px solid" : ''}}>Comments</button>
+          </div>
+          <div className={`${styles.tab} ${tab === 1 ? styles.active : ''}`}>
+            <h3>No Posts Yet</h3>
+          </div>
+          <div className={`${styles.tab} ${tab === 2 ? styles.active : ''}`}>
+            <h3>No Comments Yet</h3>
           </div>
         </div>
       </div>
