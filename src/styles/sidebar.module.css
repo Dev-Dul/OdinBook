@@ -4,15 +4,28 @@
     color: #040404;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-direction: column;
-    border-right: 1px solid #ff821d;
     box-sizing: border-box;
     transition: all 0.7s ease;
+    border-right: 2.5px solid;
+}
+
+.sidebar .icon{
+    border-bottom: 2px solid;
+}
+
+.sidebar > div{
+    width: 100%;
 }
 
 .collapsed{
     width: 5vw;
+    border: none;
+}
+
+.collapsed .icon{
+    border: none;
 }
 
 .icon{
@@ -23,6 +36,5 @@
     justify-content: space-around;
     padding: 1rem 0;
     cursor: pointer;
-    border: 1px solid #ff821d;
     transition: all 0.7s ease;
 }
