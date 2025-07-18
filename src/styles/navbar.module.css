@@ -12,7 +12,7 @@
     justify-content: space-evenly;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    border:  1px solid #ff821d;
+    border:  1px solid;
     border-radius: 20px;
 }
 
