@@ -1,5 +1,4 @@
 import Home from "./components/Home";
-import Group from "./components/Group";
 import Profile from "./components/Profile";
 import Friends from "./components/Friends";
 import Signup from "./components/Signup";
@@ -20,7 +19,6 @@ const routes = [
             { path: "friends", element: <Friends /> },
             { path: "profile", element: <Profile /> },
             { path: "chats/:friendId", element: <Chat /> },
-            { path: "nests/:name/:nestId", element: <Group /> },
         ]
     }
 ]

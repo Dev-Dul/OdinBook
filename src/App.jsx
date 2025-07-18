@@ -8,6 +8,7 @@ import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import SearchPage from './components/Search';
 import Profile from './components/Profile';
+import NewPost from './components/NewPost';
 
 function App() {
   // const location = useLocation();
@@ -35,7 +36,7 @@ function App() {
   // );
 
   return (
-    <Sidebar />
+    <NewPost />
   )
 }
 

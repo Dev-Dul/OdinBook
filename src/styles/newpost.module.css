@@ -1,0 +1,98 @@
+.container{
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    color: #040404;
+}
+
+.header{
+    height: 10vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 4rem;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.body{
+    height: auto;
+    width: 100%;
+    margin-top: 17vh;
+}
+
+.body form{
+    margin: 0 auto;
+    height: auto;
+    width: 85%;
+    border: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: row;
+}
+
+.inputs{
+    height: 100%;
+    width: 70%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.first{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.pic{
+    height: 50px;
+    width: 50px;
+    border: 1px solid;
+    border-radius: 50%;
+}
+
+.inputs textarea{
+    border: none;
+    width: 80%;
+    text-indent: 10px;
+    min-height: 100px;
+    padding: 0.5rem;
+    background: #f4f4f4;
+}
+
+.inputs label{
+    width: 93%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-top: 1rem;
+    transition: all 0.5s ease;
+}
+
+.inputs label input{
+    border: 0.3px solid;
+    padding: 0 0.5rem;
+}
+
+.inputs label input::file-selector-button{
+    margin: 10px;
+}
+
+
+.action{
+    height: 100%;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

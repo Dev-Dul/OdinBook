@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "../styles/sidebar.module.css";
-import { Home, Search, Plus, FeatherIcon, User, UserPlus, Menu, ArrowLeft } from "lucide-react";
+import { Home, Search, FeatherIcon, User, UserPlus, Menu, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 function Sidebar(){
