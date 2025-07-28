@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 function Sidebar(){
     const [collapse, setCollapse] = useState(true);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const items = [
         { icon: <Home />, label: "Home", path: '/home' },
-        { icon: <Search />, label: "Search", path: '/nests' },
-        { icon: <FeatherIcon />, label: "Post", path: '/nests' },
+        { icon: <Search />, label: "Search", path: '/search' },
+        { icon: <FeatherIcon />, label: "Post", path: '/new' },
         { icon: <UserPlus />, label: "Friends", path: '/friends' },
         { icon: <User />, label: "Profile", path: '/profile' },
     ]

@@ -1,32 +1,49 @@
 import styles from "../styles/home.module.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useGetAllPosts } from "../../utils/fetch";
 import { AuthContext } from "../../utils/context";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import Loader from "./Loader";
 import Post from "./Post";
+import socket from "../../utils/utils";
 
 function Home(){
-  const [tab, setTab] = useState(1);
-    // const { user, userLoad } = useContext(AuthContext);
+    const [tab, setTab] = useState(1);
+    const { user, userLoad } = useContext(AuthContext);
+    const { posts, setPosts, error, loading, getAllPosts } = useGetAllPosts();
 
-    // if(userLoad) return <Loader />;
-    // if(!user) return <Navigate to={"/"} replace />
+    useEffect(() => {
+      getAllPosts();
+      socket.on("new post", (post) => {
+        setPosts((prev) => [post, ...prev]);
+      });
+
+      socket.on("delete post", (postId) => {
+        setPosts((prev) => prev.filter(post => post.id !== postId));
+      });
+
+    }, []);
+
+    if(userLoad || loading) return <Loader />;
+    if(!user) return <Navigate to={"/"} replace />
+    if(error) return <Error error={error} />
     
     function formatDate(date){
       const formatted = format(new Date(date), "h:mm a");
       return formatted;
     }
 
-    function findMessage(id){
-      const lastMessage = user.sentMessages.filter(message => message.recipientId === id).sort((a, b) => new Date(a.created) - new Date(b.created))[0];
-      return lastMessage;
-    }
-
     function handleTab(num){
       setTab(num);
     }
+
+
+    const friendsPosts = posts.filter(post => {
+      return user.friendships.some(friend => friend.id === post.authorId);
+    });
+
 
     return (
       <div className={styles.container}>
@@ -35,23 +52,51 @@ function Home(){
         </div>
         <div className={styles.posts}>
           <div className={styles.nav}>
-            <button onClick={() => handleTab(1)} style={{borderBottom: tab == 1 ? "2px solid" : ''}}>For You</button>
-            <button onClick={() => handleTab(2)} style={{borderBottom: tab == 2 ? "2px solid" : ''}}>Your Circle</button>
+            <button
+              onClick={() => handleTab(1)}
+              style={{ borderBottom: tab == 1 ? "2px solid" : "" }}
+            >
+              For You
+            </button>
+            <button
+              onClick={() => handleTab(2)}
+              style={{ borderBottom: tab == 2 ? "2px solid" : "" }}
+            >
+              Your Circle
+            </button>
           </div>
           <div className={styles.tabs}>
-            <div className={`${styles.tab} ${tab === 1 ? styles.active : ''}`}>
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
+            <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
+              {posts.length === 0 ? (
+                <h2>No posts available</h2>
+              ) : (
+                posts.map((post) => (
+                  <Link to={`/posts/view/${post.id}`} className="link">
+                    <Post
+                      id={post.id}
+                      key={post.id}
+                      post={post}
+                      formatDate={formatDate}
+                    />
+                  </Link>
+                ))
+              )}
             </div>
-            <div className={`${styles.tab} ${tab === 2 ? styles.active : ''}`}>
-              <Post />
-              <Post />
-              <Post />
-              <Post />
-              <Post />
+            <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
+              {friendsPosts.length === 0 ? (
+                <h2>No posts from people in your circle available.</h2>
+              ) : (
+                friendsPosts.map((post) => (
+                  <Link to={`/posts/view/${post.id}`}>
+                    <Post
+                      id={post.id}
+                      key={post.id}
+                      post={post}
+                      formatDate={formatDate}
+                    />
+                  </Link>
+                ))
+              )}
             </div>
           </div>
         </div>

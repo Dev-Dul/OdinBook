@@ -1,7 +1,6 @@
 .sidebar{
     height: 100vh;
     width: 20vw;
-    color: #040404;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -11,9 +10,6 @@
     border-right: 2.5px solid;
 }
 
-.sidebar .icon{
-    border-bottom: 2px solid;
-}
 
 .sidebar > div{
     width: 100%;

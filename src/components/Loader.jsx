@@ -4,7 +4,7 @@ import butterfly from "../assets/Img/butterfly.gif";
 function Loader(){
     return (
         <div className={styles.loader}>
-            <img src={butterfly} alt="load animation" />
+            {/* <img src={butterfly} alt="load animation" /> */}
             <p>Loading...</p>
         </div>
     )

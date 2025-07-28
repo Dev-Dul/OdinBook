@@ -1,12 +1,11 @@
 .navbar{
     position: fixed;
-    /* top: 0px; */
     margin: 0 auto;
     left: 0;
     right: 0;
     bottom: 50px;
-    height: 3rem;
-    width: 80%;
+    height: 4rem;
+    width: 85%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -14,6 +13,16 @@
     backdrop-filter: blur(10px);
     border:  1px solid;
     border-radius: 20px;
+    transition: all 0.8s ease;
+    transform: translateY(100vh);
+}
+
+.navbar.scroll{
+    transform: translateY(100vh);
+}
+
+.navbar.show{ 
+    transform: translate(0);
 }
 
 .navbar.show .icon{
@@ -22,7 +31,8 @@
 
 .icon{
     height: auto;
-    color: black;
+    color: inherit;
+    cursor: pointer;
     transform: translateY(100vh);
     transition: all 0.5s ease;
     transition-delay: calc(var(--i) * 0.5s);

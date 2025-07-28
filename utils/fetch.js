@@ -1,7 +1,7 @@
-const apiUrl = import.meta.env.VITE_API_URL;
 import { useState } from "react";
+const apiUrl = import.meta.env.VITE_API_URL;
 
-export async function signUp(name, email, username, password){
+export async function signUp(username, email, password){
     try{
         const res = await fetch(`${apiUrl}/api/v1/signup`, {
             method: 'POST',
@@ -10,7 +10,6 @@ export async function signUp(name, email, username, password){
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: name,
                 email: email,
                 username: username,
                 password: password,
@@ -18,6 +17,13 @@ export async function signUp(name, email, username, password){
         });
 
         const json = await res.json();
+
+        if(!res.ok){
+          const error = new Error(json.message || "SignUp Failed!!");
+          error.status = res.status;
+          error.response = json;
+          throw error;
+        }
         return json;
     }catch(err){
         throw err;
@@ -40,6 +46,14 @@ export async function logIn(username, password){
         });
 
         const json = await res.json();
+
+        if(!res.ok){
+          const error = new Error(json.message || "Login Failed!!");
+          error.status = res.status;
+          error.response = json;
+          throw error;
+        }
+
         return json;
     }catch(err){
         throw err;
@@ -48,150 +62,44 @@ export async function logIn(username, password){
 
 export async function logOut(){
   try {
-    const res = await fetch(`${apiUrl}/api/v1/profiles/logout`, {
-      method: "POST",
+    const res = await fetch(`${apiUrl}/api/v1/logout`, {
+      method: "GET",
       credentials: "include",
     });
 
     const json = await res.json();
+
+    if(!res.ok){
+      const error = new Error(json.message || "LogOut Failed!!");
+      error.status = res.status;
+      error.response = json;
+      throw error;
+    }
+
     return json;
   } catch(err){
     throw err;
   }
 }
 
-export function useFetchGroups(){
-    const [groups, setGroups] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
 
-    async function fetchGroups(){
-      try {
-        const res = await fetch(`${apiUrl}/api/v1/groups/`, {
-          method: "GET",
-          credentials: 'include',
-        });
-        if (!res.ok) throw new Error(res.status);
-        const json = await res.json();
-        setGroups(json.groups);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    return { groups, error, loading, fetchGroups };
-
-}
-
-export function useFetchGroup(){
-    const [group, setGroup] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    async function fetchGroup(groupId){
-        try{
-          const res = await fetch(`${apiUrl}/api/v1/groups/${groupId}/`, {
-            method: "GET",
-            credentials: 'include',
-          });
-          if(!res.ok) throw new Error(res.status);
-          const json = await res.json();
-          setGroup(json.group);
-        }catch(err){
-          setError(err.message);
-        }finally{
-          setLoading(false);
-        }
-    }
-
-    return { group, error, loading, fetchGroup }
-}
-
-export async function joinGroup(groupId, userId){
+export async function sendNewPost(formData){
     try{
-      const res = await fetch(`${apiUrl}/api/v1/groups/join`, {
+      const res = await fetch(`${apiUrl}/api/v1/posts/new`, {
         method: "POST",
         credentials: 'include',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          groupId: groupId,
-          userId: userId,
-        }),
-      });
-
-      if(!res.ok) throw new Error(res.message);
-      const json = await res.json();
-      return json.message;
-
-    }catch(err){
-      throw err;
-    }
-}
-
-export async function leaveGroup(groupId, userId){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/groups/${groupId}/leave`, {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: userId,
-        }),
-      });
-
-      if(!res.ok) throw new Error(res.status);
-      const json = await res.json();
-      return json.message;
-
-    }catch(err){
-      throw err;
-    }
-}
-
-
-export async function sendPrivateMessage(text, senderId, recipientId){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/friends/${recipientId}/messages/new`, {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text: text,
-          senderId: senderId,
-        }),
+        body: formData,
       });
 
       const json = await res.json();
-      return json;
-    }catch(err){
-      throw err;
+
+      if(!res.ok){
+      const error = new Error(json.message || "Creating new post failed!!");
+      error.status = res.status;
+      error.response = json;
+      throw error;
     }
-}
 
-export async function sendGroupMessage(text, senderId, groupId){
-    try{
-      const res = await fetch(`${apiUrl}/api/v1/groups/${groupId}/messages/new`, {
-        method: "POST",
-        credentials: 'include',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          text: text,
-          senderId: senderId,
-          groupId: groupId,
-        }),
-      });
-
-      const json = await res.json();
       return json;
     }catch(err){
       throw err;
@@ -199,21 +107,22 @@ export async function sendGroupMessage(text, senderId, groupId){
 }
 
 
-export function useGetPrivateMessage(){
-  const [messages, setMessages] = useState([]);
+export function useGetPost(){
+  const [post, setPost] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  async function getPrivateMessage(recipientId){
+  async function getPost(postId){
     try{
-      const res = await fetch(`${apiUrl}/api/v1/friends/${recipientId}/messages`, {
+      const res = await fetch(`${apiUrl}/api/v1/posts/${postId}`, {
         method: "GET",
         credentials: "include",
       });
       
       if(!res.ok) throw new Error(res.message);
       const json = await res.json();
-      setMessages(json.messages);
+      console.log(json.post);
+      setPost(json.post);
     }catch(err){
       setError(err);
     }finally{
@@ -221,12 +130,13 @@ export function useGetPrivateMessage(){
     }
   }
 
-  return { messages, error, loading, getPrivateMessage };
+  return { post, error, loading, getPost };
 }
+
 
 export async function addFriend(userId, friendId){
     try{
-        const res = await fetch(`${apiUrl}/api/v1/friends/add`, {
+        const res = await fetch(`${apiUrl}/api/v1/profiles/friends/${userId}/new`, {
           method: "POST",
           credentials: 'include',
           headers: {
@@ -246,27 +156,33 @@ export async function addFriend(userId, friendId){
       }
 }
 
-export async function getUserFriends(userId){
+
+
+export function useGetAllPosts(){
+  const [posts, setPosts] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+
+  async function getAllPosts(){
     try{
-      const res = await fetch(`${apiUrl}/api/v1/friends/`, {
-        method: "POST",
+      const res = await fetch(`${apiUrl}/api/v1/posts/all`, {
+        method: "GET",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            userId: userId
-        }),
       });
-
       if(!res.ok) throw new Error(res.message);
-      const json = await res.json();
-      return json;
-    }catch(err){
-      throw err;
-    }
-}
 
+      const json = await res.json();
+      setPosts(json.posts);
+    }catch(err){
+      setError(err);
+    }finally{
+      setLoading(false);
+    }
+  }
+
+    return { posts, setPosts, error, loading, getAllPosts };
+}
 
 export function useGetAllUsers(){
   const [users, setUsers] = useState([]);
@@ -294,6 +210,193 @@ export function useGetAllUsers(){
     return { users, error, loading, getAllUsers };
 }
 
+
+export function useSearch(){
+  const [usersRes, setUsers] = useState([]);
+  const [postsRes, setPosts] = useState([]);
+  const [commentsRes, setComments] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+
+  async function SearchEngine(query){
+    try{
+        const res = await fetch(`${apiUrl}/api/v1/posts/search?${query}`, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if(!res.ok) throw new Error(res.message);
+
+      const { success, users, posts, comments } = await res.json();
+      setUsers(users);
+      setPosts(posts);
+      setComments(comments);
+    }catch(err){
+      setError(err);
+    }finally{
+      setLoading(false);
+    }
+  }
+
+    return { usersRes, postsRes, commentsRes, error, loading, SearchEngine };
+}
+
+
+export async function friendRequest(userId, friendId, friendStatus){
+    let res;
+    try {
+      switch (friendStatus){
+        case 'ACCEPT': 
+           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/accept`, {
+             method: "POST",
+             credentials: "include",
+             headers: {
+              "Content-Type": "application/json",
+            },
+             body: JSON.stringify({
+              friendId: friendId,
+            }),
+           });
+
+        break;
+        case 'REJECT': 
+           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/reject`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              friendId: friendId,
+            }),
+          });
+
+        break;
+        case 'REMOVE': 
+           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/${friendId}/remove`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+        break;
+        case 'ADD': 
+           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/new`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+               "Content-Type": "application/json",
+             },
+             body: JSON.stringify({
+               friendId: friendId,
+             }),
+          });
+
+        break;
+      }
+      if(!res.ok) throw new Error(res.message);
+
+      const json = await res.json();
+      return json;
+    }catch(err){
+      throw err;
+    }
+}
+
+export async function createNewComment(text, userId, postId){
+  try {
+    const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/comments/new`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text: text,
+        userId: userId,
+        postId: postId,
+      }),
+    });
+
+    const json = await res.json();
+    if(!res.ok) {
+      const error = new Error(json.message || "Creating comment failed...");
+      error.status = res.status;
+      error.response = json;
+      throw error;
+    }
+    return json;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
+export async function deleteComment(postId, commentId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/comments/${commentId}/delete`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    const json = await res.json();
+    if(!res.ok) {
+      const error = new Error(json.message || "Deleting comment failed...");
+      error.status = res.status;
+      error.response = json;
+      throw error;
+    }
+    return json;
+  }catch(err) {
+    throw err;
+  }
+}
+
+
+export async function deletePost(postId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/delete`, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    const json = await res.json();
+    if(!res.ok) {
+      const error = new Error(json.message || "SignUp Failed!!");
+      error.status = res.status;
+      error.response = json;
+      throw error;
+    }
+    return json;
+  }catch(err) {
+    throw err;
+  }
+}
+
+
+export async function likeHandler(userId, postId){
+  try{
+    const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/likes/new`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userId
+      })
+    });
+
+    const json = await res.json();
+    return json;
+  }catch(err) {
+    throw err;
+  }
+}
+
 export async function updateProfile(formData){
     try{
       const res = await fetch(`${apiUrl}/api/v1/profiles/update`, {
@@ -309,6 +412,8 @@ export async function updateProfile(formData){
       throw err;
     }   
 }
+
+
 
 export async function hydrateUser(){
     try{

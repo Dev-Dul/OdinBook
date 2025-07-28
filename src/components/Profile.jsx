@@ -1,5 +1,5 @@
 import styles from "../styles/profile.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
 import { updateProfile, logOut } from "../../utils/fetch";
@@ -8,23 +8,41 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import Loader from "./Loader";
 import { X } from "lucide-react";
+import { Palette } from "lucide-react";
+import { ThemeEngine } from "../../utils/utils";
 
 function Profile(){
-    // const { user, userLoad, handleUser } = useContext(AuthContext);
+    const { user, userLoad, handleUser } = useContext(AuthContext);
     const [tab, setTab] = useState(1);
+    const [openTheme, setOpenTheme] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    // const navigate = useNavigate();
+    const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+    const navigate = useNavigate();
     const {
       register,
       handleSubmit,
       formState: { errors },
     } = useForm();
 
-    // if(userLoad) return <Loader />;
-    // if(!user) return <Navigate to={"/"} />;
+    useEffect(() => {
+        ThemeEngine(theme);
+        localStorage.setItem("theme", theme);
+    }, [theme]);
+
+    if(userLoad) return <Loader />;
+    if(!user) return <Navigate to={"/"} />;
 
     function handleEdit(){
         setOpenEdit(prev => !prev);
+    }
+
+    function handleOpenTheme(){
+        setOpenTheme(prev => !prev);
+    }
+
+
+    function handleTheme(value){
+      setTheme(value);
     }
 
     function handleTab(num){
@@ -39,7 +57,6 @@ function Profile(){
       formData.append("email", data.email);
       if(data.bio) formData.append("bio", data.bio);
       if(data.profilePic[0]) formData.append("profilePic", data.profilePic[0]);
-      if(data.backgroundPic[0]) formData.append("backgroundPic", data.backgroundPic[0]);
         
       const updatePromise = updateProfile(formData);
         toast.promise(updatePromise, {
@@ -75,12 +92,17 @@ function Profile(){
       });
     }
 
-    return(
+    const friendsCount = user.friendships.length + user.friends.length;
+    const postsCount = user.posts.length;
+
+    return (
       <div className={styles.container}>
         {openEdit && (
           <div className={styles.overlay}>
             <form action="" onSubmit={handleSubmit(onUpdate)}>
-              <div className={styles.close} onClick={handleEdit}><X /></div>
+              <div className={styles.close} onClick={handleEdit}>
+                <X />
+              </div>
               <h2>Edit Profile</h2>
               <div className={styles.inputBox}>
                 <label htmlFor="username">Username</label>
@@ -96,7 +118,9 @@ function Profile(){
                     },
                   })}
                 />
-                {errors.username && <p className={styles.error}>{errors.username.message}</p>}
+                {errors.username && (
+                  <p className={styles.error}>{errors.username.message}</p>
+                )}
               </div>
               <div className={styles.inputBox}>
                 <label htmlFor="email">Email</label>
@@ -105,9 +129,12 @@ function Profile(){
                   id="email"
                   value={user.email}
                   {...register("email", {
-                    required: "Email is required", })}
+                    required: "Email is required",
+                  })}
                 />
-                {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+                {errors.email && (
+                  <p className={styles.error}>{errors.email.message}</p>
+                )}
               </div>
               <div className={styles.inputBox}>
                 <label htmlFor="bio">Bio</label>
@@ -115,7 +142,7 @@ function Profile(){
                   id="bio"
                   {...register("bio", {
                     validate: (value) => {
-                        value === "" ||
+                      value === "" ||
                         value.length >= 100 ||
                         "Bio must be at least 100 characters";
                     },
@@ -124,20 +151,29 @@ function Profile(){
                   {user.bio}
                 </textarea>
               </div>
-              {errors.bio && <p className={styles.error}>{errors.bio.message}</p>}
+              {errors.bio && (
+                <p className={styles.error}>{errors.bio.message}</p>
+              )}
               <div className={styles.inputBox}>
                 <label htmlFor="profile">Profile Image</label>
-                <input type="file" id="profile" accept="image/*" {...register("profilePic", {
-                  validate: (files) => {
-                    if(files.length === 0) return true;
-                    const file = files[0];
-                    const isSmall = file.size <= 2 * 1024 * 1024;
-                    if(!isSmall) return "File size must not exceed 2MB";
+                <input
+                  type="file"
+                  id="profile"
+                  accept="image/*"
+                  {...register("profilePic", {
+                    validate: (files) => {
+                      if (files.length === 0) return true;
+                      const file = files[0];
+                      const isSmall = file.size <= 2 * 1024 * 1024;
+                      if (!isSmall) return "File size must not exceed 2MB";
 
-                    return true;
-                  }
-                })} />
-                {errors.profilePic && <p className={styles.error}>{errors.profilePic.message}</p>}
+                      return true;
+                    },
+                  })}
+                />
+                {errors.profilePic && (
+                  <p className={styles.error}>{errors.profilePic.message}</p>
+                )}
               </div>
               <button type="submit">Update</button>
             </form>
@@ -148,30 +184,78 @@ function Profile(){
         </div>
         <div className={styles.deets}>
           <div className={styles.top}>
-            <div className={styles.pic}></div>
+            <div className={styles.theme}>
+              <Palette className={styles.palette} onClick={handleOpenTheme} />
+              <div
+                className={`${styles.circle} ${
+                  openTheme ? styles.showTheme : ""
+                }`}
+              >
+                <div
+                  className={styles.color}
+                  style={{ "--pos": "1", backgroundColor: "#f7f7f7f7" }}
+                  onClick={() => handleTheme("light")}
+                ></div>
+                <div
+                  className={styles.color}
+                  style={{ "--pos": "2", backgroundColor: "#0d0d0eff" }}
+                  onClick={() => handleTheme("dark")}
+                ></div>
+                <div
+                  className={styles.color}
+                  style={{ "--pos": "3", backgroundColor: "#2c0c3c" }}
+                  onClick={() => handleTheme("orchid")}
+                ></div>
+                <div
+                  className={styles.color}
+                  style={{ "--pos": "4", backgroundColor: "#f7d3d8ff" }}
+                  onClick={() => handleTheme("rose")}
+                ></div>
+                <div
+                  className={styles.color}
+                  style={{ "--pos": "5", backgroundColor: "#003d29" }}
+                  onClick={() => handleTheme("emerald")}
+                ></div>
+              </div>
+            </div>
+            <div className={styles.pic} style={{backgroundImage: user.AvatarUrl ? `url(${user.AvatarUrl})` : ''}}></div>
             <div className={styles.text}>
-              <h2>180 <br /> <span>Friends</span></h2>
-              <h2>180 <br /> <span>Posts</span></h2>
+              <h2>
+                {friendsCount} <br /> <span>Friends</span>
+              </h2>
+              <h2>
+                {postsCount} <br /> <span>Posts</span>
+              </h2>
             </div>
           </div>
           <div className={styles.bottom}>
-            <h2>Abdulrahim</h2>
-            <p>Passion, Dreams & Hope.</p>
+            <h2>{user.username}</h2>
+            <p>{user.bio}</p>
             <div className={styles.action}>
-              <button>Log Out</button>
-              <button>Edit Profile</button>
+              <button onClick={onLogOut} className="btn">Log Out</button>
+              <button onClick={handleEdit} className="btn">Edit Profile</button>
             </div>
           </div>
         </div>
         <div className={styles.tabs}>
           <div className={styles.nav}>
-            <button onClick={() => handleTab(1)} style={{borderBottom: tab === 1 ? "2px solid" : ''}}>Posts</button>
-            <button onClick={() => handleTab(2)} style={{borderBottom: tab === 2 ? "2px solid" : ''}}>Comments</button>
+            <button
+              onClick={() => handleTab(1)}
+              style={{ borderBottom: tab === 1 ? "2px solid" : "" }}
+            >
+              Posts
+            </button>
+            <button
+              onClick={() => handleTab(2)}
+              style={{ borderBottom: tab === 2 ? "2px solid" : "" }}
+            >
+              Comments
+            </button>
           </div>
-          <div className={`${styles.tab} ${tab === 1 ? styles.active : ''}`}>
+          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
             <h3>No Posts Yet</h3>
           </div>
-          <div className={`${styles.tab} ${tab === 2 ? styles.active : ''}`}>
+          <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
             <h3>No Comments Yet</h3>
           </div>
         </div>

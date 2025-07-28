@@ -7,11 +7,11 @@ import { useState, useEffect } from "react";
 
 
 function Signup(){
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }} = useForm();
 
     async function onSubmit(formData){
-        const signUpPromise = await signUp(formData.name, formData.email, formData.username, formData.password);
+        const signUpPromise = signUp(formData.username, formData.email, formData.password);
         toast.promise(signUpPromise, {
             loading: "Creating your account...",
             success: (response) => {
@@ -42,21 +42,6 @@ function Signup(){
           <div className={styles.inputBox}>
             <input
               type="text"
-              id="name"
-              placeholder="Name"
-              {...register("name", {
-                required: "Name is required",
-                minLength: {
-                  value: 5,
-                  message: "Name must be at least 5 characters long",
-                },
-              })}
-            />
-            {errors.name && <p>{errors.name.message}</p>}
-          </div>
-          <div className={styles.inputBox}>
-            <input
-              type="text"
               id="username"
               placeholder="Username"
               {...register("username", {
@@ -67,7 +52,7 @@ function Signup(){
                 },
               })}
             />
-            {errors.username && <p>{errors.username.message}</p>}
+            {errors.username && <p className={styles.error}>{errors.username.message}</p>}
           </div>
           <div className={styles.inputBox}>
             <input
@@ -78,7 +63,7 @@ function Signup(){
                 required: "Email is required",
               })}
             />
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && <p className={styles.error}>{errors.email.message}</p>}
           </div>
           <div className={styles.inputBox}>
             <input
@@ -93,10 +78,10 @@ function Signup(){
                 },
               })}
             />
-            {errors.password && <p>{errors.password.message}</p>}
+            {errors.password && <p className={styles.error}>{errors.password.message}</p>}
           </div>
-          <button>Sign Up</button>
-          <p>{/* Already have an account? <Link to="/">Log In</Link> */}</p>
+          <button type="button" className="btn">Sign Up</button>
+          <p className={styles.already}>Already have an account? <Link to="/" className="link">Log In</Link></p>
         </form>
       </div>
     );

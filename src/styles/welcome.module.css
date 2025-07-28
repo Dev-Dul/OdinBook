@@ -20,7 +20,6 @@
     background-size: cover;
     backdrop-filter: blur(10px);
     position: relative;
-    color: black;
     /* font-family: "buddy";  */
 }
 
@@ -60,14 +59,13 @@ form{
     justify-content: center;
     flex-direction: column;
     border-radius: 20px;
-    border: 1px solid black;
+    border: 1px solid;
     border-radius: 0px;
 }
 
 .container form{
     padding: 0 1.5rem;
     font-family: inherit;
-    font-family: "buddy"; 
     background: transparent;
     backdrop-filter: blur(30px);
 }
@@ -85,12 +83,23 @@ form h2{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.inputBox.two{
+    margin-bottom: 0;
+}
+
+.error{
+    position: absolute;
+    bottom: -25px;
+    font-size: 0.65rem;
+    left: 15%;
 }
 
 .container.signup .inputBox{
     height: 2.5rem;
-    margin-bottom: 0;
 }
 
 .container.signup .inputBox input{
@@ -103,6 +112,10 @@ form h2{
 
 .container.signup .google{
     padding: 0.3rem 3rem;
+}
+
+.already{
+    margin-top: 0;
 }
 
 .inputBox label{
@@ -133,7 +146,7 @@ form h2{
     top: -10px;
     left: 50%;
     padding: 5px;
-    background: white;
+    background: var(--bg-color);
     transform: translate(-50%, -50%);
 }
 
@@ -152,6 +165,11 @@ form h2{
     border: 1px solid;
     border-radius: 0px;
     padding: 0.5rem 3.5rem;
+    margin: 0;
+}
+
+.redirect{
+    margin-top: 0;
 }
 
 form button{

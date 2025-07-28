@@ -4,7 +4,9 @@ import Friends from "./components/Friends";
 import Signup from "./components/Signup";
 import Welcome from "./components/welcome";
 import Error from "./components/Error";
-import Chat from "./components/Chat";
+import SearchPage from "./components/Search";
+import NewPost from "./components/NewPost";
+import PostView from "./components/PostView";
 import App from "./App";
 
 const routes = [
@@ -15,10 +17,12 @@ const routes = [
         children: [
             { index: true, element: <Welcome /> },
             { path: "home", element: <Home /> },
+            { path: "new", element: <NewPost /> },
             { path: "signup", element: <Signup /> },
             { path: "friends", element: <Friends /> },
             { path: "profile", element: <Profile /> },
-            { path: "chats/:friendId", element: <Chat /> },
+            { path: "search", element: <SearchPage /> },
+            { path: "posts/view/:postId", element: <PostView /> },
         ]
     }
 ]

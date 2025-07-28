@@ -6,8 +6,9 @@
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
-    color: black;
     padding: 0.5rem 0;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
 }
 
 .header{
@@ -17,7 +18,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 15px;
-    margin-left: 1.5rem;
+    margin-left: 1rem;
 }
 
 .header > *{
@@ -29,6 +30,15 @@
     height: 35px;
     border-radius: 50%;
     border: 1px solid;
+}
+
+.postPic{
+    object-fit: cover;
+    border: 1px solid;
+    border-radius: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .body{
@@ -46,9 +56,21 @@
 }
 
 .action{
-    width: 10%;
+    width: 25%;
     height: auto;
     display: flex;
     align-items: center;
+    margin-left: 0.5rem;
     justify-content: space-around;
+}
+
+.count{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.action > *{
+    cursor: pointer;
 }

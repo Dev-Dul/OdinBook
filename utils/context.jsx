@@ -2,6 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import { hydrateUser } from "./fetch";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { ThemeEngine } from "./utils";
+import socket from "./utils";
 
 export const AuthContext = createContext({});
 
@@ -20,7 +22,7 @@ export function AuthProvider({ children }){
         handleUser(hydrate);
       }catch(err){
         toast.error(err.message);
-        if(err.message === "Unauthorized"){
+        if(err.message === "Expired"){
           setUser(null);
           localStorage.removeItem("logged");
           toast.info("Your session has expired, you need to login again.");
@@ -32,9 +34,38 @@ export function AuthProvider({ children }){
     }
 
     useEffect(() => {
+        socket.connect();
         const hasLogged = localStorage.getItem("logged") === 'true';
+        const theme = localStorage.getItem("theme");
         if(!user && hasLogged){
            hydrate();
+        }
+
+        if(theme){
+          ThemeEngine(theme);
+        }else{
+          ThemeEngine("light");
+        }
+
+        socket.on('connect', () => {
+          console.log("Connected to Socket.IO");
+        });
+
+        socket.on('disconnect', (reason) => {
+          console.log("Disconnected", reason);
+        });
+
+        socket.on('connect_error', (err) => {
+          console.log("Connection error:", err.message);
+        });
+
+        if(!hasLogged) localStorage.setItem("theme", "light");
+
+        return () => {
+          socket.off('connect');
+          socket.off('disconnect');
+          socket.off('connect_error');
+          socket.disconnect();
         }
     }, []);
 

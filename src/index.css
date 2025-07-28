@@ -9,28 +9,36 @@
   line-height: 1.5;
   font-weight: bolder;
 
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #f7f7f7;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
-a {
+a{
   font-weight: 500;
-  color: #040404;
+  color: inherit;
   text-decoration: inherit;
 }
-a:hover {
+
+a:hover{
   color: #535bf2;
 }
 
-body {
+.link:hover{
+  color: var(--text-color);
+}
+
+body{
+  --bg-color: #f7f7f7;
+  --text-color: #040404;
+  --button-color: #040404;
   margin: 0;
   padding: 0;
   min-height: 100vh;
   width: 100%;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.8s ease;
 }
 
 h1 {
@@ -45,11 +53,16 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
+  color: inherit;
+  background: inherit;
   white-space: nowrap;
-  color: white;
   transition: border-color 0.25s;
+}
+
+button.btn{
+  color: var(--bg-color);
+  background: var(--text-color);
 }
 
 button:hover {
@@ -68,4 +81,8 @@ input{
 
 input, textarea{
   font-family: "baskerville";
+}
+
+.link{
+  border-bottom: 2px solid;
 }

@@ -2,20 +2,23 @@
     min-height: 100vh;
     width: 100%;
     overflow-x: hidden;
-    color: #040404;
 }
 
 .header{
     height: 15vh;
-    width: 100%;
+    width: 70%;
     position: fixed;
+    margin: 0 auto;
     top: 0;
     left: 0;
+    right: 0;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 0 4rem;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+    background: transparent;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 5px 10px var(--shadow-color);
 }
 
 
@@ -33,13 +36,71 @@
 
 .top{
     height: auto;
-    width: 70%;
+    width: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     box-sizing: border-box;
-    padding: 0 4rem;
     margin-bottom: 0;
+    position: relative;
+}
+
+.theme{
+    position: absolute;
+    top: -25px;
+    right: 25px;
+    height: 15px;
+    width: 15px;
+    border: 1px solid;
+    border-radius: 50%;
+}
+
+.theme > *{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    /* border: 1px solid rgb(128, 72, 72); */
+}
+
+.palette{
+    left: 0;
+    z-index: 10;
+    cursor: pointer;
+    border-color: green;
+}
+
+.circle{
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    left: 8px;
+    top: 10px;
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.color{
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    top: 5px;
+    right: 0;
+    left: 25px;
+    opacity: 0;
+    pointer-events: none;
+    border: 2px solid;
+    border-radius: 50%;
+    cursor: pointer;
+    box-sizing: border-box;
+    transform-origin: 0% 100%;
+    transition: all 0.2s ease;
+    transition-delay: calc(var(--pos) * 0.2s);
+    transform: rotate(calc(var(--pos) * 60deg)) translateY(30px);
+}
+
+.circle.showTheme .color{
+    opacity: 1;
+    pointer-events: all;
 }
 
 .pic{
@@ -47,6 +108,9 @@
     width: 100px;
     border: 1px solid;
     border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 .top .text{
@@ -62,12 +126,11 @@
 
 .bottom{
     height: auto;
-    width: 70%;
+    width: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
     flex-direction: column;
-    padding: 0 4rem;
     box-sizing: border-box;
 }
 
@@ -95,8 +158,6 @@
 .nav button{
     width: 50%;
     outline: none;
-    color: black;
-    background: #f4f4f4;
     border-radius: 0px;
     transition: all 0.5s ease;
 }
@@ -136,36 +197,6 @@
 }
 
 
-.imgs{
-    height: 30vh;
-    width: 100%;
-    position: relative;
-    box-sizing: border-box;
-    padding: 0 2rem;
-    margin-top: 2rem;
-}
-
-.bg{
-    height: 100%;
-    width: 100%;
-    border-radius: 20px;
-}
-
-.bg, .front{
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border: 2px solid #ff821d;
-}
-
-.front{
-    height: 200px;
-    width: 200px;
-    left: 100px;
-    bottom: -100px;
-    position: absolute;
-    border-radius: 50%;
-}
 
 .bio{
     height: auto;
@@ -201,6 +232,7 @@ button{
     min-height: 100vh;
     width: 100%;
     position: fixed;
+    left: 0;
     z-index: 100;
     background: transparent;
     backdrop-filter: blur(10px);
@@ -271,13 +303,16 @@ input[type="file"]{
     cursor: pointer;
 }
 
-@media screen and (max-width: 768px) {
-    .front{
-        left: 50px;
+@media screen and (min-width: 768px){
+    .theme{
+        height: 20px;
+        width: 20px;
     }
+}
 
-    .bio{
-        margin-top: 2rem;
+@media screen and (max-width: 768px) {
+    .deets{
+        height: 25vh;
     }
 
     .action{
@@ -286,22 +321,6 @@ input[type="file"]{
     }
 
     .action button{
-        padding: 0.5rem 1rem;
-    }
-}
-
-@media screen and (max-width: 468px) {
-    .imgs{
-        height: 20vh;
-    }
-
-    .front{
-        height: 150px;
-        width: 150px;
-        bottom: -80px;
-    }
-
-    .action{
-        width: 80%;
+        padding: 0.5rem 1.3rem;
     }
 }
