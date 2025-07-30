@@ -80,7 +80,7 @@ function Signup(){
             />
             {errors.password && <p className={styles.error}>{errors.password.message}</p>}
           </div>
-          <button type="button" className="btn">Sign Up</button>
+          <button type="submit" className="btn">Sign Up</button>
           <p className={styles.already}>Already have an account? <Link to="/" className="link">Log In</Link></p>
         </form>
       </div>

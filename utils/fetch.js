@@ -121,7 +121,6 @@ export function useGetPost(){
       
       if(!res.ok) throw new Error(res.message);
       const json = await res.json();
-      console.log(json.post);
       setPost(json.post);
     }catch(err){
       setError(err);
@@ -131,6 +130,32 @@ export function useGetPost(){
   }
 
   return { post, error, loading, getPost };
+}
+
+
+export function useGetUser(){
+  const [other, setUser] = useState({});
+  const [userError, setUserError] = useState(null);
+  const [userLoading, setLoading] = useState(true);
+
+  async function getUser(userId){
+    try{
+      const res = await fetch(`${apiUrl}/api/v1/profiles/${userId}`, {
+        method: "GET",
+        credentials: "include",
+      });
+      
+      if(!res.ok) throw new Error(res.message);
+      const json = await res.json();
+      setUser(json.user);
+    }catch(err){
+      setUserError(err.messsage);
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  return { other, userError, userLoading, getUser };
 }
 
 
@@ -221,19 +246,25 @@ export function useSearch(){
 
   async function SearchEngine(query){
     try{
-        const res = await fetch(`${apiUrl}/api/v1/posts/search?${query}`, {
+        const res = await fetch(`${apiUrl}/api/v1/posts/search?query=${query}`, {
         method: "GET",
         credentials: "include",
       });
 
-      if(!res.ok) throw new Error(res.message);
+      const json = await res.json();
+      console.log("json:", json);
+      if(!res.ok){
+          const error = new Error(json.message || "Data fetch failed!!");
+          error.status = res.status;
+          throw error;
+        }
 
-      const { success, users, posts, comments } = await res.json();
-      setUsers(users);
-      setPosts(posts);
-      setComments(comments);
+      setUsers(json.users);
+      setPosts(json.posts);
+      setComments(json.comments);
+      return json;
     }catch(err){
-      setError(err);
+      setError(err.message);
     }finally{
       setLoading(false);
     }
@@ -262,7 +293,7 @@ export async function friendRequest(userId, friendId, friendStatus){
         break;
         case 'REJECT': 
            res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/reject`, {
-            method: "GET",
+            method: "POST",
             credentials: "include",
             headers: {
               "Content-Type": "application/json",
@@ -277,15 +308,12 @@ export async function friendRequest(userId, friendId, friendStatus){
            res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/${friendId}/remove`, {
             method: "GET",
             credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
           });
 
         break;
         case 'ADD': 
            res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/new`, {
-            method: "GET",
+            method: "POST",
             credentials: "include",
             headers: {
                "Content-Type": "application/json",
@@ -378,6 +406,7 @@ export async function deletePost(postId){
 
 
 export async function likeHandler(userId, postId){
+  console.log("postId likeHandler:", postId)
   try{
     const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/likes/new`, {
       method: "POST",
@@ -399,7 +428,7 @@ export async function likeHandler(userId, postId){
 
 export async function updateProfile(formData){
     try{
-      const res = await fetch(`${apiUrl}/api/v1/profiles/update`, {
+      const res = await fetch(`${apiUrl}/api/v1/profiles/${formData.userId}/update`, {
         method: "POST",
         credentials: "include",
         body: formData,
@@ -422,10 +451,10 @@ export async function hydrateUser(){
           credentials: "include",
         });
 
-        if(res.status === 401) throw new Error("Unauthorized");
-        if(!res.ok) throw new Error(res.message);
-
         const json = await res.json();
+        if(res.status === 401) throw new Error("Unauthorized");
+        if(!res.ok) throw new Error(json.message);
+
         return json.user;
     }catch(err){
         throw err;

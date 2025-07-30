@@ -107,7 +107,7 @@
     margin: 0 auto;
     right: 0;
     left: 0;
-    bottom: 20px;
+    bottom: 35px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -139,5 +139,12 @@
 
 .trash{
     cursor: pointer;
+}
+
+.error{
+    position: absolute;
+    bottom: -45px;
+    font-size: 0.85rem;
+    left: 5%;
 }
 

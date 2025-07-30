@@ -23,6 +23,7 @@ function PostView(){
     const [del, setDel] = useState(false);
     const { user, userLoad } = useContext(AuthContext);
     const { post, error, loading, getPost } = useGetPost();
+    let isAuth;
     const {
       register,
       handleSubmit,
@@ -31,31 +32,29 @@ function PostView(){
 
     useEffect(() => {
       getPost(postId);
-      socket.on("new comment", (obj) => {
+
+      function handleNewComment(obj){
         console.log("new comment received:", obj.comment);
         console.log("All comments:", comments);
         setComments((prev) => [obj.comment, ...prev]);
-      });
+      }
 
-      // socket.on("delete comment", (commentId) => {
-      //   console.log("new commentId received:", commentId)
-      //   console.log("All comments:", comments);
-      //   setComments((prev) => prev.filter(comment => comment.id !== commentId));
-      // });
-
-      socket.on("delete comment", (obj) => {
+      function handleDeleteComment(obj){
         setComments((prev) => {
           const updated = prev.filter(comment => comment.id !== obj.commentId);
           console.log("Comment deleted:", obj.commentId);
           console.log("Updated comments:", updated);
           return updated;
         });
-      });
+      }
+
+      socket.on("new comment", handleNewComment);  
+      socket.on("delete comment", handleDeleteComment);
 
 
       return () => {
-        socket.off("new comment");
-        socket.off("delete comment");
+        socket.off("new comment", handleNewComment);
+        socket.off("delete comment", handleDeleteComment);
       };
 
     }, []);
@@ -66,7 +65,7 @@ function PostView(){
     useEffect(() => {
       if(post && post.comments) {
         setComments(post.comments);
-        console.log("New post received:", post);
+        isAuth = post.author.id === user.id;
       }
     }, [post]); // this runs AFTER post is updated
 
@@ -124,18 +123,22 @@ function PostView(){
             <ArrowLeft />
           </button>
           <h2>Post</h2>
-          <div className={styles.options}>
-            <button onClick={handleDel}>
-              <MoreHorizontal />
-            </button>
-            <div className={`${styles.del} ${del ? styles.show : ''}`}>
-              <button onClick={onDelete}><Trash2 /></button>
+          {isAuth && (
+            <div className={styles.options}>
+              <button onClick={handleDel}>
+                <MoreHorizontal />
+              </button>
+              <div className={`${styles.del} ${del ? styles.show : ""}`}>
+                <button onClick={onDelete}>
+                  <Trash2 />
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <Post post={post} formatDate={formatDate} />
         <h2 className={styles.cmnts}>Comments</h2>
-        <div className={`${comments.length !== 0 ? styles.grids : styles.one }`}>
+        <div className={`${comments.length !== 0 ? styles.grids : styles.one}`}>
           {comments.length === 0 ? (
             <h2>No comments yet.</h2>
           ) : (

@@ -16,13 +16,22 @@ function Home(){
 
     useEffect(() => {
       getAllPosts();
-      socket.on("new post", (post) => {
+      
+      function handleNewPost(post){
         setPosts((prev) => [post, ...prev]);
-      });
+      }
 
-      socket.on("delete post", (postId) => {
+      function handleDeletePost(postId){
         setPosts((prev) => prev.filter(post => post.id !== postId));
-      });
+      }
+
+      socket.on("new post", handleNewPost);
+      socket.on("delete post", handleDeletePost);
+
+      return () => {
+        socket.off("new post", handleNewPost);
+        socket.off("delete post", handleDeletePost);
+      }
 
     }, []);
 

@@ -64,6 +64,7 @@ export function ThemeEngine(theme){
 }
 
 const socket = io(apiUrl, {
+    transports: ["websocket"],
     withCredentials: true,
     autoConnect: false,
     reconnectionAttempts: 5,

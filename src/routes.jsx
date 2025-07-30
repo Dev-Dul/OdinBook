@@ -7,6 +7,7 @@ import Error from "./components/Error";
 import SearchPage from "./components/Search";
 import NewPost from "./components/NewPost";
 import PostView from "./components/PostView";
+import UserView from "./components/User";
 import App from "./App";
 
 const routes = [
@@ -23,6 +24,7 @@ const routes = [
             { path: "profile", element: <Profile /> },
             { path: "search", element: <SearchPage /> },
             { path: "posts/view/:postId", element: <PostView /> },
+            { path: "users/view/:userId", element: <UserView /> },
         ]
     }
 ]

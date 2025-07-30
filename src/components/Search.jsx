@@ -1,20 +1,24 @@
 import styles from "../styles/search.module.css"
 import { Search } from "lucide-react";
-import Loader from "./Loader";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../utils/context";
 import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSearch } from "../../utils/fetch";
+import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import { format } from "date-fns";
+import Loader from "./Loader";
 import Friend from "./Friend";
 import Post from "./Post";
-import Comment from "./Comment"
+import Comment from "./Comment";
+import Error from "./Error";
 
 function SearchPage(){
     const [search, setSearch] = useState(false);
     const [tab, setTab] = useState(1);
     const { user, userLoad } = useContext(AuthContext);
-    const { users, posts, comments, SearchEngine } = useSearch();
+    const { usersRes, postsRes, commentsRes, error, loading, SearchEngine } = useSearch();
     const {
         register,
         handleSubmit,
@@ -23,6 +27,7 @@ function SearchPage(){
     
     if(userLoad) return <Loader />;
     if(!user) return <Navigate to={"/"} />;
+    if(error) return <Error error={error} />
 
     async function onSubmit(data){
       const searchPromise = SearchEngine(data.search);
@@ -30,8 +35,9 @@ function SearchPage(){
             loading: "Fetching data...",
             success: (response) => {
                 if(response){
+                    console.log("response:", response);
                     setSearch(true);
-                    return response.message;
+                    return "Data fetch complete!.";
                 }
             },
             error: (error) => {
@@ -44,12 +50,17 @@ function SearchPage(){
       setTab(num);
     }
 
+    function formatDate(date){
+        const formatted = format(new Date(date), "h:mm a");
+        return formatted;
+    }
+
     return (
       <div className={styles.container}>
         <div className={styles.header}>
           <h2>Search</h2>
         </div>
-        <form action="">
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
           <div className={styles.inputBox}>
             <input
               type="search"
@@ -61,6 +72,9 @@ function SearchPage(){
             <button type="submit" className="btn">
               <Search />
             </button>
+            {errors.search && (
+              <p className={styles.error}>{errors.search.message}</p>
+            )}
           </div>
         </form>
         {search && (
@@ -68,41 +82,57 @@ function SearchPage(){
             <div className={styles.nav}>
               <button
                 onClick={() => handleTab(1)}
-                style={{ borderBottom: tab === 1 ? "2px solid" : "" }}
-              >
+                style={{ borderBottom: tab === 1 ? "2px solid" : "" }}>
                 Users
               </button>
               <button
                 onClick={() => handleTab(2)}
-                style={{ borderBottom: tab === 2 ? "2px solid" : "" }}
-              >
+                style={{ borderBottom: tab === 2 ? "2px solid" : "" }}>
                 Posts
+              </button>
+              <button
+                onClick={() => handleTab(3)}
+                style={{ borderBottom: tab === 3 ? "2px solid" : "" }}>
+                Comments
               </button>
             </div>
             <div className={styles.tabs}>
-              <div
-                className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}
-              >
-                {users.length === 0 ? (
-                  <h2>No Users Found For this term.</h2>
+              <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
+                {usersRes.length === 0 ? (
+                  <h2>No Users Found For this search term.</h2>
                 ) : (
-                  users.map((user) => (
+                  usersRes.map((user) => (
                     <Friend id={user.id} key={user.id} friend={user} />
                   ))
                 )}
               </div>
-              <div
-                className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}
-              >
-                {posts.length === 0 ? (
-                  <h2>No Posts Found For this term.</h2>
+              <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
+                {postsRes.length === 0 ? (
+                  <h2>No Posts Found For this search term.</h2>
                 ) : (
-                  posts.map((post) => (
-                    <Link to={`/posts/view/${post.id}`}>
-                      <Post id={post.id} key={post.id} post={post} />
+                  postsRes.map((post) => (
+                    <Link to={`/posts/view/${post.id}`} className="link">
+                      <Post id={post.id} key={post.id} post={post} formatDate={formatDate} />
                     </Link>
                   ))
                 )}
+              </div>
+              <div className={`${styles.tab} ${tab === 3 ? styles.active : ""}`}>
+                {commentsRes.length === 0 ? (
+                    <h3>No comments found for this search term.</h3>
+                  ) : (
+                    commentsRes.map((comment) => (
+                      <Comment
+                        id={comment.id}
+                        key={comment.id}
+                        author={comment.author}
+                        authorId={comment.author.id}
+                        text={comment.text}
+                        postId={comment.postId}
+                        date={formatDate(comment.created)}
+                      />
+                    ))
+                  )}
               </div>
             </div>
           </div>

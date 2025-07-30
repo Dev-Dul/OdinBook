@@ -2,6 +2,7 @@
     min-height: 100vh;
     width: 100%;
     overflow-x: hidden;
+    scrollbar-width: none;
 }
 
 .header{
@@ -171,6 +172,7 @@
     height: auto;
     width: 100%;
     position: relative;
+    scrollbar-width: none;
 }
 
 .tab{
@@ -179,13 +181,13 @@
     opacity: 0;
     position: absolute;
     text-align: center;
+    padding-bottom: 2rem;
     transition: all 0.7s ease;
     transform: translateX(100vw);
 }
 
 .tab h3{
     width: 100%;
-    margin-left: 50%;
     text-align: center;
 }
 
@@ -193,7 +195,7 @@
     opacity: 1;
     display: grid;
     transform: translate(0);
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
 }
 
 
@@ -262,6 +264,7 @@ form{
     justify-content: space-between;
     flex-direction: column;
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .inputBox input{
@@ -301,6 +304,13 @@ input[type="file"]{
     border: 2px solid;
     border-radius: 50%;
     cursor: pointer;
+}
+
+.error{
+    position: absolute;
+    bottom: -25px;
+    font-size: 0.65rem;
+    left: 15%;
 }
 
 @media screen and (min-width: 768px){

@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
 import { updateProfile, logOut } from "../../utils/fetch";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { format } from "date-fns";
 import { toast } from "sonner";
 import Loader from "./Loader";
+import Post from "./Post";
+import Comment from "./Comment";
 import { X } from "lucide-react";
 import { Palette } from "lucide-react";
 import { ThemeEngine } from "../../utils/utils";
@@ -49,6 +52,10 @@ function Profile(){
       setTab(num);
     }
 
+    function formatDate(date) {
+      const formatted = format(new Date(date), "h:mm a");
+      return formatted;
+    }
 
     async function onUpdate(data){
       const formData = new FormData();
@@ -218,7 +225,12 @@ function Profile(){
                 ></div>
               </div>
             </div>
-            <div className={styles.pic} style={{backgroundImage: user.AvatarUrl ? `url(${user.AvatarUrl})` : ''}}></div>
+            <div
+              className={styles.pic}
+              style={{
+                backgroundImage: user.AvatarUrl ? `url(${user.AvatarUrl})` : "",
+              }}
+            ></div>
             <div className={styles.text}>
               <h2>
                 {friendsCount} <br /> <span>Friends</span>
@@ -232,8 +244,12 @@ function Profile(){
             <h2>{user.username}</h2>
             <p>{user.bio}</p>
             <div className={styles.action}>
-              <button onClick={onLogOut} className="btn">Log Out</button>
-              <button onClick={handleEdit} className="btn">Edit Profile</button>
+              <button onClick={onLogOut} className="btn">
+                Log Out
+              </button>
+              <button onClick={handleEdit} className="btn">
+                Edit Profile
+              </button>
             </div>
           </div>
         </div>
@@ -253,10 +269,37 @@ function Profile(){
             </button>
           </div>
           <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
-            <h3>No Posts Yet</h3>
+            {user.posts.length === 0 ? (
+              <h3>No posts available</h3>
+            ) : (
+              user.posts.map((post) => (
+                <Link to={`/posts/view/${post.id}`} className="link">
+                  <Post
+                    id={post.id}
+                    key={post.id}
+                    post={post}
+                    formatDate={formatDate}
+                  />
+                </Link>
+              ))
+            )}
           </div>
           <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
-            <h3>No Comments Yet</h3>
+            {user.comments.length === 0 ? (
+              <h3>No comments yet.</h3>
+            ) : (
+              user.comments.map((comment) => (
+                <Comment
+                  id={comment.id}
+                  key={comment.id}
+                  author={comment.author}
+                  authorId={comment.author.id}
+                  text={comment.text}
+                  postId={comment.postId}
+                  date={formatDate(comment.created)}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

@@ -1,8 +1,9 @@
 import styles from "../styles/friends.module.css";
 import { friendRequest } from "../../utils/fetch";
-import { toast } from "sonner";
-import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { toast } from "sonner";
 
 function Button({ status, friendId }){
   const { user } = useContext(AuthContext);
@@ -23,17 +24,17 @@ function Button({ status, friendId }){
   }
 
   if(status === "ACCEPTED"){
-    return <button type="button" onClick={() => handleRequests("REMOVE", friendId)}>Unfriend</button>
+    return <button type="button" className="btn" onClick={() => handleRequests("REMOVE", friendId)}>Unfriend</button>
   }else if(status === "PENDING"){
     return (
       <div>
-        <button type="button"onClick={() => handleRequests("ACCEPT", friendId)}>Accept</button>
-        <button type="button"onClick={() => handleRequests("REJECT", friendId)}>Rejected</button>
+        <button type="button" className="btn" onClick={() => handleRequests("ACCEPT", friendId)}>Accept</button>
+        <button type="button" className="btn" onClick={() => handleRequests("REJECT", friendId)}>Rejected</button>
       </div>
     );
   }else{
     return (
-      <button type="button" onClick={() => handleRequests("ADD", friendId)}>
+      <button type="button" className="btn" onClick={() => handleRequests("ADD", friendId)}>
         Add Friend
       </button>
     );
@@ -42,13 +43,15 @@ function Button({ status, friendId }){
 
 function Friend({ friend, status = '' }){
     const { user } = useContext(AuthContext);
+    const authorPic = friend.avatarUrl;
+    const navigate = useNavigate();
     
     async function handleRequests(status, friendId) {
       const friendPromise = friendRequest(user.id, friendId, status);
       toast.promise(friendPromise, {
         loading: "Just a moment...",
         success: (response) => {
-          if (response) {
+          if(response) {
             return response.message;
           }
         },
@@ -58,19 +61,34 @@ function Friend({ friend, status = '' }){
       });
     }
 
+    function handleClick(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      navigate(`/users/view/${friend.id}`);
+    }
 
     return (
       <div className={styles.friend}>
         <div className={styles.head}>
-          <div className={styles.pic}></div>
+          <div  
+            className={styles.pic}
+            onClick={handleClick}
+            style={{ backgroundImage: authorPic ? `url(${authorPic})` : "" }}>
+          </div>
           <p className={styles.name}>{friend.username}</p>
         </div>
         <div className={styles.action}>
           <p className={styles.bio}>{friend.bio}</p>
-          {status === '' ? (
-            <button type="button" onClick={() => handleRequests("ADD", friend.id)}>Add Friend</button>
-          ): (
-            <Button status={status} friendId={friend.id}/>
+          {status === "" ? (
+            <button
+              type="button"
+              className="btn"
+              onClick={() => handleRequests("ADD", friend.id)}
+            >
+              Add Friend
+            </button>
+          ) : (
+            <Button status={status} friendId={friend.id} />
           )}
         </div>
       </div>
