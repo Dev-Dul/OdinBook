@@ -14,25 +14,6 @@ function App() {
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
   const hideSidebar = location.pathname === '/' || location.pathname === '/signup';
 
-  useEffect(() => {
-    const stored = localStorage.getItem("likedPosts");
-    console.log("stored:", stored);
-    if(stored) setLikedPosts(JSON.parse(stored));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("likedPosts", JSON.stringify(likedPosts));
-    console.log("liked posts", likedPosts);
-  }, [likedPosts]);
-
-  function toggleLike(postId){
-    console.log("post toggled:", postId);
-    console.log("post toggled 2:", likedPosts[postId]);
-    setLikedPosts((prev) => ({
-      ...prev,
-      [postId] : !prev[postId],
-    }));
-  }
 
   return (
     <AuthProvider>
@@ -48,7 +29,7 @@ function App() {
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.8 }}
             className='wrapper'>
-              <Outlet context={{ likedPosts, toggleLike }}/>
+              <Outlet />
             </motion.div>
           </div>
         </div>

@@ -24,7 +24,6 @@ function Welcome(){
             loading: "Just a moment...",
             success: (response) => {
                 if(response){
-                  console.log(response);
                     handleUser(response.user);
                     localStorage.setItem("logged", 'true');
                     navigate("/home");
@@ -87,6 +86,9 @@ function Welcome(){
           </div>
           <p className={styles.redirect}>Don't have an account? <Link to={"/signup"} className="link">Sign Up</Link></p>
         </form>
+        <h2 className={styles.dev}>Made with ❤️ by <a href="https://github.com/Dev-Dul" target="_blank" rel="noopener noreferrer" className="link">DevAbdul</a> 
+            &nbsp; Check Out the <a href="https://github.com/Dev-Dul/OdinBook.git" target="_blank" rel="noopener noreferrer" className="link">Repo.</a>
+        </h2>
       </div>
     );
 }

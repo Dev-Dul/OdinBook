@@ -35,7 +35,6 @@ function SearchPage(){
             loading: "Fetching data...",
             success: (response) => {
                 if(response){
-                    console.log("response:", response);
                     setSearch(true);
                     return "Data fetch complete!.";
                 }

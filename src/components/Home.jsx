@@ -48,10 +48,15 @@ function Home(){
       setTab(num);
     }
 
-
-    const friendsPosts = posts.filter(post => {
+    const postsOne = posts.filter(post => {
       return user.friendships.some(friend => friend.id === post.authorId);
     });
+
+    const postsTwo = posts.filter(post => {
+      return user.friends.some(friend => friend.id === post.authorId);
+    });
+
+    const friendsPosts = [...postsOne, ...postsTwo];
 
 
     return (

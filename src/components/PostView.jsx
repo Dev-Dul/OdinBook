@@ -21,9 +21,9 @@ function PostView(){
     const navigate = useNavigate();
     const [comments, setComments] = useState([]);
     const [del, setDel] = useState(false);
+    const [isAuth, setIsAuth] = useState(false);
     const { user, userLoad } = useContext(AuthContext);
     const { post, error, loading, getPost } = useGetPost();
-    let isAuth;
     const {
       register,
       handleSubmit,
@@ -34,16 +34,12 @@ function PostView(){
       getPost(postId);
 
       function handleNewComment(obj){
-        console.log("new comment received:", obj.comment);
-        console.log("All comments:", comments);
         setComments((prev) => [obj.comment, ...prev]);
       }
 
       function handleDeleteComment(obj){
         setComments((prev) => {
           const updated = prev.filter(comment => comment.id !== obj.commentId);
-          console.log("Comment deleted:", obj.commentId);
-          console.log("Updated comments:", updated);
           return updated;
         });
       }
@@ -65,9 +61,10 @@ function PostView(){
     useEffect(() => {
       if(post && post.comments) {
         setComments(post.comments);
-        isAuth = post.author.id === user.id;
+        const Auth = post.author.id === user.id;
+        setIsAuth(Auth);
       }
-    }, [post]); // this runs AFTER post is updated
+    }, [post]); 
 
 
     if(userLoad) return <Loader />

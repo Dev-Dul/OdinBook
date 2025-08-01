@@ -83,6 +83,9 @@ function Signup(){
           <button type="submit" className="btn">Sign Up</button>
           <p className={styles.already}>Already have an account? <Link to="/" className="link">Log In</Link></p>
         </form>
+        <h2 className={styles.dev}>Made with ❤️ by <a href="https://github.com/Dev-Dul" target="_blank" className="link">DevAbdul</a> 
+            &nbsp; Check Out the <a href="https://github.com/Dev-Dul/OdinBook.git" target="_blank" className="link">Repo.</a>
+        </h2>
       </div>
     );
 }

@@ -21,7 +21,7 @@ function Sidebar(){
     return (
       <div className={`${styles.sidebar} ${collapse ? styles.collapsed : ''}`}>
         <div className="top">
-          {collapse ? <h2>O</h2> : <h2>OdinBook</h2> }
+          {collapse ? <h2 className={styles.logo}>O</h2> : <h2>OdinBook</h2> }
         </div>
         <div className="middle">
           {items.map((item, index) => (

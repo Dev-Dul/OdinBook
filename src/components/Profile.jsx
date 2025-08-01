@@ -99,7 +99,9 @@ function Profile(){
       });
     }
 
-    const friendsCount = user.friendships.length + user.friends.length;
+    const accepted = user.friendships.filter(friend => friend.status === "ACCEPTED");
+    const accepted_two = user.friends.filter(friend => friend.status === "ACCEPTED");
+    const friendsCount = accepted.length + accepted_two.length;
     const postsCount = user.posts.length;
 
     return (
@@ -182,7 +184,7 @@ function Profile(){
                   <p className={styles.error}>{errors.profilePic.message}</p>
                 )}
               </div>
-              <button type="submit">Update</button>
+              <button type="submit" className="btn">Update</button>
             </form>
           </div>
         )}

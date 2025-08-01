@@ -1,8 +1,7 @@
 import styles from "../styles/profile.module.css";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../utils/context";
-import { updateProfile, useGetUser, friendRequest } from "../../utils/fetch";
+import { useGetUser, friendRequest } from "../../utils/fetch";
 import { useNavigate, Navigate, useParams, Link } from "react-router-dom";
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -10,10 +9,12 @@ import Loader from "./Loader";
 import Error from "./Error";
 import Post from "./Post";
 import Comment from "./Comment";
+import socket from "../../utils/utils";
 
 function UserView(){
     const { userId } = useParams();
     const { user, userLoad } = useContext(AuthContext);
+    const [checkFriend, setCheckFriend] = useState(false);
     const { other, userError, userLoading, getUser } = useGetUser();
     const [tab, setTab] = useState(1);
     const navigate = useNavigate();
@@ -21,8 +22,28 @@ function UserView(){
 
     useEffect(() => {
         getUser(userId);
+
+        function handleRefresh(){
+          getUser(userId);
+        }
+
+        socket.on("friend", handleRefresh);
+
+        return () => {
+          socket.off("friend", handleRefresh);
+        }
+
     }, []);
 
+    useEffect(() => {
+      if(other){
+        const isFriend =
+          user.friends.some((friend) => friend.friendId === other.id) ||
+          user.friendships.some((friend) => friend.friendId === other.id);
+        setCheckFriend(isFriend);    
+      }
+
+    }, [other]);
 
     if(userLoad || userLoading) return <Loader />;
     if(!user) return <Navigate to={"/"} />;
@@ -45,6 +66,11 @@ function UserView(){
             loading: "Just a moment...",
             success: (response) => {
                 if(response){
+                    if(status === "ADD"){
+                      setCheckFriend(false);
+                    }else{
+                      setCheckFriend(true);
+                    }
                     return response.message;
                 }
             },
@@ -55,11 +81,11 @@ function UserView(){
     }
 
 
-    const friendsCount = other.friendships.length + other.friends.length;
+    const accepted = other.friendships.filter(friend => friend.status === "ACCEPTED");
+    const accepted_two = other.friends.filter(friend => friend.status === "ACCEPTED");
+    const friendsCount = accepted.length + accepted_two.length;
     const postsCount = other.posts.length;
-    const isFriend =
-      user.friends.find((friend) => friend.id === other.id) ||
-      user.friendships.find((friend) => friend.id === other.id);
+
 
     return (
       <div className={styles.container}>
@@ -89,13 +115,13 @@ function UserView(){
             <h2>{other.username}</h2>
             <p>{other.bio}</p>
             <div className={styles.action}>
-              {isFriend ? (
-                <button onClick={() => handleClick("ADD")} className="btn">
-                    Add Friend
-                </button>    
-              ): (
+              {checkFriend ? (
                 <button onClick={() => handleClick("REMOVE")} className="btn">
                     Unfriend
+                </button>    
+              ): (
+                <button onClick={() => handleClick("ADD")} className="btn">
+                    Add Friend
                 </button>    
               )}
             </div>

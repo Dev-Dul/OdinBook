@@ -32,6 +32,10 @@ function Button({ status, friendId }){
         <button type="button" className="btn" onClick={() => handleRequests("REJECT", friendId)}>Rejected</button>
       </div>
     );
+  }else if(status === "OUTBOUND"){
+    return (
+      <button type="button" className="btn" onClick={() => handleRequests("REMOVE", friendId)}>Unsend Request</button>
+    );
   }else{
     return (
       <button type="button" className="btn" onClick={() => handleRequests("ADD", friendId)}>
@@ -45,6 +49,7 @@ function Friend({ friend, status = '' }){
     const { user } = useContext(AuthContext);
     const authorPic = friend.avatarUrl;
     const navigate = useNavigate();
+    const check = user.friendships.some(fnd => fnd.id === friend.id);
     
     async function handleRequests(status, friendId) {
       const friendPromise = friendRequest(user.id, friendId, status);
@@ -83,8 +88,7 @@ function Friend({ friend, status = '' }){
             <button
               type="button"
               className="btn"
-              onClick={() => handleRequests("ADD", friend.id)}
-            >
+              onClick={() => handleRequests("ADD", friend.id)}>
               Add Friend
             </button>
           ) : (

@@ -252,7 +252,6 @@ export function useSearch(){
       });
 
       const json = await res.json();
-      console.log("json:", json);
       if(!res.ok){
           const error = new Error(json.message || "Data fetch failed!!");
           error.status = res.status;
@@ -265,6 +264,7 @@ export function useSearch(){
       return json;
     }catch(err){
       setError(err.message);
+      throw error;
     }finally{
       setLoading(false);
     }
@@ -279,7 +279,7 @@ export async function friendRequest(userId, friendId, friendStatus){
     try {
       switch (friendStatus){
         case 'ACCEPT': 
-           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/accept`, {
+           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/accept`, {
              method: "POST",
              credentials: "include",
              headers: {
@@ -292,7 +292,7 @@ export async function friendRequest(userId, friendId, friendStatus){
 
         break;
         case 'REJECT': 
-           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/reject`, {
+           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/reject`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -306,13 +306,13 @@ export async function friendRequest(userId, friendId, friendStatus){
         break;
         case 'REMOVE': 
            res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/${friendId}/remove`, {
-            method: "GET",
+            method: "POST",
             credentials: "include",
           });
 
         break;
         case 'ADD': 
-           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/new`, {
+           res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/new`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -324,10 +324,17 @@ export async function friendRequest(userId, friendId, friendStatus){
           });
 
         break;
-      }
-      if(!res.ok) throw new Error(res.message);
+        default: 
+          res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/friends/${friendId}/remove`, {
+            method: "POST",
+            credentials: "include",
+          });
 
+        break;
+      }
       const json = await res.json();
+      if(!res.ok) throw new Error(json.message);
+
       return json;
     }catch(err){
       throw err;
@@ -406,7 +413,6 @@ export async function deletePost(postId){
 
 
 export async function likeHandler(userId, postId){
-  console.log("postId likeHandler:", postId)
   try{
     const res = await fetch(`${apiUrl}/api/v1/posts/${postId}/likes/new`, {
       method: "POST",
@@ -427,15 +433,16 @@ export async function likeHandler(userId, postId){
 }
 
 export async function updateProfile(formData){
+  const userId = formData.get("userId");
     try{
-      const res = await fetch(`${apiUrl}/api/v1/profiles/${formData.userId}/update`, {
+      const res = await fetch(`${apiUrl}/api/v1/profiles/${userId}/update`, {
         method: "POST",
         credentials: "include",
         body: formData,
       });
 
-      if (!res.ok) throw new Error(res);
       const json = await res.json();
+      if(!res.ok) throw new Error(json.message);
       return json;
     }catch(err){
       throw err;

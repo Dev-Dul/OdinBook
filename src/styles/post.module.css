@@ -74,3 +74,9 @@
 .action > *{
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px){
+    .post{
+        margin-bottom: 0;
+    }
+}

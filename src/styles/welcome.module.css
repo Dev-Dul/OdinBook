@@ -8,6 +8,11 @@
     src: url("../assets/Fonts/SweetJoys.ttf");
 }
 
+@font-face {
+    font-family: "scripto";
+    src: url("../assets/Fonts/Scripto-2OR2v.ttf");
+}
+
 .container{
     min-height: 100vh;
     width: 100%;
@@ -36,8 +41,9 @@
 }
 
 .container h1{
-    font-size: 2.5rem;
-    font-family: "postbook";
+    font-size: 3rem;
+    font-family: "scripto";
+    margin-bottom: 5px;
     animation: welcome 1.5s ease-in both;
 }
 
@@ -175,6 +181,12 @@ form h2{
 form button{
     margin: 5px 0;
     padding: 0.5rem 4rem;
+}
+
+.dev{
+    position: fixed;
+    bottom: 10px;
+    font-size: 0.85rem;
 }
 
 @media screen and (max-width: 468px){
