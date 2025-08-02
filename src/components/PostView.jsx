@@ -68,7 +68,6 @@ function PostView(){
 
 
     if(userLoad) return <Loader />
-    if(loading) return <Loader />
     if(error) return <Error />
     if(!user) return <Navigate to="/" replace="true" />
 

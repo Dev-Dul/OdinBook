@@ -45,7 +45,7 @@ function UserView(){
 
     }, [other]);
 
-    if(userLoad || userLoading) return <Loader />;
+    if(userLoad || userLoading03) return <Loader />;
     if(!user) return <Navigate to={"/"} />;
     if(userError) return <Error error={userError} />
     if(Number(userId) === user.id) return <Navigate to={"/profile"} />

@@ -35,7 +35,7 @@ function Home(){
 
     }, []);
 
-    if(userLoad || loading) return <Loader />;
+    if(userLoad) return <Loader />;
     if(!user) return <Navigate to={"/"} replace />
     if(error) return <Error error={error} />
     

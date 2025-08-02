@@ -31,6 +31,28 @@ export async function signUp(username, email, password){
 }
 
 
+export async function googleAuth(){
+    try{
+        const res = await fetch(`${apiUrl}/auth/google`, {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        const json = await res.json();
+
+        if(!res.ok){
+          const error = new Error(json.message || "Auth failed!!");
+          error.status = res.status;
+          error.response = json;
+          throw error;
+        }
+        return json;
+    }catch(err){
+        throw err;
+    }
+}
+
+
 export async function logIn(username, password){
     try{
         const res = await fetch(`${apiUrl}/api/v1/login`, {
@@ -195,9 +217,10 @@ export function useGetAllPosts(){
         method: "GET",
         credentials: "include",
       });
-      if(!res.ok) throw new Error(res.message);
 
       const json = await res.json();
+      if(!res.ok) throw new Error(json.message);
+
       setPosts(json.posts);
     }catch(err){
       setError(err);

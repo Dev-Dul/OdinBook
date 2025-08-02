@@ -1,9 +1,9 @@
 import styles from "../styles/welcome.module.css";
-import { signUp } from "../../utils/fetch";
+import { signUp, googleAuth } from "../../utils/fetch";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+
 
 
 function Signup(){
@@ -26,6 +26,22 @@ function Signup(){
         })
     }
 
+    async function handleAuth(){
+        const authPromise = googleAuth();
+        toast.promise(authPromise, {
+            loading: "Signing up via google...",
+            success: (response) => {
+                if(response){
+                    navigate("/");
+                    return response.message;
+                }
+            },
+            error: (error) => {
+                return error.message;
+            }
+        })
+    }
+
 
     return (
       <div className={`${styles.container} ${styles.signup}`}>
@@ -33,7 +49,7 @@ function Signup(){
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <h2>Join Us On A Social Adventure Of A Lifetime.</h2>
           <div className={styles.inputBox}>
-            <button className={styles.google}>Sign Up Using Google</button>
+            <button className={styles.google} onClick={handleAuth}>Sign Up Using Google</button>
           </div>
           <div className={`${styles.line} ${styles.two}`}>
             <hr />

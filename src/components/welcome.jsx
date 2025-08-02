@@ -1,7 +1,7 @@
 import styles from "../styles/welcome.module.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { logIn } from "../../utils/fetch";
+import { logIn, googleAuth } from "../../utils/fetch";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/context";
@@ -35,6 +35,24 @@ function Welcome(){
             }
         })
     }
+
+    async function handleAuth(){
+            const authPromise = googleAuth();
+            toast.promise(authPromise, {
+                loading: "Signing in via google...",
+                success: (response) => {
+                    if(response){
+                        handleUser(response.user);
+                        localStorage.setItem("logged", "true");
+                        navigate("/home");
+                        return response.message;
+                    }
+                },
+                error: (error) => {
+                    return error.message;
+                }
+            })
+        }
 
 
     return (
@@ -82,7 +100,7 @@ function Welcome(){
             <p>Or</p>
           </div>
           <div className={`${styles.inputBox} ${styles.two}`}>
-            <button className={styles.google}>Sign In Using Google</button>
+            <button className={styles.google} onClick={handleAuth}>Sign In Using Google</button>
           </div>
           <p className={styles.redirect}>Don't have an account? <Link to={"/signup"} className="link">Sign Up</Link></p>
         </form>

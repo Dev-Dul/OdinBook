@@ -11,10 +11,10 @@ import Friend from "./Friend";
 
 
 function Friends(){
-  const { user, handleUser, userLoad, hydrate } = useContext(AuthContext);
+  const { user, userLoad, hydrate } = useContext(AuthContext);
   const [tab, setTab] = useState(1);
   const { users, error, loading, getAllUsers } = useGetAllUsers();
-  const navigate = useNavigate();
+
 
     useEffect(() => {
         getAllUsers();
@@ -34,7 +34,6 @@ function Friends(){
     
     if(userLoad) return <Loader />
     if(!user) return <Navigate to={'/'} replace/>
-    if(loading) return <Loader />
     if(error) return <Error error={error} />
 
     function handleTab(num){
