@@ -70,7 +70,8 @@
     min-height: 100px;
     padding: 0.5rem;
     border-radius: 15px;
-    background: var(--text-color);
+    border-color: var(--text-color);
+    background: var(--bg-color);
 }
 
 .inputs label{
