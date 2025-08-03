@@ -8,10 +8,9 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { MoreHorizontal, SendIcon, Trash2 } from "lucide-react";
 import { ArrowLeft } from "lucide-react";
-import { useGetPost } from "../../utils/fetch";
 import { AuthContext } from "../../utils/context";
 import { useForm } from "react-hook-form";
-import { createNewComment, deletePost } from "../../utils/fetch";
+import { createNewComment, deletePost, getPost } from "../../utils/fetch";
 import { toast } from "sonner";
 import socket from "../../utils/utils";
 
@@ -19,19 +18,37 @@ import socket from "../../utils/utils";
 function PostView(){
     const { postId } = useParams();
     const navigate = useNavigate();
+    const [post, setPost] = useState({});
     const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [del, setDel] = useState(false);
     const [isAuth, setIsAuth] = useState(false);
     const { user, userLoad } = useContext(AuthContext);
-    const { post, error, loading, getPost } = useGetPost();
     const {
       register,
       handleSubmit,
       formState: { errors },
     } = useForm();
 
+    async function onFetch(){
+        const postPromise = getPost(postId);
+        toast.promise(postPromise, {
+            loading: "Fetching Post...",
+            success: (response) => {
+                if(response){
+                    setPost(response.post);
+                    setLoading(false);
+                    return response.message;
+                }
+            },
+            error: (error) => {
+                return error.message;
+            }
+        });
+    }
+
     useEffect(() => {
-      getPost(postId);
+      onFetch();
 
       function handleNewComment(obj){
         setComments((prev) => [obj.comment, ...prev]);
@@ -67,8 +84,7 @@ function PostView(){
     }, [post]); 
 
 
-    if(userLoad) return <Loader />
-    if(error) return <Error />
+    if(userLoad || loading) return <Loader />
     if(!user) return <Navigate to="/" replace="true" />
 
     function formatDate(date){
@@ -111,7 +127,7 @@ function PostView(){
         });
     }
 
-
+    
     return (
       <div className={styles.container}>
         <div className={styles.header}>

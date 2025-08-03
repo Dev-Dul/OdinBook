@@ -33,7 +33,7 @@ export async function signUp(username, email, password){
 
 export async function googleAuth(){
     try{
-        const res = await fetch(`${apiUrl}/auth/google`, {
+        const res = await fetch(`${apiUrl}/api/v1/auth/google`, {
             method: 'GET',
             credentials: 'include',
         });
@@ -129,29 +129,19 @@ export async function sendNewPost(formData){
 }
 
 
-export function useGetPost(){
-  const [post, setPost] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  async function getPost(postId){
+export async function getPost(postId){
     try{
       const res = await fetch(`${apiUrl}/api/v1/posts/${postId}`, {
         method: "GET",
         credentials: "include",
       });
       
-      if(!res.ok) throw new Error(res.message);
       const json = await res.json();
-      setPost(json.post);
+      if(!res.ok) throw new Error(json.message);
+      return json;
     }catch(err){
-      setError(err);
-    }finally{
-      setLoading(false);
+      throw err;
     }
-  }
-
-  return { post, error, loading, getPost };
 }
 
 

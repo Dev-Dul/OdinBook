@@ -53,7 +53,7 @@
     width: 100%;
     display: grid;
     padding: 1rem 3.5rem;
-    padding-bottom: 3rem;
+    padding-bottom: 5rem;
     box-sizing: border-box;
     overflow-y: scroll;
     scrollbar-width: thin;
@@ -148,3 +148,12 @@
     left: 5%;
 }
 
+@media screen and (max-width: 468px){
+    .header{
+        height: 10vh;
+    }
+
+    .container form{
+        width: 80%;
+    }
+}

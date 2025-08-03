@@ -3,33 +3,36 @@ import { io } from "socket.io-client";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
-export function useIsScrolling(){
-    const [isScrolling, setIsScrolling] = useState(false);
-    const timeoutRef = useRef(null);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if(!isScrolling){
-                setIsScrolling(true);
-            }
+export function useIsScrolling() {
+  const [isScrolling, setIsScrolling] = useState(false);
+  const timeoutRef = useRef(null);
 
-            clearTimeout(timeoutRef.current);
+  useEffect(() => {
+    const handleScroll = () => {
+      // Set isScrolling to true immediately when a scroll event occurs
+      setIsScrolling(true);
 
-            timeoutRef.current = setTimeout(() => {
-                setIsScrolling(false);
-            }, 200);
+      // Clear any existing timeout
+      clearTimeout(timeoutRef.current);
 
-            window.addEventListener("scroll", handleScroll);
+      // Set a new timeout to set isScrolling to false after 200ms of inactivity
+      timeoutRef.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 200);
+    };
 
+    // Add the event listener when the component mounts
+    window.addEventListener('scroll', handleScroll);
 
-            return () => {
-                window.removeEventListener("scroll", handleScroll);
-                clearTimeout(timeoutRef.current);
-            }
-        }
-    }, [isScrolling]);
+    // Clean up the event listener and the timeout when the component unmounts
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(timeoutRef.current);
+    };
+  }, []); // The empty dependency array ensures this effect runs only once
 
-    return isScrolling;
+  return isScrolling;
 }
 
 export function ThemeEngine(theme){

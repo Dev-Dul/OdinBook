@@ -10,9 +10,8 @@ import Navbar from './components/Navbar';
 
 function App() {
   const location = useLocation();
-  const [likedPosts, setLikedPosts] = useState({});
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
-  const hideSidebar = location.pathname === '/' || location.pathname === '/signup';
+  const hideSidebar = location.pathname === '/' || location.pathname === '/signup' || location.pathname.startsWith('/posts/view/');
 
 
   return (

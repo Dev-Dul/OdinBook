@@ -230,7 +230,7 @@ function Profile(){
             <div
               className={styles.pic}
               style={{
-                backgroundImage: user.AvatarUrl ? `url(${user.AvatarUrl})` : "",
+                backgroundImage: user.avatarUrl ? `url(${user.avatarUrl})` : "",
               }}
             ></div>
             <div className={styles.text}>
