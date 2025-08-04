@@ -84,4 +84,8 @@
     .header{
         height: 10vh;
     }
+
+    .posts{
+        margin-top: 15vh;
+    }
 }

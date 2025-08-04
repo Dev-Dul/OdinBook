@@ -25,7 +25,6 @@
     background-size: cover;
     backdrop-filter: blur(10px);
     position: relative;
-    /* font-family: "buddy";  */
 }
 
 
@@ -191,6 +190,10 @@ form button{
 
 @media screen and (max-width: 468px){
     form, .container.signup form{
-        width: 75vw;
+        width: 80vw;
+    }
+
+    .dev{
+        bottom: 20px;
     }
 }

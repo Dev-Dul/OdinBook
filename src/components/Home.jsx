@@ -4,6 +4,7 @@ import { useGetAllPosts } from "../../utils/fetch";
 import { AuthContext } from "../../utils/context";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useScrollRef } from "../../utils/utils";
 import { format } from "date-fns";
 import Loader from "./Loader";
 import Post from "./Post";
@@ -11,6 +12,7 @@ import socket from "../../utils/utils";
 
 function Home(){
     const [tab, setTab] = useState(1);
+    const scrollRef = useScrollRef();
     const { user, userLoad } = useContext(AuthContext);
     const { posts, setPosts, error, loading, getAllPosts } = useGetAllPosts();
 
@@ -60,7 +62,7 @@ function Home(){
 
 
     return (
-      <div className={styles.container}>
+      <div className={styles.container} ref={scrollRef}>
         <div className={styles.header}>
           <h1>Odinbook</h1>
         </div>

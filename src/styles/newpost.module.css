@@ -134,5 +134,10 @@
 @media screen and (max-width: 468px){
     .header{
         height: 10vh;
+        padding: 0 2rem;
+    }
+
+    .body{
+        margin-top: 15vh;
     }
 }

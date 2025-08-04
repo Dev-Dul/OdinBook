@@ -78,6 +78,8 @@
 @media screen and (max-width: 768px){
     .post{
         margin-bottom: 0;
+        border: none;
+        border-bottom: 1px solid;
     }
 }
 

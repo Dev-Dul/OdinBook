@@ -1,15 +1,31 @@
 import styles from "../styles/navbar.module.css";
 import { Home, Search, FeatherIcon, User, UserPlus} from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useIsScrolling } from "../../utils/utils";
+import { useScrollRef } from "../../utils/utils";
+import { useEffect, useState } from "react";
 
 function Navbar({ showNav, isMobile }){
     const navigate = useNavigate();
     const location = useLocation();
-    const isScrolling = useIsScrolling();
+    const scrollRef = useScrollRef();
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const el = scrollRef?.current;
+        if(!el) return;
+
+        const handleScroll = () => {
+            setIsScrolled(el.scrollTop > 0);
+        };
+
+        el.addEventListener('scroll', handleScroll);
+        handleScroll();
+
+        return () => el.removeEventListener('scroll', handleScroll);
+    }, [scrollRef]);
 
     return (
-        <div className={`${styles.navbar} ${(!showNav && isMobile) ? styles.show  : ''} ${isScrolling ? styles.scroll : ''}`}>
+        <div className={`${styles.navbar} ${(!showNav && isMobile) ? styles.show  : ''} ${isScrolled ? styles.scroll : ''}`}>
             <Home className={styles.icon} style={{ '--i': '1'}} onClick={() => navigate('/home')}/>
             <Search className={styles.icon} style={{ '--i': '2'}} onClick={() => navigate('/search')}/>
             <FeatherIcon className={styles.icon} style={{ '--i': '3'}} onClick={() => navigate('/new')}/>

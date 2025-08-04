@@ -127,5 +127,10 @@
 @media screen and (max-width: 468px){
     .header{
         height: 10vh;
+        padding: 0 2rem;
+    }
+
+    .container form{
+        margin-top: 16vh;
     }
 }

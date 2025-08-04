@@ -6,6 +6,7 @@ import { updateProfile, logOut } from "../../utils/fetch";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
+import { useScrollRef } from "../../utils/utils";
 import { toast } from "sonner";
 import Loader from "./Loader";
 import Post from "./Post";
@@ -17,6 +18,7 @@ import { ThemeEngine } from "../../utils/utils";
 function Profile(){
     const { user, userLoad, handleUser } = useContext(AuthContext);
     const [tab, setTab] = useState(1);
+    const scrollRef = useScrollRef();
     const [openTheme, setOpenTheme] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -270,7 +272,7 @@ function Profile(){
               Comments
             </button>
           </div>
-          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
+          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`} ref={scrollRef}>
             {user.posts.length === 0 ? (
               <h3>No posts available</h3>
             ) : (

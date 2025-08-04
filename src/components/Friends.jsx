@@ -1,8 +1,9 @@
 import styles from "../styles/friends.module.css";
-import { useGetAllUsers, addFriend } from "../../utils/fetch";
+import { useGetAllUsers } from "../../utils/fetch";
 import { useNavigate, Navigate } from "react-router-dom";
 import Loader from "./Loader";
 import Error from "./Error";
+import { useScroll } from "framer-motion";
 import { useEffect, useContext, useState } from "react";
 import { toast } from "sonner";
 import { AuthContext } from "../../utils/context";
@@ -13,6 +14,7 @@ import Friend from "./Friend";
 function Friends(){
   const { user, userLoad, hydrate } = useContext(AuthContext);
   const [tab, setTab] = useState(1);
+  const scrollRef = useScrollRef();
   const { users, error, loading, getAllUsers } = useGetAllUsers();
 
 
@@ -88,7 +90,7 @@ function Friends(){
               Rejected
             </button>
           </div>
-          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
+          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`} ref={scrollRef}>
             {all.length === 0 ? (
               <h2>No users available</h2>
             ) : (

@@ -1,39 +1,24 @@
-import { useEffect, useState, useRef } from "react";
+import { useRef, createContext, useContext } from "react";
 import { io } from "socket.io-client";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
+const ScrollContext = createContext(null);
 
-export function useIsScrolling() {
-  const [isScrolling, setIsScrolling] = useState(false);
-  const timeoutRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Set isScrolling to true immediately when a scroll event occurs
-      setIsScrolling(true);
-
-      // Clear any existing timeout
-      clearTimeout(timeoutRef.current);
-
-      // Set a new timeout to set isScrolling to false after 200ms of inactivity
-      timeoutRef.current = setTimeout(() => {
-        setIsScrolling(false);
-      }, 200);
-    };
-
-    // Add the event listener when the component mounts
-    window.addEventListener('scroll', handleScroll);
-
-    // Clean up the event listener and the timeout when the component unmounts
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(timeoutRef.current);
-    };
-  }, []); // The empty dependency array ensures this effect runs only once
-
-  return isScrolling;
+export function ScrollProvider({ children }){
+  const scrollRef = useRef(null);
+  return (
+    <ScrollContext.Provider value={scrollRef}>
+      {children}
+    </ScrollContext.Provider>
+  )
 }
+
+export function useScrollRef(){
+  return useContext(ScrollContext);
+}
+
+
 
 export function ThemeEngine(theme){
     const body = document.body;

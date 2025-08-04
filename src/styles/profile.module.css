@@ -339,5 +339,19 @@ input[type="file"]{
 @media screen and (max-width: 468px){
     .header{
         height: 10vh;
+        padding: 0 2rem;
+    }
+
+    .deets{
+        margin-top: 15vh;
+    }
+
+    .action{
+        width: 85%;
+        margin-top: 0.2rem;
+    }
+
+    .action button{
+        padding: 0.3rem 1.3rem;
     }
 }
