@@ -32,7 +32,7 @@ This project is a decoupled frontend + backend project that uses react on the fr
 
 Features of Odinbook Include:-
 
-* Sleek and minimalistic UI - I've taken the time to craft a sleek yet minimalistic UI for Odinbook that's easy on the eyes while also being aesthetically pleasing. The UI is 100% mobile responsive and features upto five different themes!.
+* Sleek and minimalistic UI - I've taken the time to craft a sleek yet minimalistic UI for Odinbook that's easy on the eyes while also being aesthetically pleasing. The UI is inspired by Threads UI (I like the apps clean and minimalistic interface), the UI 100% mobile responsive and features upto five different themes!.
 
 * Sign Up / Log In - Odinbook features beautiful and functioning sign up and log in pages.
 
