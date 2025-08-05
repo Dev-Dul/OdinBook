@@ -36,6 +36,7 @@
 }
 
 .postPic{
+    max-height: 70%;
     object-fit: cover;
     border: 1px solid;
     border-radius: 15px;
