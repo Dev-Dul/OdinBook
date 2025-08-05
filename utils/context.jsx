@@ -19,7 +19,7 @@ export function AuthProvider({ children }){
     async function hydrate(){
       try{
         const hydrate = await hydrateUser();
-        handleUser(hydrate);
+        handleUser(hydrate.user);
       }catch(err){
         toast.error(err.message);
         if(err.message === "Expired"){

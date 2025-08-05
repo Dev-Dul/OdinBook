@@ -1,3 +1,5 @@
+import AuthSuccess from "./components/AuthSuccess";
+import AuthError from "./components/AuthError";
 import Home from "./components/Home";
 import Profile from "./components/Profile";
 import Friends from "./components/Friends";
@@ -11,22 +13,24 @@ import UserView from "./components/User";
 import App from "./App";
 
 const routes = [
-    {
-        path: "/",
-        element: <App />,
-        errorElement: <Error />,
-        children: [
-            { index: true, element: <Welcome /> },
-            { path: "home", element: <Home /> },
-            { path: "new", element: <NewPost /> },
-            { path: "signup", element: <Signup /> },
-            { path: "friends", element: <Friends /> },
-            { path: "profile", element: <Profile /> },
-            { path: "search", element: <SearchPage /> },
-            { path: "posts/view/:postId", element: <PostView /> },
-            { path: "users/view/:userId", element: <UserView /> },
-        ]
-    }
-]
+  {
+    path: "/",
+    element: <App />,
+    errorElement: <Error />,
+    children: [
+      { index: true, element: <Welcome /> },
+      { path: "home", element: <Home /> },
+      { path: "new", element: <NewPost /> },
+      { path: "signup", element: <Signup /> },
+      { path: "friends", element: <Friends /> },
+      { path: "profile", element: <Profile /> },
+      { path: "search", element: <SearchPage /> },
+      { path: "login-failure", element: <AuthError /> },
+      { path: "auth-success", element: <AuthSuccess /> },
+      { path: "posts/view/:postId", element: <PostView /> },
+      { path: "users/view/:userId", element: <UserView /> },
+    ],
+  },
+];
 
 export default routes;

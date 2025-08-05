@@ -31,28 +31,6 @@ export async function signUp(username, email, password){
 }
 
 
-export async function googleAuth(){
-    try{
-        const res = await fetch(`${apiUrl}/api/v1/auth/google`, {
-            method: 'GET',
-            credentials: 'include',
-        });
-
-        const json = await res.json();
-
-        if(!res.ok){
-          const error = new Error(json.message || "Auth failed!!");
-          error.status = res.status;
-          error.response = json;
-          throw error;
-        }
-        return json;
-    }catch(err){
-        throw err;
-    }
-}
-
-
 export async function logIn(username, password){
     try{
         const res = await fetch(`${apiUrl}/api/v1/login`, {
@@ -475,7 +453,7 @@ export async function hydrateUser(){
         if(res.status === 401) throw new Error("Unauthorized");
         if(!res.ok) throw new Error(json.message);
 
-        return json.user;
+        return json;
     }catch(err){
         throw err;
     }

@@ -36,23 +36,10 @@ function Welcome(){
         })
     }
 
-    async function handleAuth(){
-            const authPromise = googleAuth();
-            toast.promise(authPromise, {
-                loading: "Signing in via google...",
-                success: (response) => {
-                    if(response){
-                        handleUser(response.user);
-                        localStorage.setItem("logged", "true");
-                        navigate("/home");
-                        return response.message;
-                    }
-                },
-                error: (error) => {
-                    return error.message;
-                }
-            })
-        }
+     async function handleAuth(e) {
+       e.preventDefault(); // prevent form reload if any
+       window.location.href = `${apiUrl}/api/v1/auth/google`; // ✅ Do a browser redirect
+     }
 
 
     return (

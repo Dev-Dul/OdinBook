@@ -26,21 +26,11 @@ function Signup(){
         })
     }
 
-    async function handleAuth(){
-        const authPromise = googleAuth();
-        toast.promise(authPromise, {
-            loading: "Signing up via google...",
-            success: (response) => {
-                if(response){
-                    navigate("/");
-                    return response.message;
-                }
-            },
-            error: (error) => {
-                return error.message;
-            }
-        })
+    async function handleAuth(e) {
+      e.preventDefault(); // prevent form reload if any
+      window.location.href = `${apiUrl}/api/v1/auth/google`; // ✅ Do a browser redirect
     }
+
 
 
     return (
