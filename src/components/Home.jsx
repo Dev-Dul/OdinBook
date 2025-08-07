@@ -4,7 +4,7 @@ import { useGetAllPosts } from "../../utils/fetch";
 import { AuthContext } from "../../utils/context";
 import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useScrollRef } from "../../utils/utils";
+import { ScrollContext } from "../../utils/utils";
 import { format } from "date-fns";
 import Loader from "./Loader";
 import Post from "./Post";
@@ -12,7 +12,7 @@ import socket from "../../utils/utils";
 
 function Home(){
     const [tab, setTab] = useState(1);
-    const scrollRef = useScrollRef();
+    const { onScroll } = useContext(ScrollContext);
     const { user, userLoad } = useContext(AuthContext);
     const { posts, setPosts, error, loading, getAllPosts } = useGetAllPosts();
 
@@ -62,7 +62,7 @@ function Home(){
 
 
     return (
-      <div className={styles.container} ref={scrollRef}>
+      <div className={styles.container}>
         <div className={styles.header}>
           <h1>Odinbook</h1>
         </div>
@@ -82,7 +82,10 @@ function Home(){
             </button>
           </div>
           <div className={styles.tabs}>
-            <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
+            <div
+              className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}
+              onScroll={onScroll}
+            >
               {posts.length === 0 ? (
                 <h2>No posts available</h2>
               ) : (
@@ -98,7 +101,10 @@ function Home(){
                 ))
               )}
             </div>
-            <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
+            <div
+              className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}
+              onScroll={onScroll}
+            >
               {friendsPosts.length === 0 ? (
                 <h2>No posts from people in your circle available.</h2>
               ) : (

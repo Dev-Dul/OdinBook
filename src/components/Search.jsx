@@ -2,6 +2,7 @@ import styles from "../styles/search.module.css"
 import { Search } from "lucide-react";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../utils/context";
+import { ScrollContext } from "../../utils/utils";
 import { Navigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSearch } from "../../utils/fetch";
@@ -18,6 +19,7 @@ function SearchPage(){
     const [search, setSearch] = useState(false);
     const [tab, setTab] = useState(1);
     const { user, userLoad } = useContext(AuthContext);
+    const { onScroll } = useContext(ScrollContext);
     const { usersRes, postsRes, commentsRes, error, loading, SearchEngine } = useSearch();
     const {
         register,
@@ -96,7 +98,7 @@ function SearchPage(){
               </button>
             </div>
             <div className={styles.tabs}>
-              <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
+              <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`} onScroll={onScroll}>
                 {usersRes.length === 0 ? (
                   <h2>No Users Found For this search term.</h2>
                 ) : (
@@ -105,7 +107,7 @@ function SearchPage(){
                   ))
                 )}
               </div>
-              <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
+              <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`} onScroll={onScroll}>
                 {postsRes.length === 0 ? (
                   <h2>No Posts Found For this search term.</h2>
                 ) : (
@@ -116,7 +118,7 @@ function SearchPage(){
                   ))
                 )}
               </div>
-              <div className={`${styles.tab} ${tab === 3 ? styles.active : ""}`}>
+              <div className={`${styles.tab} ${tab === 3 ? styles.active : ""}`} onScroll={onScroll}>
                 {commentsRes.length === 0 ? (
                     <h3>No comments found for this search term.</h3>
                   ) : (

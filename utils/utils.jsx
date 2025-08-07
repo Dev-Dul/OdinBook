@@ -3,19 +3,31 @@ import { io } from "socket.io-client";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
-const ScrollContext = createContext(null);
+// Create the context
+export const ScrollContext = createContext({
+  isScrolling: false,
+  setIsScrolling: () => {},
+});
 
-export function ScrollProvider({ children }){
-  const scrollRef = useRef(null);
+export function ScrollProvider({ children }) {
+  const [isScrolling, setIsScrolling] = useState(false);
+  const timeoutRef = useRef(null);
+
+  const onScroll = useCallback(() => {
+    setIsScrolling(true);
+
+    if(timeoutRef.current) clearTimeout(timeoutRef.current);
+
+    timeoutRef.current = setTimeout(() => {
+      setIsScrolling(false);
+    }, 150);
+  }, []);
+
   return (
-    <ScrollContext.Provider value={scrollRef}>
+    <ScrollContext.Provider value={{ isScrolling, onScroll }}>
       {children}
     </ScrollContext.Provider>
-  )
-}
-
-export function useScrollRef(){
-  return useContext(ScrollContext);
+  );
 }
 
 

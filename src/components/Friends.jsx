@@ -7,7 +7,7 @@ import { useScroll } from "framer-motion";
 import { useEffect, useContext, useState } from "react";
 import { toast } from "sonner";
 import { AuthContext } from "../../utils/context";
-import { useScrollRef } from "../../utils/utils";
+import { ScrollContext } from "../../utils/utils";
 import socket from "../../utils/utils";
 import Friend from "./Friend";
 
@@ -15,7 +15,7 @@ import Friend from "./Friend";
 function Friends(){
   const { user, userLoad, hydrate } = useContext(AuthContext);
   const [tab, setTab] = useState(1);
-  const scrollRef = useScrollRef();
+  const { onScroll } = useContext(ScrollContext);
   const { users, error, loading, getAllUsers } = useGetAllUsers();
 
 
@@ -91,7 +91,7 @@ function Friends(){
               Rejected
             </button>
           </div>
-          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`} ref={scrollRef}>
+          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`} onScroll={onScroll}>
             {all.length === 0 ? (
               <h2>No users available</h2>
             ) : (
@@ -100,7 +100,7 @@ function Friends(){
               ))
             )}
           </div>
-          <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
+          <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`} onScroll={onScroll}>
             {accepted.length === 0 ? (
               <h2>No accepted friend requests available.</h2>
             ) : (
@@ -109,7 +109,7 @@ function Friends(){
               ))
             )}
           </div>
-          <div className={`${styles.tab} ${tab === 3 ? styles.active : ""}`}>
+          <div className={`${styles.tab} ${tab === 3 ? styles.active : ""}`} onScroll={onScroll}>
             {pending.length === 0 ? (
               <h2>No pending friend requests available.</h2>
             ) : (
@@ -118,7 +118,7 @@ function Friends(){
               ))
             )}
           </div>
-          <div className={`${styles.tab} ${tab === 4 ? styles.active : ""}`}>
+          <div className={`${styles.tab} ${tab === 4 ? styles.active : ""}`} onScroll={onScroll}>
             {requests.length === 0 ? (
               <h2>You have'nt sent any friend requests yet!.</h2>
             ) : (
@@ -127,7 +127,7 @@ function Friends(){
               ))
             )}
           </div>
-          <div className={`${styles.tab} ${tab === 5 ? styles.active : ""}`}>
+          <div className={`${styles.tab} ${tab === 5 ? styles.active : ""}`} onScroll={onScroll}>
             {rejected.length === 0 ? (
               <h2>No rejected friend request available.</h2>
             ) : (
