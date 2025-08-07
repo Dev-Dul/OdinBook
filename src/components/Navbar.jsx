@@ -11,18 +11,38 @@ function Navbar({ showNav, isMobile }){
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
+      let observerInterval;
+
+      const tryAttachScroll = () => {
         const el = scrollRef?.current;
-        if(!el) return;
+        if (!el) return;
 
         const handleScroll = () => {
-            setIsScrolled(el.scrollTop > 0);
+          setIsScrolled(el.scrollTop > 0);
         };
 
-        el.addEventListener('scroll', handleScroll);
+        el.addEventListener("scroll", handleScroll);
         handleScroll();
 
-        return () => el.removeEventListener('scroll', handleScroll);
+        // Clear interval after success
+        clearInterval(observerInterval);
+
+        // Cleanup
+        return () => {
+          el.removeEventListener("scroll", handleScroll);
+        };
+      };
+
+      observerInterval = setInterval(() => {
+        if(scrollRef?.current) {
+          tryAttachScroll();
+        }
+      }, 100); // Try every 100ms until attached
+
+      // In case it never attaches
+      setTimeout(() => clearInterval(observerInterval), 3000); // max wait 3s
     }, [scrollRef]);
+
 
     return (
         <div className={`${styles.navbar} ${(!showNav && isMobile) ? styles.show  : ''} ${isScrolled ? styles.scroll : ''}`}>

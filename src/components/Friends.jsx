@@ -7,6 +7,7 @@ import { useScroll } from "framer-motion";
 import { useEffect, useContext, useState } from "react";
 import { toast } from "sonner";
 import { AuthContext } from "../../utils/context";
+import { useScrollRef } from "../../utils/utils";
 import socket from "../../utils/utils";
 import Friend from "./Friend";
 

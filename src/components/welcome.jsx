@@ -16,6 +16,8 @@ function Welcome(){
       handleSubmit,
       formState: { errors },
     } = useForm();
+    const apiUrl = import.meta.env.VITE_API_URL;
+
 
 
     async function onSubmit(formData){

@@ -14,6 +14,11 @@ export function AuthProvider({ children }){
 
     function handleUser(person){
         setUser(person)
+        if(person && !socket.connected) {
+          socket.connect();
+        }else if(!user && socket.connected){
+          socket.disconnect();
+        }
     }
 
     async function hydrate(){
@@ -34,11 +39,14 @@ export function AuthProvider({ children }){
     }
 
     useEffect(() => {
-        socket.connect();
         const hasLogged = localStorage.getItem("logged") === 'true';
         const theme = localStorage.getItem("theme");
         if(!user && hasLogged){
-           hydrate();
+           hydrate().then(() => {
+             if(user && !socket.connected){
+              socket.connect();
+             }
+           });
         }
 
         if(theme){

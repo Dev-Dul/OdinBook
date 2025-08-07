@@ -9,6 +9,8 @@ import { useNavigate, Link } from "react-router-dom";
 function Signup(){
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }} = useForm();
+    const apiUrl = import.meta.env.VITE_API_URL;
+
 
     async function onSubmit(formData){
         const signUpPromise = signUp(formData.username, formData.email, formData.password);
