@@ -152,7 +152,11 @@
     .header{
         height: 10vh;
         width: 100%;
-        padding: 0 2rem;
+        justify-content: space-around;
+    }
+
+    .header button{
+        padding: 0.7rem;
     }
 
     .container form{

@@ -1,7 +1,7 @@
 import styles from "../styles/welcome.module.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { logIn, googleAuth } from "../../utils/fetch";
+import { logIn } from "../../utils/fetch";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../utils/context";

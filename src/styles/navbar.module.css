@@ -4,16 +4,15 @@
     left: 0;
     right: 0;
     z-index: 1000;
-    bottom: 50px;
+    bottom: 0;
     height: 4rem;
-    width: 85%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border:  1px solid;
-    border-radius: 20px;
     transition: all 0.8s ease;
     transform: translateY(100vh);
 }

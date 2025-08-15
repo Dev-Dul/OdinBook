@@ -1,5 +1,5 @@
 import styles from "../styles/welcome.module.css";
-import { signUp, googleAuth } from "../../utils/fetch";
+import { signUp } from "../../utils/fetch";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";

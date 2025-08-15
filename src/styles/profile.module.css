@@ -134,7 +134,7 @@
     justify-content: space-between;
     flex-direction: column;
     box-sizing: border-box;
-    margin-bottom: 2rem;
+    padding-bottom: 2rem;
 }
 
 .bottom h2, .bottom p{
@@ -183,7 +183,7 @@
     opacity: 0;
     position: absolute;
     text-align: center;
-    padding-bottom: 2rem;
+    padding-bottom: 5rem;
     transition: all 0.7s ease;
     transform: translateX(100vw);
 }
@@ -346,14 +346,16 @@ input[type="file"]{
 
     .deets{
         margin-top: 15vh;
+        padding-bottom: 4rem;
     }
 
     .action{
         width: 85%;
-        margin: 0.5rem 0;
+        margin: 0.3rem 0;
     }
 
     .action button{
-        padding: 0.7rem 1.5rem;
+        padding: 0.7rem 2rem;
     }
+
 }

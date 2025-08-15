@@ -36,10 +36,14 @@
 }
 
 .postPic{
-    max-height: 70%;
+    width: 400px;
+    aspect-ratio: 1 /1;
+    max-width: 80%;
     object-fit: cover;
     border: 1px solid;
     border-radius: 15px;
+    margin-bottom: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .body{
@@ -87,5 +91,10 @@
 @media screen and (max-width: 468px){
     .header{
         margin-left: 0;
+    }
+
+
+    .action{
+        width: 30%;
     }
 }

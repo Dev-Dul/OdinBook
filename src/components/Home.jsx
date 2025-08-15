@@ -12,7 +12,6 @@ import socket from "../../utils/utils";
 
 function Home(){
     const [tab, setTab] = useState(1);
-    const { onScroll } = useContext(ScrollContext);
     const { user, userLoad } = useContext(AuthContext);
     const { posts, setPosts, error, loading, getAllPosts } = useGetAllPosts();
 
@@ -83,9 +82,7 @@ function Home(){
           </div>
           <div className={styles.tabs}>
             <div
-              className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}
-              onScroll={onScroll}
-            >
+              className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
               {posts.length === 0 ? (
                 <h2>No posts available</h2>
               ) : (
@@ -102,9 +99,7 @@ function Home(){
               )}
             </div>
             <div
-              className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}
-              onScroll={onScroll}
-            >
+              className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
               {friendsPosts.length === 0 ? (
                 <h2>No posts from people in your circle available.</h2>
               ) : (

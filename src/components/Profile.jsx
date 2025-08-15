@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../utils/context";
 import { updateProfile, logOut } from "../../utils/fetch";
 import { useNavigate, Navigate, Link } from "react-router-dom";
-import { ScrollContext } from "../../utils/utils";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { toast } from "sonner";
@@ -18,7 +17,6 @@ import { ThemeEngine } from "../../utils/utils";
 function Profile(){
     const { user, userLoad, handleUser } = useContext(AuthContext);
     const [tab, setTab] = useState(1);
-    const { onScroll } = useContext(ScrollContext);
     const [openTheme, setOpenTheme] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -272,7 +270,7 @@ function Profile(){
               Comments
             </button>
           </div>
-          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`} onScroll={onScroll}>
+          <div className={`${styles.tab} ${tab === 1 ? styles.active : ""}`}>
             {user.posts.length === 0 ? (
               <h3>No posts available</h3>
             ) : (
@@ -288,7 +286,7 @@ function Profile(){
               ))
             )}
           </div>
-          <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`} onScroll={onScroll}>
+          <div className={`${styles.tab} ${tab === 2 ? styles.active : ""}`}>
             {user.comments.length === 0 ? (
               <h3>No comments yet.</h3>
             ) : (

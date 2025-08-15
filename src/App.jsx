@@ -1,11 +1,11 @@
 import './App.css';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import { useEffect, useState } from "react";
 import { AuthProvider } from '../utils/context';
-import { ScrollProvider } from '../utils/utils';
+import { ScrollProvider, ScrollContext } from '../utils/utils';
 import { AnimatePresence, motion } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
+import { useContext } from 'react';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 
@@ -20,16 +20,16 @@ function App() {
       <Toaster richColors position="top-right" />
       <AnimatePresence mode="wait">
         <ScrollProvider>
-            <div className={(!hideSidebar && !isMobile) ? "grid" : "mobile"}>
+          <div className={(!hideSidebar && !isMobile) ? "grid" : "mobile"}>
             {(!hideSidebar && !isMobile) ? <Sidebar /> : <Navbar showNav={hideSidebar} isMobile={isMobile} /> }
             <div>
               <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.8 }}
-              className='wrapper'>
+                key={location.pathname}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -50 }}
+                transition={{ duration: 0.8 }}
+                className='wrapper'>
                 <Outlet />
               </motion.div>
             </div>

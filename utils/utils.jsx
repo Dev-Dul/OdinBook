@@ -1,34 +1,48 @@
-import { useRef, createContext, useState, useContext, useCallback } from "react";
+import { useRef, createContext, useState, useEffect } from "react";
 import { io } from "socket.io-client";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
 // Create the context
-export const ScrollContext = createContext({
-  isScrolling: false,
-  setIsScrolling: () => {},
-});
+// ScrollContext.js
 
-export function ScrollProvider({ children }) {
+export const ScrollContext = createContext();
+
+export const ScrollProvider = ({ children }) => {
   const [isScrolling, setIsScrolling] = useState(false);
-  const timeoutRef = useRef(null);
+  const scrollTimeoutRef = useRef(null);
 
-  const onScroll = useCallback(() => {
-    setIsScrolling(true);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolling(true);
 
-    if(timeoutRef.current) clearTimeout(timeoutRef.current);
+      // Clear previous timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
 
-    timeoutRef.current = setTimeout(() => {
-      setIsScrolling(false);
-    }, 150);
-  }, []);
+      // Reset after 150ms of no scroll
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 150);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [isScrolling]);
 
   return (
-    <ScrollContext.Provider value={{ isScrolling, onScroll }}>
+    <ScrollContext.Provider value={{ isScrolling }}>
       {children}
     </ScrollContext.Provider>
   );
-}
+};
+
 
 
 

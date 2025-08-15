@@ -14,11 +14,13 @@ export function AuthProvider({ children }){
 
     function handleUser(person){
         setUser(person)
-        if(person && !socket.connected) {
+        if(person && !socket.connected){
           socket.connect();
-        }else if(!user && socket.connected){
-          socket.disconnect();
+          console.log("socket connected!");
         }
+        // else if(!user && socket.connected){
+        //   socket.disconnect();
+        // }
     }
 
     async function hydrate(){
@@ -45,6 +47,7 @@ export function AuthProvider({ children }){
            hydrate().then(() => {
              if(user && !socket.connected){
               socket.connect();
+              console.log("socket connected!");
              }
            });
         }
